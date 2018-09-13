@@ -1,0 +1,592 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "SettingsScreenViewController"
+provides-nominal:
+- "C13ClassicPlayer28SettingsScreenViewController"
+provides-member:
+- ["C13ClassicPlayer28SettingsScreenViewController", ""]
+provides-dynamic-lookup:
+- "aboutButton"
+- "darkModeToggle"
+- "didReceiveMemoryWarning"
+- "dismissSettings"
+- "doneButton"
+- "soundEffectsToggle"
+- "switchToggled"
+- "viewDidLoad"
+depends-top-level:
+- !private "=="
+- "AssignmentPrecedence"
+- !private "BooleanLiteralType"
+- "CastingPrecedence"
+- !private "DARK_BG"
+- "SettingsScreenViewController"
+- !private "StringLiteralType"
+- "UIButton"
+- !private "UIColor"
+- "UISwitch"
+- "UIViewController"
+- !private "UserDefaults"
+depends-member:
+- !private ["Ps9AnyObject", "DARK_BG"]
+- !private ["Ps9AnyObject", "UIColor"]
+- !private ["Ps9AnyObject", "UserDefaults"]
+- !private ["Ps9AnyObject", "aboutButton"]
+- !private ["Ps9AnyObject", "backgroundColor"]
+- !private ["Ps9AnyObject", "bool"]
+- !private ["Ps9AnyObject", "borderColor"]
+- !private ["Ps9AnyObject", "borderWidth"]
+- !private ["Ps9AnyObject", "cgColor"]
+- !private ["Ps9AnyObject", "clear"]
+- !private ["Ps9AnyObject", "cornerRadius"]
+- !private ["Ps9AnyObject", "darkGray"]
+- !private ["Ps9AnyObject", "darkModeToggle"]
+- !private ["Ps9AnyObject", "didReceiveMemoryWarning"]
+- !private ["Ps9AnyObject", "dismiss"]
+- !private ["Ps9AnyObject", "init"]
+- !private ["Ps9AnyObject", "isOn"]
+- !private ["Ps9AnyObject", "layer"]
+- !private ["Ps9AnyObject", "set"]
+- !private ["Ps9AnyObject", "soundEffectsToggle"]
+- !private ["Ps9AnyObject", "standard"]
+- !private ["Ps9AnyObject", "view"]
+- !private ["Ps9AnyObject", "viewDidLoad"]
+- ["Ps9AnyObject", ""]
+- !private ["Sb", "_getBuiltinLogicValue"]
+- !private ["CSo7CALayer", "borderColor"]
+- !private ["CSo7CALayer", "borderWidth"]
+- !private ["CSo7CALayer", "cornerRadius"]
+- !private ["PSo15CALayerDelegate", "backgroundColor"]
+- !private ["PSo15CALayerDelegate", "isOn"]
+- !private ["PSo15CALayerDelegate", "layer"]
+- !private ["PSo13CAMediaTiming", "borderColor"]
+- !private ["PSo13CAMediaTiming", "borderWidth"]
+- !private ["PSo13CAMediaTiming", "cornerRadius"]
+- !private ["Ps7CVarArg", "DARK_BG"]
+- !private ["Ps7CVarArg", "UIColor"]
+- !private ["Ps7CVarArg", "UserDefaults"]
+- !private ["Ps7CVarArg", "aboutButton"]
+- !private ["Ps7CVarArg", "backgroundColor"]
+- !private ["Ps7CVarArg", "bool"]
+- !private ["Ps7CVarArg", "borderColor"]
+- !private ["Ps7CVarArg", "borderWidth"]
+- !private ["Ps7CVarArg", "cgColor"]
+- !private ["Ps7CVarArg", "clear"]
+- !private ["Ps7CVarArg", "cornerRadius"]
+- !private ["Ps7CVarArg", "darkGray"]
+- !private ["Ps7CVarArg", "darkModeToggle"]
+- !private ["Ps7CVarArg", "didReceiveMemoryWarning"]
+- !private ["Ps7CVarArg", "dismiss"]
+- !private ["Ps7CVarArg", "init"]
+- !private ["Ps7CVarArg", "isOn"]
+- !private ["Ps7CVarArg", "layer"]
+- !private ["Ps7CVarArg", "set"]
+- !private ["Ps7CVarArg", "soundEffectsToggle"]
+- !private ["Ps7CVarArg", "standard"]
+- !private ["Ps7CVarArg", "view"]
+- !private ["Ps7CVarArg", "viewDidLoad"]
+- ["Ps7CVarArg", ""]
+- !private ["Ps10Comparable", "init"]
+- !private ["Ps28CustomDebugStringConvertible", "DARK_BG"]
+- !private ["Ps28CustomDebugStringConvertible", "UIColor"]
+- !private ["Ps28CustomDebugStringConvertible", "UserDefaults"]
+- !private ["Ps28CustomDebugStringConvertible", "aboutButton"]
+- !private ["Ps28CustomDebugStringConvertible", "backgroundColor"]
+- !private ["Ps28CustomDebugStringConvertible", "bool"]
+- !private ["Ps28CustomDebugStringConvertible", "borderColor"]
+- !private ["Ps28CustomDebugStringConvertible", "borderWidth"]
+- !private ["Ps28CustomDebugStringConvertible", "cgColor"]
+- !private ["Ps28CustomDebugStringConvertible", "clear"]
+- !private ["Ps28CustomDebugStringConvertible", "cornerRadius"]
+- !private ["Ps28CustomDebugStringConvertible", "darkGray"]
+- !private ["Ps28CustomDebugStringConvertible", "darkModeToggle"]
+- !private ["Ps28CustomDebugStringConvertible", "didReceiveMemoryWarning"]
+- !private ["Ps28CustomDebugStringConvertible", "dismiss"]
+- !private ["Ps28CustomDebugStringConvertible", "init"]
+- !private ["Ps28CustomDebugStringConvertible", "isOn"]
+- !private ["Ps28CustomDebugStringConvertible", "layer"]
+- !private ["Ps28CustomDebugStringConvertible", "set"]
+- !private ["Ps28CustomDebugStringConvertible", "soundEffectsToggle"]
+- !private ["Ps28CustomDebugStringConvertible", "standard"]
+- !private ["Ps28CustomDebugStringConvertible", "view"]
+- !private ["Ps28CustomDebugStringConvertible", "viewDidLoad"]
+- ["Ps28CustomDebugStringConvertible", ""]
+- !private ["Ps29CustomPlaygroundQuickLookable", "_getBuiltinLogicValue"]
+- !private ["Ps29CustomPlaygroundQuickLookable", "init"]
+- !private ["Ps17CustomReflectable", "_getBuiltinLogicValue"]
+- !private ["Ps17CustomReflectable", "init"]
+- !private ["Ps23CustomStringConvertible", "DARK_BG"]
+- !private ["Ps23CustomStringConvertible", "UIColor"]
+- !private ["Ps23CustomStringConvertible", "UserDefaults"]
+- !private ["Ps23CustomStringConvertible", "_getBuiltinLogicValue"]
+- !private ["Ps23CustomStringConvertible", "aboutButton"]
+- !private ["Ps23CustomStringConvertible", "backgroundColor"]
+- !private ["Ps23CustomStringConvertible", "bool"]
+- !private ["Ps23CustomStringConvertible", "borderColor"]
+- !private ["Ps23CustomStringConvertible", "borderWidth"]
+- !private ["Ps23CustomStringConvertible", "cgColor"]
+- !private ["Ps23CustomStringConvertible", "clear"]
+- !private ["Ps23CustomStringConvertible", "cornerRadius"]
+- !private ["Ps23CustomStringConvertible", "darkGray"]
+- !private ["Ps23CustomStringConvertible", "darkModeToggle"]
+- !private ["Ps23CustomStringConvertible", "didReceiveMemoryWarning"]
+- !private ["Ps23CustomStringConvertible", "dismiss"]
+- !private ["Ps23CustomStringConvertible", "init"]
+- !private ["Ps23CustomStringConvertible", "isOn"]
+- !private ["Ps23CustomStringConvertible", "layer"]
+- !private ["Ps23CustomStringConvertible", "set"]
+- !private ["Ps23CustomStringConvertible", "soundEffectsToggle"]
+- !private ["Ps23CustomStringConvertible", "standard"]
+- !private ["Ps23CustomStringConvertible", "view"]
+- !private ["Ps23CustomStringConvertible", "viewDidLoad"]
+- ["Ps23CustomStringConvertible", ""]
+- !private ["Ps9Equatable", "DARK_BG"]
+- !private ["Ps9Equatable", "UIColor"]
+- !private ["Ps9Equatable", "UserDefaults"]
+- !private ["Ps9Equatable", "_getBuiltinLogicValue"]
+- !private ["Ps9Equatable", "aboutButton"]
+- !private ["Ps9Equatable", "backgroundColor"]
+- !private ["Ps9Equatable", "bool"]
+- !private ["Ps9Equatable", "borderColor"]
+- !private ["Ps9Equatable", "borderWidth"]
+- !private ["Ps9Equatable", "cgColor"]
+- !private ["Ps9Equatable", "clear"]
+- !private ["Ps9Equatable", "cornerRadius"]
+- !private ["Ps9Equatable", "darkGray"]
+- !private ["Ps9Equatable", "darkModeToggle"]
+- !private ["Ps9Equatable", "didReceiveMemoryWarning"]
+- !private ["Ps9Equatable", "dismiss"]
+- !private ["Ps9Equatable", "init"]
+- !private ["Ps9Equatable", "isOn"]
+- !private ["Ps9Equatable", "layer"]
+- !private ["Ps9Equatable", "set"]
+- !private ["Ps9Equatable", "soundEffectsToggle"]
+- !private ["Ps9Equatable", "standard"]
+- !private ["Ps9Equatable", "view"]
+- !private ["Ps9Equatable", "viewDidLoad"]
+- ["Ps9Equatable", ""]
+- !private ["Ps27ExpressibleByBooleanLiteral", "_getBuiltinLogicValue"]
+- !private ["Ps43ExpressibleByExtendedGraphemeClusterLiteral", "init"]
+- !private ["Ps26ExpressibleByStringLiteral", "init"]
+- !private ["Ps33ExpressibleByUnicodeScalarLiteral", "init"]
+- !private ["Ps8Hashable", "DARK_BG"]
+- !private ["Ps8Hashable", "UIColor"]
+- !private ["Ps8Hashable", "UserDefaults"]
+- !private ["Ps8Hashable", "_getBuiltinLogicValue"]
+- !private ["Ps8Hashable", "aboutButton"]
+- !private ["Ps8Hashable", "backgroundColor"]
+- !private ["Ps8Hashable", "bool"]
+- !private ["Ps8Hashable", "borderColor"]
+- !private ["Ps8Hashable", "borderWidth"]
+- !private ["Ps8Hashable", "cgColor"]
+- !private ["Ps8Hashable", "clear"]
+- !private ["Ps8Hashable", "cornerRadius"]
+- !private ["Ps8Hashable", "darkGray"]
+- !private ["Ps8Hashable", "darkModeToggle"]
+- !private ["Ps8Hashable", "didReceiveMemoryWarning"]
+- !private ["Ps8Hashable", "dismiss"]
+- !private ["Ps8Hashable", "init"]
+- !private ["Ps8Hashable", "isOn"]
+- !private ["Ps8Hashable", "layer"]
+- !private ["Ps8Hashable", "set"]
+- !private ["Ps8Hashable", "soundEffectsToggle"]
+- !private ["Ps8Hashable", "standard"]
+- !private ["Ps8Hashable", "view"]
+- !private ["Ps8Hashable", "viewDidLoad"]
+- ["Ps8Hashable", ""]
+- !private ["Ps25LosslessStringConvertible", "_getBuiltinLogicValue"]
+- !private ["Ps25LosslessStringConvertible", "init"]
+- !private ["Ps10MirrorPath", "init"]
+- !private ["PSo8NSCoding", "DARK_BG"]
+- !private ["PSo8NSCoding", "UIColor"]
+- !private ["PSo8NSCoding", "UserDefaults"]
+- !private ["PSo8NSCoding", "aboutButton"]
+- !private ["PSo8NSCoding", "backgroundColor"]
+- !private ["PSo8NSCoding", "borderColor"]
+- !private ["PSo8NSCoding", "borderWidth"]
+- !private ["PSo8NSCoding", "cgColor"]
+- !private ["PSo8NSCoding", "clear"]
+- !private ["PSo8NSCoding", "cornerRadius"]
+- !private ["PSo8NSCoding", "darkGray"]
+- !private ["PSo8NSCoding", "darkModeToggle"]
+- !private ["PSo8NSCoding", "didReceiveMemoryWarning"]
+- !private ["PSo8NSCoding", "dismiss"]
+- !private ["PSo8NSCoding", "init"]
+- !private ["PSo8NSCoding", "isOn"]
+- !private ["PSo8NSCoding", "layer"]
+- !private ["PSo8NSCoding", "soundEffectsToggle"]
+- !private ["PSo8NSCoding", "view"]
+- !private ["PSo8NSCoding", "viewDidLoad"]
+- ["PSo8NSCoding", ""]
+- !private ["PSo9NSCopying", "cgColor"]
+- !private ["PSo9NSCopying", "clear"]
+- !private ["PSo9NSCopying", "darkGray"]
+- !private ["PSo9NSCopying", "init"]
+- !private ["PSo26NSExtensionRequestHandling", "DARK_BG"]
+- !private ["PSo26NSExtensionRequestHandling", "UIColor"]
+- !private ["PSo26NSExtensionRequestHandling", "UserDefaults"]
+- !private ["PSo26NSExtensionRequestHandling", "aboutButton"]
+- !private ["PSo26NSExtensionRequestHandling", "darkModeToggle"]
+- !private ["PSo26NSExtensionRequestHandling", "didReceiveMemoryWarning"]
+- !private ["PSo26NSExtensionRequestHandling", "dismiss"]
+- !private ["PSo26NSExtensionRequestHandling", "init"]
+- !private ["PSo26NSExtensionRequestHandling", "soundEffectsToggle"]
+- !private ["PSo26NSExtensionRequestHandling", "view"]
+- !private ["PSo26NSExtensionRequestHandling", "viewDidLoad"]
+- ["PSo26NSExtensionRequestHandling", ""]
+- !private ["PSo16NSMutableCopying", "init"]
+- !private ["CSo8NSObject", "DARK_BG"]
+- ["CSo8NSObject", "UIButton"]
+- !private ["CSo8NSObject", "UIColor"]
+- ["CSo8NSObject", "UISwitch"]
+- !private ["CSo8NSObject", "UserDefaults"]
+- ["CSo8NSObject", "aboutButton"]
+- !private ["CSo8NSObject", "backgroundColor"]
+- !private ["CSo8NSObject", "bool"]
+- !private ["CSo8NSObject", "borderColor"]
+- !private ["CSo8NSObject", "borderWidth"]
+- !private ["CSo8NSObject", "cgColor"]
+- !private ["CSo8NSObject", "clear"]
+- !private ["CSo8NSObject", "cornerRadius"]
+- !private ["CSo8NSObject", "darkGray"]
+- ["CSo8NSObject", "darkModeToggle"]
+- ["CSo8NSObject", "didReceiveMemoryWarning"]
+- !private ["CSo8NSObject", "dismiss"]
+- ["CSo8NSObject", "dismissSettings"]
+- ["CSo8NSObject", "doneButton"]
+- ["CSo8NSObject", "init"]
+- !private ["CSo8NSObject", "isOn"]
+- !private ["CSo8NSObject", "layer"]
+- !private ["CSo8NSObject", "set"]
+- ["CSo8NSObject", "soundEffectsToggle"]
+- !private ["CSo8NSObject", "standard"]
+- ["CSo8NSObject", "switchToggled"]
+- !private ["CSo8NSObject", "view"]
+- ["CSo8NSObject", "viewDidLoad"]
+- !private ["PSo16NSObjectProtocol", "DARK_BG"]
+- !private ["PSo16NSObjectProtocol", "UIColor"]
+- !private ["PSo16NSObjectProtocol", "UserDefaults"]
+- !private ["PSo16NSObjectProtocol", "aboutButton"]
+- !private ["PSo16NSObjectProtocol", "backgroundColor"]
+- !private ["PSo16NSObjectProtocol", "bool"]
+- !private ["PSo16NSObjectProtocol", "borderColor"]
+- !private ["PSo16NSObjectProtocol", "borderWidth"]
+- !private ["PSo16NSObjectProtocol", "cgColor"]
+- !private ["PSo16NSObjectProtocol", "clear"]
+- !private ["PSo16NSObjectProtocol", "cornerRadius"]
+- !private ["PSo16NSObjectProtocol", "darkGray"]
+- !private ["PSo16NSObjectProtocol", "darkModeToggle"]
+- !private ["PSo16NSObjectProtocol", "didReceiveMemoryWarning"]
+- !private ["PSo16NSObjectProtocol", "dismiss"]
+- !private ["PSo16NSObjectProtocol", "init"]
+- !private ["PSo16NSObjectProtocol", "isOn"]
+- !private ["PSo16NSObjectProtocol", "layer"]
+- !private ["PSo16NSObjectProtocol", "set"]
+- !private ["PSo16NSObjectProtocol", "soundEffectsToggle"]
+- !private ["PSo16NSObjectProtocol", "standard"]
+- !private ["PSo16NSObjectProtocol", "view"]
+- !private ["PSo16NSObjectProtocol", "viewDidLoad"]
+- ["PSo16NSObjectProtocol", ""]
+- !private ["PSo14NSSecureCoding", "cgColor"]
+- !private ["PSo14NSSecureCoding", "clear"]
+- !private ["PSo14NSSecureCoding", "darkGray"]
+- !private ["PSo14NSSecureCoding", "init"]
+- !private ["CSo8NSString", "init"]
+- !private ["C13ClassicPlayer28SettingsScreenViewController", "DARK_BG"]
+- ["C13ClassicPlayer28SettingsScreenViewController", "UIButton"]
+- !private ["C13ClassicPlayer28SettingsScreenViewController", "UIColor"]
+- ["C13ClassicPlayer28SettingsScreenViewController", "UISwitch"]
+- !private ["C13ClassicPlayer28SettingsScreenViewController", "UserDefaults"]
+- ["C13ClassicPlayer28SettingsScreenViewController", "aboutButton"]
+- ["C13ClassicPlayer28SettingsScreenViewController", "darkModeToggle"]
+- ["C13ClassicPlayer28SettingsScreenViewController", "deinit"]
+- ["C13ClassicPlayer28SettingsScreenViewController", "didReceiveMemoryWarning"]
+- !private ["C13ClassicPlayer28SettingsScreenViewController", "dismiss"]
+- ["C13ClassicPlayer28SettingsScreenViewController", "dismissSettings"]
+- ["C13ClassicPlayer28SettingsScreenViewController", "doneButton"]
+- ["C13ClassicPlayer28SettingsScreenViewController", "init"]
+- ["C13ClassicPlayer28SettingsScreenViewController", "soundEffectsToggle"]
+- ["C13ClassicPlayer28SettingsScreenViewController", "switchToggled"]
+- !private ["C13ClassicPlayer28SettingsScreenViewController", "view"]
+- ["C13ClassicPlayer28SettingsScreenViewController", "viewDidLoad"]
+- !private ["SS", "init"]
+- !private ["Ps16TextOutputStream", "init"]
+- !private ["Ps20TextOutputStreamable", "init"]
+- !private ["PSo29UIAccessibilityIdentification", "backgroundColor"]
+- !private ["PSo29UIAccessibilityIdentification", "isOn"]
+- !private ["PSo29UIAccessibilityIdentification", "layer"]
+- !private ["PSo12UIAppearance", "backgroundColor"]
+- !private ["PSo12UIAppearance", "isOn"]
+- !private ["PSo12UIAppearance", "layer"]
+- !private ["PSo21UIAppearanceContainer", "DARK_BG"]
+- !private ["PSo21UIAppearanceContainer", "UIColor"]
+- !private ["PSo21UIAppearanceContainer", "UserDefaults"]
+- !private ["PSo21UIAppearanceContainer", "aboutButton"]
+- !private ["PSo21UIAppearanceContainer", "backgroundColor"]
+- !private ["PSo21UIAppearanceContainer", "darkModeToggle"]
+- !private ["PSo21UIAppearanceContainer", "didReceiveMemoryWarning"]
+- !private ["PSo21UIAppearanceContainer", "dismiss"]
+- !private ["PSo21UIAppearanceContainer", "init"]
+- !private ["PSo21UIAppearanceContainer", "isOn"]
+- !private ["PSo21UIAppearanceContainer", "layer"]
+- !private ["PSo21UIAppearanceContainer", "soundEffectsToggle"]
+- !private ["PSo21UIAppearanceContainer", "view"]
+- !private ["PSo21UIAppearanceContainer", "viewDidLoad"]
+- ["PSo21UIAppearanceContainer", ""]
+- !private ["CSo8UIButton", "backgroundColor"]
+- !private ["CSo8UIButton", "layer"]
+- !private ["CSo7UIColor", "cgColor"]
+- !private ["CSo7UIColor", "clear"]
+- !private ["CSo7UIColor", "darkGray"]
+- !private ["PSo18UIContentContainer", "DARK_BG"]
+- !private ["PSo18UIContentContainer", "UIColor"]
+- !private ["PSo18UIContentContainer", "UserDefaults"]
+- !private ["PSo18UIContentContainer", "aboutButton"]
+- !private ["PSo18UIContentContainer", "darkModeToggle"]
+- !private ["PSo18UIContentContainer", "didReceiveMemoryWarning"]
+- !private ["PSo18UIContentContainer", "dismiss"]
+- !private ["PSo18UIContentContainer", "init"]
+- !private ["PSo18UIContentContainer", "soundEffectsToggle"]
+- !private ["PSo18UIContentContainer", "view"]
+- !private ["PSo18UIContentContainer", "viewDidLoad"]
+- ["PSo18UIContentContainer", ""]
+- !private ["CSo9UIControl", "backgroundColor"]
+- !private ["CSo9UIControl", "isOn"]
+- !private ["CSo9UIControl", "layer"]
+- !private ["PSo17UICoordinateSpace", "backgroundColor"]
+- !private ["PSo17UICoordinateSpace", "isOn"]
+- !private ["PSo17UICoordinateSpace", "layer"]
+- !private ["PSo13UIDynamicItem", "backgroundColor"]
+- !private ["PSo13UIDynamicItem", "isOn"]
+- !private ["PSo13UIDynamicItem", "layer"]
+- !private ["PSo18UIFocusEnvironment", "DARK_BG"]
+- !private ["PSo18UIFocusEnvironment", "UIColor"]
+- !private ["PSo18UIFocusEnvironment", "UserDefaults"]
+- !private ["PSo18UIFocusEnvironment", "aboutButton"]
+- !private ["PSo18UIFocusEnvironment", "backgroundColor"]
+- !private ["PSo18UIFocusEnvironment", "darkModeToggle"]
+- !private ["PSo18UIFocusEnvironment", "didReceiveMemoryWarning"]
+- !private ["PSo18UIFocusEnvironment", "dismiss"]
+- !private ["PSo18UIFocusEnvironment", "init"]
+- !private ["PSo18UIFocusEnvironment", "isOn"]
+- !private ["PSo18UIFocusEnvironment", "layer"]
+- !private ["PSo18UIFocusEnvironment", "soundEffectsToggle"]
+- !private ["PSo18UIFocusEnvironment", "view"]
+- !private ["PSo18UIFocusEnvironment", "viewDidLoad"]
+- ["PSo18UIFocusEnvironment", ""]
+- !private ["PSo11UIFocusItem", "backgroundColor"]
+- !private ["PSo11UIFocusItem", "isOn"]
+- !private ["PSo11UIFocusItem", "layer"]
+- !private ["CSo11UIResponder", "DARK_BG"]
+- ["CSo11UIResponder", "UIButton"]
+- !private ["CSo11UIResponder", "UIColor"]
+- ["CSo11UIResponder", "UISwitch"]
+- !private ["CSo11UIResponder", "UserDefaults"]
+- ["CSo11UIResponder", "aboutButton"]
+- !private ["CSo11UIResponder", "backgroundColor"]
+- ["CSo11UIResponder", "darkModeToggle"]
+- ["CSo11UIResponder", "didReceiveMemoryWarning"]
+- !private ["CSo11UIResponder", "dismiss"]
+- ["CSo11UIResponder", "dismissSettings"]
+- ["CSo11UIResponder", "doneButton"]
+- ["CSo11UIResponder", "init"]
+- !private ["CSo11UIResponder", "isOn"]
+- !private ["CSo11UIResponder", "layer"]
+- ["CSo11UIResponder", "soundEffectsToggle"]
+- ["CSo11UIResponder", "switchToggled"]
+- !private ["CSo11UIResponder", "view"]
+- ["CSo11UIResponder", "viewDidLoad"]
+- !private ["PSo30UIResponderStandardEditActions", "DARK_BG"]
+- !private ["PSo30UIResponderStandardEditActions", "UIColor"]
+- !private ["PSo30UIResponderStandardEditActions", "UserDefaults"]
+- !private ["PSo30UIResponderStandardEditActions", "aboutButton"]
+- !private ["PSo30UIResponderStandardEditActions", "backgroundColor"]
+- !private ["PSo30UIResponderStandardEditActions", "darkModeToggle"]
+- !private ["PSo30UIResponderStandardEditActions", "didReceiveMemoryWarning"]
+- !private ["PSo30UIResponderStandardEditActions", "dismiss"]
+- !private ["PSo30UIResponderStandardEditActions", "init"]
+- !private ["PSo30UIResponderStandardEditActions", "isOn"]
+- !private ["PSo30UIResponderStandardEditActions", "layer"]
+- !private ["PSo30UIResponderStandardEditActions", "soundEffectsToggle"]
+- !private ["PSo30UIResponderStandardEditActions", "view"]
+- !private ["PSo30UIResponderStandardEditActions", "viewDidLoad"]
+- ["PSo30UIResponderStandardEditActions", ""]
+- !private ["PSo16UIStateRestoring", "DARK_BG"]
+- !private ["PSo16UIStateRestoring", "UIColor"]
+- !private ["PSo16UIStateRestoring", "UserDefaults"]
+- !private ["PSo16UIStateRestoring", "aboutButton"]
+- !private ["PSo16UIStateRestoring", "darkModeToggle"]
+- !private ["PSo16UIStateRestoring", "didReceiveMemoryWarning"]
+- !private ["PSo16UIStateRestoring", "dismiss"]
+- !private ["PSo16UIStateRestoring", "init"]
+- !private ["PSo16UIStateRestoring", "soundEffectsToggle"]
+- !private ["PSo16UIStateRestoring", "view"]
+- !private ["PSo16UIStateRestoring", "viewDidLoad"]
+- ["PSo16UIStateRestoring", ""]
+- !private ["CSo8UISwitch", "isOn"]
+- !private ["PSo18UITraitEnvironment", "DARK_BG"]
+- !private ["PSo18UITraitEnvironment", "UIColor"]
+- !private ["PSo18UITraitEnvironment", "UserDefaults"]
+- !private ["PSo18UITraitEnvironment", "aboutButton"]
+- !private ["PSo18UITraitEnvironment", "backgroundColor"]
+- !private ["PSo18UITraitEnvironment", "darkModeToggle"]
+- !private ["PSo18UITraitEnvironment", "didReceiveMemoryWarning"]
+- !private ["PSo18UITraitEnvironment", "dismiss"]
+- !private ["PSo18UITraitEnvironment", "init"]
+- !private ["PSo18UITraitEnvironment", "isOn"]
+- !private ["PSo18UITraitEnvironment", "layer"]
+- !private ["PSo18UITraitEnvironment", "soundEffectsToggle"]
+- !private ["PSo18UITraitEnvironment", "view"]
+- !private ["PSo18UITraitEnvironment", "viewDidLoad"]
+- ["PSo18UITraitEnvironment", ""]
+- !private ["CSo6UIView", "backgroundColor"]
+- !private ["CSo6UIView", "isOn"]
+- !private ["CSo6UIView", "layer"]
+- !private ["CSo16UIViewController", "DARK_BG"]
+- ["CSo16UIViewController", "UIButton"]
+- !private ["CSo16UIViewController", "UIColor"]
+- ["CSo16UIViewController", "UISwitch"]
+- !private ["CSo16UIViewController", "UserDefaults"]
+- ["CSo16UIViewController", "aboutButton"]
+- ["CSo16UIViewController", "darkModeToggle"]
+- ["CSo16UIViewController", "didReceiveMemoryWarning"]
+- !private ["CSo16UIViewController", "dismiss"]
+- ["CSo16UIViewController", "dismissSettings"]
+- ["CSo16UIViewController", "doneButton"]
+- ["CSo16UIViewController", "init"]
+- ["CSo16UIViewController", "soundEffectsToggle"]
+- ["CSo16UIViewController", "switchToggled"]
+- !private ["CSo16UIViewController", "view"]
+- ["CSo16UIViewController", "viewDidLoad"]
+- ["CSo16UIViewController", ""]
+- !private ["CSo12UserDefaults", "bool"]
+- !private ["CSo12UserDefaults", "set"]
+- !private ["CSo12UserDefaults", "standard"]
+- !private ["Ps37_DefaultCustomPlaygroundQuickLookable", "backgroundColor"]
+- !private ["Ps37_DefaultCustomPlaygroundQuickLookable", "isOn"]
+- !private ["Ps37_DefaultCustomPlaygroundQuickLookable", "layer"]
+- !private ["Ps35_ExpressibleByBuiltinBooleanLiteral", "_getBuiltinLogicValue"]
+- !private ["Ps51_ExpressibleByBuiltinExtendedGraphemeClusterLiteral", "init"]
+- !private ["Ps34_ExpressibleByBuiltinStringLiteral", "init"]
+- !private ["Ps39_ExpressibleByBuiltinUTF16StringLiteral", "init"]
+- !private ["Ps41_ExpressibleByBuiltinUnicodeScalarLiteral", "init"]
+- !private ["Ps26_ExpressibleByColorLiteral", "cgColor"]
+- !private ["Ps26_ExpressibleByColorLiteral", "clear"]
+- !private ["Ps26_ExpressibleByColorLiteral", "darkGray"]
+- !private ["Ps33_ExpressibleByStringInterpolation", "init"]
+- !private ["Ps35_HasCustomAnyHashableRepresentation", "init"]
+- !private ["Ps9_Hashable", "DARK_BG"]
+- !private ["Ps9_Hashable", "UIColor"]
+- !private ["Ps9_Hashable", "UserDefaults"]
+- !private ["Ps9_Hashable", "_getBuiltinLogicValue"]
+- !private ["Ps9_Hashable", "aboutButton"]
+- !private ["Ps9_Hashable", "backgroundColor"]
+- !private ["Ps9_Hashable", "bool"]
+- !private ["Ps9_Hashable", "borderColor"]
+- !private ["Ps9_Hashable", "borderWidth"]
+- !private ["Ps9_Hashable", "cgColor"]
+- !private ["Ps9_Hashable", "clear"]
+- !private ["Ps9_Hashable", "cornerRadius"]
+- !private ["Ps9_Hashable", "darkGray"]
+- !private ["Ps9_Hashable", "darkModeToggle"]
+- !private ["Ps9_Hashable", "didReceiveMemoryWarning"]
+- !private ["Ps9_Hashable", "dismiss"]
+- !private ["Ps9_Hashable", "init"]
+- !private ["Ps9_Hashable", "isOn"]
+- !private ["Ps9_Hashable", "layer"]
+- !private ["Ps9_Hashable", "set"]
+- !private ["Ps9_Hashable", "soundEffectsToggle"]
+- !private ["Ps9_Hashable", "standard"]
+- !private ["Ps9_Hashable", "view"]
+- !private ["Ps9_Hashable", "viewDidLoad"]
+- ["Ps9_Hashable", ""]
+- !private ["Ps21_ObjectiveCBridgeable", "_getBuiltinLogicValue"]
+- !private ["Ps21_ObjectiveCBridgeable", "init"]
+depends-nominal:
+- "Ps9AnyObject"
+- !private "Sb"
+- !private "CSo7CALayer"
+- !private "PSo15CALayerDelegate"
+- !private "PSo13CAMediaTiming"
+- "Ps7CVarArg"
+- !private "Ps10Comparable"
+- "Ps28CustomDebugStringConvertible"
+- !private "Ps29CustomPlaygroundQuickLookable"
+- !private "Ps17CustomReflectable"
+- "Ps23CustomStringConvertible"
+- "Ps9Equatable"
+- !private "Ps27ExpressibleByBooleanLiteral"
+- !private "Ps43ExpressibleByExtendedGraphemeClusterLiteral"
+- !private "Ps26ExpressibleByStringLiteral"
+- !private "Ps33ExpressibleByUnicodeScalarLiteral"
+- "Ps8Hashable"
+- !private "Ps25LosslessStringConvertible"
+- !private "Ps10MirrorPath"
+- "PSo8NSCoding"
+- !private "PSo9NSCopying"
+- "PSo26NSExtensionRequestHandling"
+- !private "PSo16NSMutableCopying"
+- "CSo8NSObject"
+- "PSo16NSObjectProtocol"
+- !private "PSo14NSSecureCoding"
+- !private "CSo8NSString"
+- "C13ClassicPlayer28SettingsScreenViewController"
+- !private "SS"
+- !private "Ps16TextOutputStream"
+- !private "Ps20TextOutputStreamable"
+- !private "PSo29UIAccessibilityIdentification"
+- !private "PSo12UIAppearance"
+- "PSo21UIAppearanceContainer"
+- !private "CSo8UIButton"
+- !private "CSo7UIColor"
+- "PSo18UIContentContainer"
+- !private "CSo9UIControl"
+- !private "PSo17UICoordinateSpace"
+- !private "PSo13UIDynamicItem"
+- "PSo18UIFocusEnvironment"
+- !private "PSo11UIFocusItem"
+- "CSo11UIResponder"
+- "PSo30UIResponderStandardEditActions"
+- "PSo16UIStateRestoring"
+- !private "CSo8UISwitch"
+- "PSo18UITraitEnvironment"
+- !private "CSo6UIView"
+- "CSo16UIViewController"
+- !private "CSo12UserDefaults"
+- !private "Ps37_DefaultCustomPlaygroundQuickLookable"
+- !private "Ps35_ExpressibleByBuiltinBooleanLiteral"
+- !private "Ps51_ExpressibleByBuiltinExtendedGraphemeClusterLiteral"
+- !private "Ps34_ExpressibleByBuiltinStringLiteral"
+- !private "Ps39_ExpressibleByBuiltinUTF16StringLiteral"
+- !private "Ps41_ExpressibleByBuiltinUnicodeScalarLiteral"
+- !private "Ps26_ExpressibleByColorLiteral"
+- !private "Ps33_ExpressibleByStringInterpolation"
+- !private "Ps35_HasCustomAnyHashableRepresentation"
+- "Ps9_Hashable"
+- !private "Ps21_ObjectiveCBridgeable"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/ObjectiveC.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/Dispatch.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/Metal.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/Foundation.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/AVFoundation.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/MediaPlayer.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/CoreGraphics.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/UIKit.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/CoreText.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/AudioToolbox.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/CoreMedia.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/CoreImage.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/QuartzCore.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/AVFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/CoreAudio.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/UIKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/SwiftOnoneSupport.swiftmodule"
+interface-hash: "babd60f0e46bdd64bc2f6f2e8f370bd9"

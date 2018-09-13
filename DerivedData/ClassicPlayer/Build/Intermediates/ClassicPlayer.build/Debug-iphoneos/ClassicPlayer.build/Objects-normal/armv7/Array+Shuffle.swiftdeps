@@ -1,0 +1,207 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+provides-nominal:
+provides-member:
+- ["Ps17MutableCollection", ""]
+- ["Ps8Sequence", ""]
+- ["Ps17MutableCollection", "shuffle"]
+- ["Ps8Sequence", "shuffled"]
+provides-dynamic-lookup:
+depends-top-level:
+- !private "!="
+- !private ">"
+- !private "Array"
+- !private "FloatLiteralType"
+- !private "IntegerLiteralType"
+- "MutableCollection"
+- "Sequence"
+- !private "arc4random_uniform"
+- !private "numericCast"
+- !private "stride"
+- !private "swap"
+- !private "zip"
+depends-member:
+- !private ["Sa", "init"]
+- !private ["Sa", "shuffle"]
+- !private ["Ps23BidirectionalCollection", "init"]
+- !private ["Ps23BidirectionalCollection", "shuffle"]
+- !private ["Sb", "_getBuiltinLogicValue"]
+- !private ["Ps7CVarArg", "init"]
+- !private ["Ps7CVarArg", "shuffle"]
+- ["Ps10Collection", "Index"]
+- !private ["Ps10Collection", "IndexDistance"]
+- ["Ps10Collection", "Indices"]
+- !private ["Ps10Collection", "arc4random_uniform"]
+- !private ["Ps10Collection", "count"]
+- !private ["Ps10Collection", "index"]
+- !private ["Ps10Collection", "indices"]
+- !private ["Ps10Collection", "init"]
+- !private ["Ps10Collection", "numericCast"]
+- !private ["Ps10Collection", "shuffle"]
+- !private ["Ps10Collection", "stride"]
+- !private ["Ps10Collection", "subscript"]
+- !private ["Ps10Collection", "swap"]
+- !private ["Ps10Collection", "zip"]
+- !private ["Ps28CustomDebugStringConvertible", "init"]
+- !private ["Ps28CustomDebugStringConvertible", "shuffle"]
+- !private ["Ps29CustomPlaygroundQuickLookable", "_getBuiltinLogicValue"]
+- !private ["Ps17CustomReflectable", "_getBuiltinLogicValue"]
+- !private ["Ps17CustomReflectable", "init"]
+- !private ["Ps17CustomReflectable", "shuffle"]
+- !private ["Ps23CustomStringConvertible", "_getBuiltinLogicValue"]
+- !private ["Ps23CustomStringConvertible", "init"]
+- !private ["Ps23CustomStringConvertible", "shuffle"]
+- !private ["Ps9Equatable", "_getBuiltinLogicValue"]
+- !private ["Ps25ExpressibleByArrayLiteral", "init"]
+- !private ["Ps25ExpressibleByArrayLiteral", "shuffle"]
+- !private ["Ps27ExpressibleByBooleanLiteral", "_getBuiltinLogicValue"]
+- !private ["Ps8Hashable", "_getBuiltinLogicValue"]
+- !private ["Ps25LosslessStringConvertible", "_getBuiltinLogicValue"]
+- ["Ps17MutableCollection", "Index"]
+- !private ["Ps17MutableCollection", "IndexDistance"]
+- ["Ps17MutableCollection", "Indices"]
+- !private ["Ps17MutableCollection", "arc4random_uniform"]
+- !private ["Ps17MutableCollection", "count"]
+- !private ["Ps17MutableCollection", "index"]
+- !private ["Ps17MutableCollection", "indices"]
+- !private ["Ps17MutableCollection", "init"]
+- !private ["Ps17MutableCollection", "numericCast"]
+- ["Ps17MutableCollection", "shuffle"]
+- !private ["Ps17MutableCollection", "stride"]
+- !private ["Ps17MutableCollection", "subscript"]
+- !private ["Ps17MutableCollection", "swap"]
+- !private ["Ps17MutableCollection", "zip"]
+- !private ["Ps22RandomAccessCollection", "init"]
+- !private ["Ps22RandomAccessCollection", "shuffle"]
+- !private ["Ps26RangeReplaceableCollection", "init"]
+- !private ["Ps26RangeReplaceableCollection", "shuffle"]
+- !private ["Ps8Sequence", "Array"]
+- ["Ps8Sequence", "Index"]
+- !private ["Ps8Sequence", "IndexDistance"]
+- ["Ps8Sequence", "Indices"]
+- ["Ps8Sequence", "Iterator"]
+- !private ["Ps8Sequence", "arc4random_uniform"]
+- !private ["Ps8Sequence", "count"]
+- !private ["Ps8Sequence", "index"]
+- !private ["Ps8Sequence", "indices"]
+- !private ["Ps8Sequence", "init"]
+- !private ["Ps8Sequence", "numericCast"]
+- !private ["Ps8Sequence", "shuffle"]
+- ["Ps8Sequence", "shuffled"]
+- !private ["Ps8Sequence", "stride"]
+- !private ["Ps8Sequence", "subscript"]
+- !private ["Ps8Sequence", "swap"]
+- !private ["Ps8Sequence", "zip"]
+- !private ["Ps14_ArrayProtocol", "init"]
+- !private ["Ps14_ArrayProtocol", "shuffle"]
+- !private ["Ps23_BidirectionalIndexable", "init"]
+- !private ["Ps23_BidirectionalIndexable", "shuffle"]
+- !private ["Ps24_DestructorSafeContainer", "init"]
+- !private ["Ps24_DestructorSafeContainer", "shuffle"]
+- !private ["Ps35_ExpressibleByBuiltinBooleanLiteral", "_getBuiltinLogicValue"]
+- !private ["Ps9_Hashable", "_getBuiltinLogicValue"]
+- ["Ps10_Indexable", "Index"]
+- !private ["Ps10_Indexable", "IndexDistance"]
+- ["Ps10_Indexable", "Indices"]
+- !private ["Ps10_Indexable", "arc4random_uniform"]
+- !private ["Ps10_Indexable", "count"]
+- !private ["Ps10_Indexable", "index"]
+- !private ["Ps10_Indexable", "indices"]
+- !private ["Ps10_Indexable", "init"]
+- !private ["Ps10_Indexable", "numericCast"]
+- !private ["Ps10_Indexable", "shuffle"]
+- !private ["Ps10_Indexable", "stride"]
+- !private ["Ps10_Indexable", "subscript"]
+- !private ["Ps10_Indexable", "swap"]
+- !private ["Ps10_Indexable", "zip"]
+- ["Ps14_IndexableBase", "Index"]
+- !private ["Ps14_IndexableBase", "IndexDistance"]
+- ["Ps14_IndexableBase", "Indices"]
+- !private ["Ps14_IndexableBase", "arc4random_uniform"]
+- !private ["Ps14_IndexableBase", "count"]
+- !private ["Ps14_IndexableBase", "index"]
+- !private ["Ps14_IndexableBase", "indices"]
+- !private ["Ps14_IndexableBase", "init"]
+- !private ["Ps14_IndexableBase", "numericCast"]
+- !private ["Ps14_IndexableBase", "shuffle"]
+- !private ["Ps14_IndexableBase", "stride"]
+- !private ["Ps14_IndexableBase", "subscript"]
+- !private ["Ps14_IndexableBase", "swap"]
+- !private ["Ps14_IndexableBase", "zip"]
+- ["Ps17_MutableIndexable", "Index"]
+- !private ["Ps17_MutableIndexable", "IndexDistance"]
+- ["Ps17_MutableIndexable", "Indices"]
+- !private ["Ps17_MutableIndexable", "arc4random_uniform"]
+- !private ["Ps17_MutableIndexable", "count"]
+- !private ["Ps17_MutableIndexable", "index"]
+- !private ["Ps17_MutableIndexable", "indices"]
+- !private ["Ps17_MutableIndexable", "init"]
+- !private ["Ps17_MutableIndexable", "numericCast"]
+- !private ["Ps17_MutableIndexable", "shuffle"]
+- !private ["Ps17_MutableIndexable", "stride"]
+- !private ["Ps17_MutableIndexable", "subscript"]
+- !private ["Ps17_MutableIndexable", "swap"]
+- !private ["Ps17_MutableIndexable", "zip"]
+- !private ["Ps21_ObjectiveCBridgeable", "_getBuiltinLogicValue"]
+- !private ["Ps21_ObjectiveCBridgeable", "init"]
+- !private ["Ps21_ObjectiveCBridgeable", "shuffle"]
+- !private ["Ps22_RandomAccessIndexable", "init"]
+- !private ["Ps22_RandomAccessIndexable", "shuffle"]
+- !private ["Ps26_RangeReplaceableIndexable", "init"]
+- !private ["Ps26_RangeReplaceableIndexable", "shuffle"]
+depends-nominal:
+- !private "Sa"
+- !private "Ps23BidirectionalCollection"
+- !private "Sb"
+- !private "Ps7CVarArg"
+- "Ps10Collection"
+- !private "Ps28CustomDebugStringConvertible"
+- !private "Ps29CustomPlaygroundQuickLookable"
+- !private "Ps17CustomReflectable"
+- !private "Ps23CustomStringConvertible"
+- !private "Ps9Equatable"
+- !private "Ps25ExpressibleByArrayLiteral"
+- !private "Ps27ExpressibleByBooleanLiteral"
+- !private "Ps8Hashable"
+- !private "Ps25LosslessStringConvertible"
+- "Ps17MutableCollection"
+- !private "Ps22RandomAccessCollection"
+- !private "Ps26RangeReplaceableCollection"
+- "Ps8Sequence"
+- !private "Ps14_ArrayProtocol"
+- !private "Ps23_BidirectionalIndexable"
+- !private "Ps24_DestructorSafeContainer"
+- !private "Ps35_ExpressibleByBuiltinBooleanLiteral"
+- !private "Ps9_Hashable"
+- "Ps10_Indexable"
+- "Ps14_IndexableBase"
+- "Ps17_MutableIndexable"
+- !private "Ps21_ObjectiveCBridgeable"
+- !private "Ps22_RandomAccessIndexable"
+- !private "Ps26_RangeReplaceableIndexable"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/ObjectiveC.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/Dispatch.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/Metal.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/Foundation.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/AVFoundation.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/MediaPlayer.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/CoreGraphics.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/UIKit.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/CoreText.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/AudioToolbox.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/CoreMedia.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/CoreImage.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/QuartzCore.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/AVFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/CoreAudio.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/UIKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos/armv7/SwiftOnoneSupport.swiftmodule"
+interface-hash: "7fc1b48171a5accdea69160938412def"

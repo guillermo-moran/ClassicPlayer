@@ -1,0 +1,23 @@
+version: "Apple Swift version 3.1 (swiftlang-802.0.53 clang-802.0.42)"
+options: "8c9951290c51755e5dd957cdedde22b8"
+build_time: [550634059, 255467000]
+inputs:
+  "/Users/GMoran/Desktop/ClassicPlayer/ClassicPlayer/ViewController.swift": [9223372036854775807, 0]
+  "/Users/GMoran/Desktop/ClassicPlayer/ClassicPlayer/MenuTableCell.swift": [9223372036854775807, 0]
+  "/Users/GMoran/Desktop/ClassicPlayer/ClassicPlayer/MainMenuVC.swift": [9223372036854775807, 0]
+  "/Users/GMoran/Desktop/ClassicPlayer/ClassicPlayer/SongListMenuVC.swift": [9223372036854775807, 0]
+  "/Users/GMoran/Desktop/ClassicPlayer/ClassicPlayer/PlaylistsMenuVC.swift": [9223372036854775807, 0]
+  "/Users/GMoran/Desktop/ClassicPlayer/ClassicPlayer/SettingsScreenViewController.swift": [9223372036854775807, 0]
+  "/Users/GMoran/Desktop/ClassicPlayer/ClassicPlayer/SettingsVC.swift": [9223372036854775807, 0]
+  "/Users/GMoran/Desktop/ClassicPlayer/ClassicPlayer/StatusBarViewController.swift": [9223372036854775807, 0]
+  "/Users/GMoran/Desktop/ClassicPlayer/ClassicPlayer/MusicMenuVC.swift": [9223372036854775807, 0]
+  "/Users/GMoran/Desktop/ClassicPlayer/ClassicPlayer/AboutScreenVC.swift": [9223372036854775807, 0]
+  "/Users/GMoran/Desktop/ClassicPlayer/ClassicPlayer/ArtistsMenuVC.swift": [9223372036854775807, 0]
+  "/Users/GMoran/Desktop/ClassicPlayer/ClassicPlayer/AppDelegate.swift": [9223372036854775807, 0]
+  "/Users/GMoran/Desktop/ClassicPlayer/ClassicPlayer/NowPlayingVC.swift": [9223372036854775807, 0]
+  "/Users/GMoran/Desktop/ClassicPlayer/ClassicPlayer/SettingsTableCell.swift": [9223372036854775807, 0]
+  "/Users/GMoran/Desktop/ClassicPlayer/ClassicPlayer/C2AClickWheel.swift": [9223372036854775807, 0]
+  "/Users/GMoran/Desktop/ClassicPlayer/AboutVC.swift": [9223372036854775807, 0]
+  "/Users/GMoran/Desktop/ClassicPlayer/ClassicPlayer/ImageTableCell.swift": [9223372036854775807, 0]
+  "/Users/GMoran/Desktop/ClassicPlayer/ClassicPlayer/Array+Shuffle.swift": [9223372036854775807, 0]
+  "/Users/GMoran/Desktop/ClassicPlayer/ClassicPlayer/AlbumsMenuVC.swift": [9223372036854775807, 0]

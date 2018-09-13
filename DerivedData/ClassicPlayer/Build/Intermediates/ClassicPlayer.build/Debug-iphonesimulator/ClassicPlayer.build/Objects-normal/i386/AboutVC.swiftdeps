@@ -1,0 +1,456 @@
+### Swift dependencies file v0 ###
+provides-top-level:
+- "AboutVC"
+provides-nominal:
+- "C13ClassicPlayer7AboutVC"
+provides-member:
+- ["C13ClassicPlayer7AboutVC", ""]
+provides-dynamic-lookup:
+- "clickWheelClicked"
+- "clickWheelDidMoveDown"
+- "clickWheelDidMoveUp"
+- "didReceiveMemoryWarning"
+- "menuClicked"
+- "startListeningForClickwheelChanges"
+- "stopListeningForClickwheelChanges"
+- "viewDidLoad"
+- "viewWillAppear"
+- "viewWillDisappear"
+depends-top-level:
+- "AboutVC"
+- "Bool"
+- !private "BooleanLiteralType"
+- "Notification"
+- !private "NotificationCenter"
+- !private "StringLiteralType"
+- "UIViewController"
+depends-member:
+- ["C13ClassicPlayer7AboutVC", "Bool"]
+- ["C13ClassicPlayer7AboutVC", "Notification"]
+- !private ["C13ClassicPlayer7AboutVC", "NotificationCenter"]
+- ["C13ClassicPlayer7AboutVC", "clickWheelClicked"]
+- ["C13ClassicPlayer7AboutVC", "clickWheelDidMoveDown"]
+- ["C13ClassicPlayer7AboutVC", "clickWheelDidMoveUp"]
+- ["C13ClassicPlayer7AboutVC", "deinit"]
+- ["C13ClassicPlayer7AboutVC", "didReceiveMemoryWarning"]
+- ["C13ClassicPlayer7AboutVC", "init"]
+- ["C13ClassicPlayer7AboutVC", "menuClicked"]
+- !private ["C13ClassicPlayer7AboutVC", "navigationController"]
+- ["C13ClassicPlayer7AboutVC", "startListeningForClickwheelChanges"]
+- ["C13ClassicPlayer7AboutVC", "stopListeningForClickwheelChanges"]
+- ["C13ClassicPlayer7AboutVC", "viewDidLoad"]
+- ["C13ClassicPlayer7AboutVC", "viewWillAppear"]
+- ["C13ClassicPlayer7AboutVC", "viewWillDisappear"]
+- !private ["Ps9AnyObject", "Notification"]
+- !private ["Ps9AnyObject", "NotificationCenter"]
+- !private ["Ps9AnyObject", "addObserver"]
+- !private ["Ps9AnyObject", "clickWheelClicked"]
+- !private ["Ps9AnyObject", "clickWheelDidMoveDown"]
+- !private ["Ps9AnyObject", "clickWheelDidMoveUp"]
+- !private ["Ps9AnyObject", "default"]
+- !private ["Ps9AnyObject", "didReceiveMemoryWarning"]
+- !private ["Ps9AnyObject", "init"]
+- !private ["Ps9AnyObject", "menuClicked"]
+- !private ["Ps9AnyObject", "navigationController"]
+- !private ["Ps9AnyObject", "popViewController"]
+- !private ["Ps9AnyObject", "removeObserver"]
+- !private ["Ps9AnyObject", "startListeningForClickwheelChanges"]
+- !private ["Ps9AnyObject", "stopListeningForClickwheelChanges"]
+- !private ["Ps9AnyObject", "viewDidLoad"]
+- ["Ps9AnyObject", ""]
+- !private ["Ps7CVarArg", "Notification"]
+- !private ["Ps7CVarArg", "NotificationCenter"]
+- !private ["Ps7CVarArg", "addObserver"]
+- !private ["Ps7CVarArg", "clickWheelClicked"]
+- !private ["Ps7CVarArg", "clickWheelDidMoveDown"]
+- !private ["Ps7CVarArg", "clickWheelDidMoveUp"]
+- !private ["Ps7CVarArg", "default"]
+- !private ["Ps7CVarArg", "didReceiveMemoryWarning"]
+- !private ["Ps7CVarArg", "init"]
+- !private ["Ps7CVarArg", "menuClicked"]
+- !private ["Ps7CVarArg", "navigationController"]
+- !private ["Ps7CVarArg", "popViewController"]
+- !private ["Ps7CVarArg", "removeObserver"]
+- !private ["Ps7CVarArg", "startListeningForClickwheelChanges"]
+- !private ["Ps7CVarArg", "stopListeningForClickwheelChanges"]
+- !private ["Ps7CVarArg", "viewDidLoad"]
+- ["Ps7CVarArg", ""]
+- !private ["Ps10Comparable", "init"]
+- !private ["Ps28CustomDebugStringConvertible", "Name"]
+- !private ["Ps28CustomDebugStringConvertible", "Notification"]
+- !private ["Ps28CustomDebugStringConvertible", "NotificationCenter"]
+- !private ["Ps28CustomDebugStringConvertible", "addObserver"]
+- !private ["Ps28CustomDebugStringConvertible", "clickWheelClicked"]
+- !private ["Ps28CustomDebugStringConvertible", "clickWheelDidMoveDown"]
+- !private ["Ps28CustomDebugStringConvertible", "clickWheelDidMoveUp"]
+- !private ["Ps28CustomDebugStringConvertible", "default"]
+- !private ["Ps28CustomDebugStringConvertible", "didReceiveMemoryWarning"]
+- !private ["Ps28CustomDebugStringConvertible", "init"]
+- !private ["Ps28CustomDebugStringConvertible", "menuClicked"]
+- !private ["Ps28CustomDebugStringConvertible", "navigationController"]
+- !private ["Ps28CustomDebugStringConvertible", "popViewController"]
+- !private ["Ps28CustomDebugStringConvertible", "removeObserver"]
+- !private ["Ps28CustomDebugStringConvertible", "startListeningForClickwheelChanges"]
+- !private ["Ps28CustomDebugStringConvertible", "stopListeningForClickwheelChanges"]
+- !private ["Ps28CustomDebugStringConvertible", "viewDidLoad"]
+- ["Ps28CustomDebugStringConvertible", ""]
+- !private ["Ps29CustomPlaygroundQuickLookable", "init"]
+- !private ["Ps17CustomReflectable", "Name"]
+- !private ["Ps17CustomReflectable", "init"]
+- !private ["Ps23CustomStringConvertible", "Name"]
+- !private ["Ps23CustomStringConvertible", "Notification"]
+- !private ["Ps23CustomStringConvertible", "NotificationCenter"]
+- !private ["Ps23CustomStringConvertible", "addObserver"]
+- !private ["Ps23CustomStringConvertible", "clickWheelClicked"]
+- !private ["Ps23CustomStringConvertible", "clickWheelDidMoveDown"]
+- !private ["Ps23CustomStringConvertible", "clickWheelDidMoveUp"]
+- !private ["Ps23CustomStringConvertible", "default"]
+- !private ["Ps23CustomStringConvertible", "didReceiveMemoryWarning"]
+- !private ["Ps23CustomStringConvertible", "init"]
+- !private ["Ps23CustomStringConvertible", "menuClicked"]
+- !private ["Ps23CustomStringConvertible", "navigationController"]
+- !private ["Ps23CustomStringConvertible", "popViewController"]
+- !private ["Ps23CustomStringConvertible", "removeObserver"]
+- !private ["Ps23CustomStringConvertible", "startListeningForClickwheelChanges"]
+- !private ["Ps23CustomStringConvertible", "stopListeningForClickwheelChanges"]
+- !private ["Ps23CustomStringConvertible", "viewDidLoad"]
+- ["Ps23CustomStringConvertible", ""]
+- !private ["Ps9Equatable", "Name"]
+- !private ["Ps9Equatable", "Notification"]
+- !private ["Ps9Equatable", "NotificationCenter"]
+- !private ["Ps9Equatable", "addObserver"]
+- !private ["Ps9Equatable", "clickWheelClicked"]
+- !private ["Ps9Equatable", "clickWheelDidMoveDown"]
+- !private ["Ps9Equatable", "clickWheelDidMoveUp"]
+- !private ["Ps9Equatable", "default"]
+- !private ["Ps9Equatable", "didReceiveMemoryWarning"]
+- !private ["Ps9Equatable", "init"]
+- !private ["Ps9Equatable", "menuClicked"]
+- !private ["Ps9Equatable", "navigationController"]
+- !private ["Ps9Equatable", "popViewController"]
+- !private ["Ps9Equatable", "removeObserver"]
+- !private ["Ps9Equatable", "startListeningForClickwheelChanges"]
+- !private ["Ps9Equatable", "stopListeningForClickwheelChanges"]
+- !private ["Ps9Equatable", "viewDidLoad"]
+- ["Ps9Equatable", ""]
+- !private ["Ps43ExpressibleByExtendedGraphemeClusterLiteral", "init"]
+- !private ["Ps26ExpressibleByStringLiteral", "init"]
+- !private ["Ps33ExpressibleByUnicodeScalarLiteral", "init"]
+- !private ["Ps8Hashable", "Name"]
+- !private ["Ps8Hashable", "Notification"]
+- !private ["Ps8Hashable", "NotificationCenter"]
+- !private ["Ps8Hashable", "addObserver"]
+- !private ["Ps8Hashable", "clickWheelClicked"]
+- !private ["Ps8Hashable", "clickWheelDidMoveDown"]
+- !private ["Ps8Hashable", "clickWheelDidMoveUp"]
+- !private ["Ps8Hashable", "default"]
+- !private ["Ps8Hashable", "didReceiveMemoryWarning"]
+- !private ["Ps8Hashable", "init"]
+- !private ["Ps8Hashable", "menuClicked"]
+- !private ["Ps8Hashable", "navigationController"]
+- !private ["Ps8Hashable", "popViewController"]
+- !private ["Ps8Hashable", "removeObserver"]
+- !private ["Ps8Hashable", "startListeningForClickwheelChanges"]
+- !private ["Ps8Hashable", "stopListeningForClickwheelChanges"]
+- !private ["Ps8Hashable", "viewDidLoad"]
+- ["Ps8Hashable", ""]
+- !private ["Ps25LosslessStringConvertible", "init"]
+- !private ["Ps10MirrorPath", "init"]
+- !private ["PSo8NSCoding", "Notification"]
+- !private ["PSo8NSCoding", "NotificationCenter"]
+- !private ["PSo8NSCoding", "clickWheelClicked"]
+- !private ["PSo8NSCoding", "clickWheelDidMoveDown"]
+- !private ["PSo8NSCoding", "clickWheelDidMoveUp"]
+- !private ["PSo8NSCoding", "didReceiveMemoryWarning"]
+- !private ["PSo8NSCoding", "init"]
+- !private ["PSo8NSCoding", "menuClicked"]
+- !private ["PSo8NSCoding", "navigationController"]
+- !private ["PSo8NSCoding", "popViewController"]
+- !private ["PSo8NSCoding", "startListeningForClickwheelChanges"]
+- !private ["PSo8NSCoding", "stopListeningForClickwheelChanges"]
+- !private ["PSo8NSCoding", "viewDidLoad"]
+- ["PSo8NSCoding", ""]
+- !private ["PSo9NSCopying", "init"]
+- !private ["PSo26NSExtensionRequestHandling", "Notification"]
+- !private ["PSo26NSExtensionRequestHandling", "NotificationCenter"]
+- !private ["PSo26NSExtensionRequestHandling", "clickWheelClicked"]
+- !private ["PSo26NSExtensionRequestHandling", "clickWheelDidMoveDown"]
+- !private ["PSo26NSExtensionRequestHandling", "clickWheelDidMoveUp"]
+- !private ["PSo26NSExtensionRequestHandling", "didReceiveMemoryWarning"]
+- !private ["PSo26NSExtensionRequestHandling", "init"]
+- !private ["PSo26NSExtensionRequestHandling", "menuClicked"]
+- !private ["PSo26NSExtensionRequestHandling", "navigationController"]
+- !private ["PSo26NSExtensionRequestHandling", "popViewController"]
+- !private ["PSo26NSExtensionRequestHandling", "startListeningForClickwheelChanges"]
+- !private ["PSo26NSExtensionRequestHandling", "stopListeningForClickwheelChanges"]
+- !private ["PSo26NSExtensionRequestHandling", "viewDidLoad"]
+- ["PSo26NSExtensionRequestHandling", ""]
+- !private ["PSo16NSMutableCopying", "init"]
+- ["CSo8NSObject", "Bool"]
+- ["CSo8NSObject", "Notification"]
+- !private ["CSo8NSObject", "NotificationCenter"]
+- !private ["CSo8NSObject", "addObserver"]
+- ["CSo8NSObject", "clickWheelClicked"]
+- ["CSo8NSObject", "clickWheelDidMoveDown"]
+- ["CSo8NSObject", "clickWheelDidMoveUp"]
+- !private ["CSo8NSObject", "default"]
+- ["CSo8NSObject", "didReceiveMemoryWarning"]
+- ["CSo8NSObject", "init"]
+- ["CSo8NSObject", "menuClicked"]
+- !private ["CSo8NSObject", "navigationController"]
+- !private ["CSo8NSObject", "popViewController"]
+- !private ["CSo8NSObject", "removeObserver"]
+- ["CSo8NSObject", "startListeningForClickwheelChanges"]
+- ["CSo8NSObject", "stopListeningForClickwheelChanges"]
+- ["CSo8NSObject", "viewDidLoad"]
+- ["CSo8NSObject", "viewWillAppear"]
+- ["CSo8NSObject", "viewWillDisappear"]
+- !private ["PSo16NSObjectProtocol", "Notification"]
+- !private ["PSo16NSObjectProtocol", "NotificationCenter"]
+- !private ["PSo16NSObjectProtocol", "addObserver"]
+- !private ["PSo16NSObjectProtocol", "clickWheelClicked"]
+- !private ["PSo16NSObjectProtocol", "clickWheelDidMoveDown"]
+- !private ["PSo16NSObjectProtocol", "clickWheelDidMoveUp"]
+- !private ["PSo16NSObjectProtocol", "default"]
+- !private ["PSo16NSObjectProtocol", "didReceiveMemoryWarning"]
+- !private ["PSo16NSObjectProtocol", "init"]
+- !private ["PSo16NSObjectProtocol", "menuClicked"]
+- !private ["PSo16NSObjectProtocol", "navigationController"]
+- !private ["PSo16NSObjectProtocol", "popViewController"]
+- !private ["PSo16NSObjectProtocol", "removeObserver"]
+- !private ["PSo16NSObjectProtocol", "startListeningForClickwheelChanges"]
+- !private ["PSo16NSObjectProtocol", "stopListeningForClickwheelChanges"]
+- !private ["PSo16NSObjectProtocol", "viewDidLoad"]
+- ["PSo16NSObjectProtocol", ""]
+- !private ["PSo14NSSecureCoding", "init"]
+- !private ["CSo8NSString", "init"]
+- !private ["VCSo14NSNotification4Name", "init"]
+- !private ["V10Foundation12Notification", "Name"]
+- !private ["CSo18NotificationCenter", "addObserver"]
+- !private ["CSo18NotificationCenter", "default"]
+- !private ["CSo18NotificationCenter", "removeObserver"]
+- !private ["Ps16RawRepresentable", "init"]
+- !private ["P10Foundation20ReferenceConvertible", "Name"]
+- !private ["SS", "init"]
+- !private ["Ps16TextOutputStream", "init"]
+- !private ["Ps20TextOutputStreamable", "init"]
+- !private ["PSo21UIAppearanceContainer", "Notification"]
+- !private ["PSo21UIAppearanceContainer", "NotificationCenter"]
+- !private ["PSo21UIAppearanceContainer", "clickWheelClicked"]
+- !private ["PSo21UIAppearanceContainer", "clickWheelDidMoveDown"]
+- !private ["PSo21UIAppearanceContainer", "clickWheelDidMoveUp"]
+- !private ["PSo21UIAppearanceContainer", "didReceiveMemoryWarning"]
+- !private ["PSo21UIAppearanceContainer", "init"]
+- !private ["PSo21UIAppearanceContainer", "menuClicked"]
+- !private ["PSo21UIAppearanceContainer", "navigationController"]
+- !private ["PSo21UIAppearanceContainer", "popViewController"]
+- !private ["PSo21UIAppearanceContainer", "startListeningForClickwheelChanges"]
+- !private ["PSo21UIAppearanceContainer", "stopListeningForClickwheelChanges"]
+- !private ["PSo21UIAppearanceContainer", "viewDidLoad"]
+- ["PSo21UIAppearanceContainer", ""]
+- !private ["PSo18UIContentContainer", "Notification"]
+- !private ["PSo18UIContentContainer", "NotificationCenter"]
+- !private ["PSo18UIContentContainer", "clickWheelClicked"]
+- !private ["PSo18UIContentContainer", "clickWheelDidMoveDown"]
+- !private ["PSo18UIContentContainer", "clickWheelDidMoveUp"]
+- !private ["PSo18UIContentContainer", "didReceiveMemoryWarning"]
+- !private ["PSo18UIContentContainer", "init"]
+- !private ["PSo18UIContentContainer", "menuClicked"]
+- !private ["PSo18UIContentContainer", "navigationController"]
+- !private ["PSo18UIContentContainer", "popViewController"]
+- !private ["PSo18UIContentContainer", "startListeningForClickwheelChanges"]
+- !private ["PSo18UIContentContainer", "stopListeningForClickwheelChanges"]
+- !private ["PSo18UIContentContainer", "viewDidLoad"]
+- ["PSo18UIContentContainer", ""]
+- !private ["PSo18UIFocusEnvironment", "Notification"]
+- !private ["PSo18UIFocusEnvironment", "NotificationCenter"]
+- !private ["PSo18UIFocusEnvironment", "clickWheelClicked"]
+- !private ["PSo18UIFocusEnvironment", "clickWheelDidMoveDown"]
+- !private ["PSo18UIFocusEnvironment", "clickWheelDidMoveUp"]
+- !private ["PSo18UIFocusEnvironment", "didReceiveMemoryWarning"]
+- !private ["PSo18UIFocusEnvironment", "init"]
+- !private ["PSo18UIFocusEnvironment", "menuClicked"]
+- !private ["PSo18UIFocusEnvironment", "navigationController"]
+- !private ["PSo18UIFocusEnvironment", "popViewController"]
+- !private ["PSo18UIFocusEnvironment", "startListeningForClickwheelChanges"]
+- !private ["PSo18UIFocusEnvironment", "stopListeningForClickwheelChanges"]
+- !private ["PSo18UIFocusEnvironment", "viewDidLoad"]
+- ["PSo18UIFocusEnvironment", ""]
+- !private ["CSo22UINavigationController", "popViewController"]
+- ["CSo11UIResponder", "Bool"]
+- ["CSo11UIResponder", "Notification"]
+- !private ["CSo11UIResponder", "NotificationCenter"]
+- ["CSo11UIResponder", "clickWheelClicked"]
+- ["CSo11UIResponder", "clickWheelDidMoveDown"]
+- ["CSo11UIResponder", "clickWheelDidMoveUp"]
+- ["CSo11UIResponder", "didReceiveMemoryWarning"]
+- ["CSo11UIResponder", "init"]
+- ["CSo11UIResponder", "menuClicked"]
+- !private ["CSo11UIResponder", "navigationController"]
+- !private ["CSo11UIResponder", "popViewController"]
+- ["CSo11UIResponder", "startListeningForClickwheelChanges"]
+- ["CSo11UIResponder", "stopListeningForClickwheelChanges"]
+- ["CSo11UIResponder", "viewDidLoad"]
+- ["CSo11UIResponder", "viewWillAppear"]
+- ["CSo11UIResponder", "viewWillDisappear"]
+- !private ["PSo30UIResponderStandardEditActions", "Notification"]
+- !private ["PSo30UIResponderStandardEditActions", "NotificationCenter"]
+- !private ["PSo30UIResponderStandardEditActions", "clickWheelClicked"]
+- !private ["PSo30UIResponderStandardEditActions", "clickWheelDidMoveDown"]
+- !private ["PSo30UIResponderStandardEditActions", "clickWheelDidMoveUp"]
+- !private ["PSo30UIResponderStandardEditActions", "didReceiveMemoryWarning"]
+- !private ["PSo30UIResponderStandardEditActions", "init"]
+- !private ["PSo30UIResponderStandardEditActions", "menuClicked"]
+- !private ["PSo30UIResponderStandardEditActions", "navigationController"]
+- !private ["PSo30UIResponderStandardEditActions", "popViewController"]
+- !private ["PSo30UIResponderStandardEditActions", "startListeningForClickwheelChanges"]
+- !private ["PSo30UIResponderStandardEditActions", "stopListeningForClickwheelChanges"]
+- !private ["PSo30UIResponderStandardEditActions", "viewDidLoad"]
+- ["PSo30UIResponderStandardEditActions", ""]
+- !private ["PSo16UIStateRestoring", "Notification"]
+- !private ["PSo16UIStateRestoring", "NotificationCenter"]
+- !private ["PSo16UIStateRestoring", "clickWheelClicked"]
+- !private ["PSo16UIStateRestoring", "clickWheelDidMoveDown"]
+- !private ["PSo16UIStateRestoring", "clickWheelDidMoveUp"]
+- !private ["PSo16UIStateRestoring", "didReceiveMemoryWarning"]
+- !private ["PSo16UIStateRestoring", "init"]
+- !private ["PSo16UIStateRestoring", "menuClicked"]
+- !private ["PSo16UIStateRestoring", "navigationController"]
+- !private ["PSo16UIStateRestoring", "popViewController"]
+- !private ["PSo16UIStateRestoring", "startListeningForClickwheelChanges"]
+- !private ["PSo16UIStateRestoring", "stopListeningForClickwheelChanges"]
+- !private ["PSo16UIStateRestoring", "viewDidLoad"]
+- ["PSo16UIStateRestoring", ""]
+- !private ["PSo18UITraitEnvironment", "Notification"]
+- !private ["PSo18UITraitEnvironment", "NotificationCenter"]
+- !private ["PSo18UITraitEnvironment", "clickWheelClicked"]
+- !private ["PSo18UITraitEnvironment", "clickWheelDidMoveDown"]
+- !private ["PSo18UITraitEnvironment", "clickWheelDidMoveUp"]
+- !private ["PSo18UITraitEnvironment", "didReceiveMemoryWarning"]
+- !private ["PSo18UITraitEnvironment", "init"]
+- !private ["PSo18UITraitEnvironment", "menuClicked"]
+- !private ["PSo18UITraitEnvironment", "navigationController"]
+- !private ["PSo18UITraitEnvironment", "popViewController"]
+- !private ["PSo18UITraitEnvironment", "startListeningForClickwheelChanges"]
+- !private ["PSo18UITraitEnvironment", "stopListeningForClickwheelChanges"]
+- !private ["PSo18UITraitEnvironment", "viewDidLoad"]
+- ["PSo18UITraitEnvironment", ""]
+- ["CSo16UIViewController", "Bool"]
+- ["CSo16UIViewController", "Notification"]
+- !private ["CSo16UIViewController", "NotificationCenter"]
+- ["CSo16UIViewController", "clickWheelClicked"]
+- ["CSo16UIViewController", "clickWheelDidMoveDown"]
+- ["CSo16UIViewController", "clickWheelDidMoveUp"]
+- ["CSo16UIViewController", "didReceiveMemoryWarning"]
+- ["CSo16UIViewController", "init"]
+- ["CSo16UIViewController", "menuClicked"]
+- !private ["CSo16UIViewController", "navigationController"]
+- !private ["CSo16UIViewController", "popViewController"]
+- ["CSo16UIViewController", "startListeningForClickwheelChanges"]
+- ["CSo16UIViewController", "stopListeningForClickwheelChanges"]
+- ["CSo16UIViewController", "viewDidLoad"]
+- ["CSo16UIViewController", "viewWillAppear"]
+- ["CSo16UIViewController", "viewWillDisappear"]
+- ["CSo16UIViewController", ""]
+- !private ["Ps51_ExpressibleByBuiltinExtendedGraphemeClusterLiteral", "init"]
+- !private ["Ps34_ExpressibleByBuiltinStringLiteral", "init"]
+- !private ["Ps39_ExpressibleByBuiltinUTF16StringLiteral", "init"]
+- !private ["Ps41_ExpressibleByBuiltinUnicodeScalarLiteral", "init"]
+- !private ["Ps33_ExpressibleByStringInterpolation", "init"]
+- !private ["Ps35_HasCustomAnyHashableRepresentation", "init"]
+- !private ["Ps9_Hashable", "Name"]
+- !private ["Ps9_Hashable", "Notification"]
+- !private ["Ps9_Hashable", "NotificationCenter"]
+- !private ["Ps9_Hashable", "addObserver"]
+- !private ["Ps9_Hashable", "clickWheelClicked"]
+- !private ["Ps9_Hashable", "clickWheelDidMoveDown"]
+- !private ["Ps9_Hashable", "clickWheelDidMoveUp"]
+- !private ["Ps9_Hashable", "default"]
+- !private ["Ps9_Hashable", "didReceiveMemoryWarning"]
+- !private ["Ps9_Hashable", "init"]
+- !private ["Ps9_Hashable", "menuClicked"]
+- !private ["Ps9_Hashable", "navigationController"]
+- !private ["Ps9_Hashable", "popViewController"]
+- !private ["Ps9_Hashable", "removeObserver"]
+- !private ["Ps9_Hashable", "startListeningForClickwheelChanges"]
+- !private ["Ps9_Hashable", "stopListeningForClickwheelChanges"]
+- !private ["Ps9_Hashable", "viewDidLoad"]
+- ["Ps9_Hashable", ""]
+- !private ["Ps21_ObjectiveCBridgeable", "Name"]
+- !private ["Ps21_ObjectiveCBridgeable", "init"]
+- !private ["Ps20_SwiftNewtypeWrapper", "init"]
+depends-nominal:
+- "C13ClassicPlayer7AboutVC"
+- "Ps9AnyObject"
+- "Ps7CVarArg"
+- !private "Ps10Comparable"
+- "Ps28CustomDebugStringConvertible"
+- !private "Ps29CustomPlaygroundQuickLookable"
+- !private "Ps17CustomReflectable"
+- "Ps23CustomStringConvertible"
+- "Ps9Equatable"
+- !private "Ps43ExpressibleByExtendedGraphemeClusterLiteral"
+- !private "Ps26ExpressibleByStringLiteral"
+- !private "Ps33ExpressibleByUnicodeScalarLiteral"
+- "Ps8Hashable"
+- !private "Ps25LosslessStringConvertible"
+- !private "Ps10MirrorPath"
+- "PSo8NSCoding"
+- !private "PSo9NSCopying"
+- "PSo26NSExtensionRequestHandling"
+- !private "PSo16NSMutableCopying"
+- "CSo8NSObject"
+- "PSo16NSObjectProtocol"
+- !private "PSo14NSSecureCoding"
+- !private "CSo8NSString"
+- !private "VCSo14NSNotification4Name"
+- !private "V10Foundation12Notification"
+- !private "CSo18NotificationCenter"
+- !private "Ps16RawRepresentable"
+- !private "P10Foundation20ReferenceConvertible"
+- !private "SS"
+- !private "Ps16TextOutputStream"
+- !private "Ps20TextOutputStreamable"
+- "PSo21UIAppearanceContainer"
+- "PSo18UIContentContainer"
+- "PSo18UIFocusEnvironment"
+- !private "CSo22UINavigationController"
+- "CSo11UIResponder"
+- "PSo30UIResponderStandardEditActions"
+- "PSo16UIStateRestoring"
+- "PSo18UITraitEnvironment"
+- "CSo16UIViewController"
+- !private "Ps51_ExpressibleByBuiltinExtendedGraphemeClusterLiteral"
+- !private "Ps34_ExpressibleByBuiltinStringLiteral"
+- !private "Ps39_ExpressibleByBuiltinUTF16StringLiteral"
+- !private "Ps41_ExpressibleByBuiltinUnicodeScalarLiteral"
+- !private "Ps33_ExpressibleByStringInterpolation"
+- !private "Ps35_HasCustomAnyHashableRepresentation"
+- "Ps9_Hashable"
+- !private "Ps21_ObjectiveCBridgeable"
+- !private "Ps20_SwiftNewtypeWrapper"
+depends-dynamic-lookup:
+depends-external:
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/i386/ObjectiveC.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/i386/Dispatch.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/i386/Foundation.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/i386/AVFoundation.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/i386/MediaPlayer.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/i386/CoreGraphics.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/i386/UIKit.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/i386/CoreText.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/i386/AudioToolbox.apinotesc"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/i386/ObjectiveC.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/i386/CoreMedia.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/i386/CoreImage.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/i386/QuartzCore.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/i386/Dispatch.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/i386/Darwin.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/i386/Foundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/i386/AVFoundation.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/i386/CoreAudio.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/i386/CoreGraphics.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/i386/Swift.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/i386/UIKit.swiftmodule"
+- "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/i386/SwiftOnoneSupport.swiftmodule"
+interface-hash: "71a211c8a8f734eaffc930f0e8d1706e"

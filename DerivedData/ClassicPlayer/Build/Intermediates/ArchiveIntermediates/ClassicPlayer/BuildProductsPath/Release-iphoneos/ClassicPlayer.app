@@ -1,0 +1,1 @@
+/Users/GMoran/Desktop/ClassicPlayer/DerivedData/ClassicPlayer/Build/Intermediates/ArchiveIntermediates/ClassicPlayer/InstallationBuildProductsLocation/Applications/ClassicPlayer.app
