@@ -12,7 +12,7 @@ import MediaPlayer
 
 let mainMenuVC : MainMenuVC = MainMenuVC()
 
-class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+@objcMembers class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var mediaItems : [MPMediaItem] = []
     
@@ -176,7 +176,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
             let mediaCollection = MPMediaItemCollection(items: songQueue)
             
-            let player = MPMusicPlayerController.systemMusicPlayer()
+            let player = MPMusicPlayerController.systemMusicPlayer
             player.setQueue(with: mediaCollection)
             
             player.play()
@@ -193,7 +193,7 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             let nowPlayingVC = self.storyboard?.instantiateViewController(withIdentifier: "nowPlayingVC")
                 as! NowPlayingVC
             
-            let player = MPMusicPlayerController.systemMusicPlayer()
+            let player = MPMusicPlayerController.systemMusicPlayer
             
             if (player.nowPlayingItem != nil) {
                 self.navigationController?.pushViewController(nowPlayingVC, animated: true)
@@ -244,18 +244,14 @@ class MainMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                         while (self.mediaItems[randomIndex].artwork?.image(at: CGSize(width: 50, height: 50)) == nil) {
                             randomIndex = Int(arc4random_uniform(UInt32(self.mediaItems.count - 1)))
                         }
+                        DispatchQueue.main.async {
+                            self.artworkPreview.image = self.mediaItems[randomIndex].artwork?.image(at: CGSize(width: 300, height: 340))
+                           
+                        }
                         
-                        self.artworkPreview.image = self.mediaItems[randomIndex].artwork?.image(at: CGSize(width: 300, height: 340))
                     }
-                    
-                    
-                }
-                else {
-                    
                 }
             }
-            
-            
         }
         else { //pre 9.3
             

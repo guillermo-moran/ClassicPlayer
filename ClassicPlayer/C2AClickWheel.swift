@@ -203,7 +203,7 @@ import AudioToolbox
         return (result >= 0  ? result : result + 360.0);
     }
 
-    func orientationChanged() {
+    @objc func orientationChanged() {
         // re-calculate center button frame when screen roteated
         if let button = centerButton {
             button.frame = calculateButtonFrame()

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AboutVC: UIViewController {
+@objcMembers class AboutVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         startListeningForClickwheelChanges()

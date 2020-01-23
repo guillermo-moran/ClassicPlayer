@@ -9,7 +9,7 @@
 import UIKit
 import MediaPlayer
 
-class AlbumsMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+@objcMembers class AlbumsMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak private var menuTable: UITableView!
     

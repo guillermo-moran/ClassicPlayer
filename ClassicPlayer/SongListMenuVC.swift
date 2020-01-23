@@ -9,7 +9,7 @@
 import UIKit
 import MediaPlayer
 
-class SongListMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+@objcMembers class SongListMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak private var menuTable: UITableView!
     @IBOutlet weak var alphabetView: UIView!
@@ -370,7 +370,7 @@ class SongListMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSour
         DispatchQueue.global().async {
             let mediaCollection = MPMediaItemCollection(items: songQueue)
             
-            let player = MPMusicPlayerController.systemMusicPlayer()
+            let player = MPMusicPlayerController.systemMusicPlayer
             player.setQueue(with: mediaCollection)
             
             player.play()

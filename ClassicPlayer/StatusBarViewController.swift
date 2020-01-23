@@ -8,7 +8,7 @@
 
 import UIKit
 
-class StatusBarViewController: UIViewController {
+@objcMembers class StatusBarViewController: UIViewController {
 
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var batteryImage : UIImageView!

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MusicMenuVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
+@objcMembers class MusicMenuVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak private var menuTable: UITableView!
     

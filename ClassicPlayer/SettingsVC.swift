@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SettingsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
+@objcMembers class SettingsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var menuTable : UITableView!
 

@@ -9,7 +9,7 @@
 import UIKit
 import MediaPlayer
 
-class NowPlayingVC: UIViewController {
+@objcMembers class NowPlayingVC: UIViewController {
     
     @IBOutlet weak var albumArt: UIImageView!
     
@@ -26,7 +26,7 @@ class NowPlayingVC: UIViewController {
     @IBOutlet weak var totalTimeLabel: UILabel!
     
     
-    let player = MPMusicPlayerController.systemMusicPlayer()
+    let player = MPMusicPlayerController.systemMusicPlayer
 
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,8 +78,8 @@ class NowPlayingVC: UIViewController {
     
     func updateTimeElapsed() {
         
-        let nowPlayingItemDuration = Int((player.nowPlayingItem?.playbackDuration)!)
-        let currentTime = Int(player.currentPlaybackTime)
+        let nowPlayingItemDuration = Double((player.nowPlayingItem?.playbackDuration)!)
+        let currentTime = Double(player.currentPlaybackTime)
         let remainingTime = nowPlayingItemDuration - currentTime
         
         var timeElapsed : String!
@@ -87,17 +87,17 @@ class NowPlayingVC: UIViewController {
         
         if (nowPlayingItemDuration >= 3600) {
             
-            timeElapsed = String(format: "%02d:%02d:%02d", (currentTime/3600), ((currentTime/60)%60), (currentTime%60))
+            timeElapsed = String(format: "%02d:%02d:%02d", (currentTime/3600), ((currentTime/60).truncatingRemainder(dividingBy: 0.60)), (currentTime.truncatingRemainder(dividingBy: 0.60)))
             
-            timeRemaining  = String(format: "%02d:%02d:%02d", (remainingTime/3600), ((remainingTime/60)%60), (remainingTime%60))
+            timeRemaining  = String(format: "%02d:%02d:%02d", (remainingTime/3600), ((remainingTime/60).truncatingRemainder(dividingBy: 0.60)), (remainingTime.truncatingRemainder(dividingBy: 0.60)))
             
         }
         
         else {
             
-            timeElapsed = String(format: "%02d:%02d", (currentTime/60), (currentTime%60))
+            timeElapsed = String(format: "%02d:%02d", (currentTime/60), (currentTime.truncatingRemainder(dividingBy: 0.60)))
 
-            timeRemaining = String(format: "%02d:%02d", (remainingTime/60), (remainingTime%60))
+            timeRemaining = String(format: "%02d:%02d", (remainingTime/60), (remainingTime.truncatingRemainder(dividingBy: 0.60)))
 
         }
         

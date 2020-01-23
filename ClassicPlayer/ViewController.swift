@@ -35,7 +35,7 @@ let DARK_WHEEL_COLOR  = UIColor(red:0.19, green:0.19, blue:0.19, alpha:1.0)
 let LIGHT_BG = UIColor(red:0.95, green:0.96, blue:0.97, alpha:1.0)
 let LIGHT_WHEEL_COLOR = UIColor(red:0.80, green:0.82, blue:0.85, alpha:1.0)
 
-class ViewController : UIViewController {
+@objcMembers class ViewController : UIViewController {
     
     @IBOutlet weak var menuButton: UIButton!
     @IBOutlet weak var rewindButton: UIButton!
@@ -185,7 +185,7 @@ class ViewController : UIViewController {
         postClickWheelClickedNotification()
     }
     
-    let player = MPMusicPlayerController.systemMusicPlayer()
+    let player = MPMusicPlayerController.systemMusicPlayer
     //let generator = UIImpactFeedbackGenerator(style: .light)
 
     @IBAction func menuPressed(_ sender: Any) {
