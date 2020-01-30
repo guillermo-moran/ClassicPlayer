@@ -120,8 +120,8 @@ import MediaPlayer
         super.viewDidLoad()
         
         //Update music progress / time
-        updateTimeElapsed()
-        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateTimeElapsed), userInfo: nil, repeats: true)
+//        updateTimeElapsed()
+//        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateTimeElapsed), userInfo: nil, repeats: true)
         
             songProgressBar.transform = songProgressBar.transform.scaledBy(x: 1, y: 4)
         

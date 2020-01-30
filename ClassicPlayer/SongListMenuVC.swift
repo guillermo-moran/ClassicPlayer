@@ -371,6 +371,7 @@ import MediaPlayer
             let mediaCollection = MPMediaItemCollection(items: songQueue)
             
             let player = MPMusicPlayerController.systemMusicPlayer
+            player.shuffleMode = MPMusicShuffleMode.off
             player.setQueue(with: mediaCollection)
             
             player.play()
