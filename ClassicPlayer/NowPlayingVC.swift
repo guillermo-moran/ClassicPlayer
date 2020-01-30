@@ -76,31 +76,45 @@ import MediaPlayer
 
     }
     
+    func stringFromTimeInterval(interval: TimeInterval) -> String {
+
+        let ti = NSInteger(interval)
+        let ms = Int((interval.truncatingRemainder(dividingBy: 1)) * 1000)
+
+        let seconds = ti % 60
+        let minutes = (ti / 60) % 60
+        let hours = (ti / 3600)
+
+      return String(format: "%0.2d:%0.2d:%0.2d.%0.3d",hours,minutes,seconds,ms)
+    }
+    
     func updateTimeElapsed() {
         
-        let nowPlayingItemDuration = Double((player.nowPlayingItem?.playbackDuration)!)
-        let currentTime = Double(player.currentPlaybackTime)
+        let nowPlayingItemDuration = NSInteger((player.nowPlayingItem?.playbackDuration)!)
+        let currentTime = NSInteger(player.currentPlaybackTime)
         let remainingTime = nowPlayingItemDuration - currentTime
         
         var timeElapsed : String!
         var timeRemaining : String!
         
+        let timeElapsedSeconds = currentTime % 60
+        let timeElapsedMinutes = (currentTime / 60) % 60
+        let timeElapsedHours = (currentTime / 3600)
+        
+        let timeRemainingSeconds = remainingTime % 60
+        let timeRemainingMinutes = (remainingTime / 60) % 60
+        let timeRemainingHours = (remainingTime / 3600)
+        
         if (nowPlayingItemDuration >= 3600) {
+            timeElapsed = String(format: "%02d:%02d:%02d", timeElapsedHours, timeElapsedMinutes, timeElapsedSeconds)
             
-            timeElapsed = String(format: "%02d:%02d:%02d", (currentTime/3600), ((currentTime/60).truncatingRemainder(dividingBy: 0.60)), (currentTime.truncatingRemainder(dividingBy: 0.60)))
-            
-            timeRemaining  = String(format: "%02d:%02d:%02d", (remainingTime/3600), ((remainingTime/60).truncatingRemainder(dividingBy: 0.60)), (remainingTime.truncatingRemainder(dividingBy: 0.60)))
-            
+            timeRemaining  = String(format: "%02d:%02d:%02d", timeRemainingHours, timeRemainingMinutes, timeRemainingSeconds)
         }
-        
         else {
-            
-            timeElapsed = String(format: "%02d:%02d", (currentTime/60), (currentTime.truncatingRemainder(dividingBy: 0.60)))
+            timeElapsed = String(format: "%02d:%02d", timeElapsedMinutes, timeElapsedSeconds)
 
-            timeRemaining = String(format: "%02d:%02d", (remainingTime/60), (remainingTime.truncatingRemainder(dividingBy: 0.60)))
-
+            timeRemaining = String(format: "%02d:%02d", timeRemainingMinutes, timeRemainingSeconds)
         }
-        
         currentTimeLabel.text = timeElapsed
         totalTimeLabel.text = timeRemaining
         
@@ -120,8 +134,8 @@ import MediaPlayer
         super.viewDidLoad()
         
         //Update music progress / time
-//        updateTimeElapsed()
-//        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateTimeElapsed), userInfo: nil, repeats: true)
+        updateTimeElapsed()
+        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateTimeElapsed), userInfo: nil, repeats: true)
         
             songProgressBar.transform = songProgressBar.transform.scaledBy(x: 1, y: 4)
         
