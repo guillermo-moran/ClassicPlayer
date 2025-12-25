@@ -256,7 +256,13 @@ let LIGHT_WHEEL_COLOR = UIColor(red:0.80, green:0.82, blue:0.85, alpha:1.0)
     }
     
     //taptic
-    private let isDevice = TARGET_OS_SIMULATOR == 0
+    private var isDevice: Bool {
+        #if targetEnvironment(simulator)
+        return false
+        #else
+        return true
+        #endif
+    }
     
     func vibrate() {
         if isDevice {

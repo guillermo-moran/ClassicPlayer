@@ -212,11 +212,11 @@ import AudioToolbox
 
     // MARK: Converters
     func DegreesToRadians (_ value:Double) -> Double {
-        return value * M_PI / 180.0
+        return value * Double.pi / 180.0
     }
 
     func RadiansToDegrees (_ value:Double) -> Double {
-        return value * 180.0 / M_PI
+        return value * 180.0 / Double.pi
     }
 
     func Square (_ value:CGFloat) -> CGFloat {

@@ -145,9 +145,11 @@ import UIKit
 
         }
         
-        tableView.reloadData()
-        
-        tableView.selectRow(at: indexPath, animated: true, scrollPosition: .top)
+        // Reload only the affected row to update the toggle state
+        tableView.reloadRows(at: [indexPath], with: .none)
+
+        // Preserve selection highlight without scrolling
+        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
         
         NotificationCenter.default.post(name: Notification.Name("settingsUpdated"), object: nil)
         
@@ -163,31 +165,31 @@ import UIKit
         let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath) as! SettingsTableCell
         
         let index = indexPath.row
-        
         let defaults = UserDefaults.standard
-        
+
+        // Default visibility for reusable cells
+        cell.toggle?.isHidden = false
+
         var togglePosition = false
-        
         if (index == 0) {
             togglePosition = defaults.bool(forKey: "darkMode")
         }
         if (index == 1) {
             togglePosition = defaults.bool(forKey: "soundEffects")
         }
-        
         if (index == 2) {
             cell.toggle?.isHidden = true
         }
-        
+
         cell.label?.text = menuItems[index]
         cell.toggle?.isOn = togglePosition
-        
+
         cell.label?.highlightedTextColor = UIColor.white
-        
+
         let bgColorView = UIView()
         bgColorView.backgroundColor = UIColor(red:0.29, green:0.51, blue:0.86, alpha:1.0)
         cell.selectedBackgroundView = bgColorView
-        
+
         return cell
     }
     
@@ -198,3 +200,4 @@ import UIKit
         
         //menuItems = MPMediaQuery.songs().items!
 }
+
