@@ -58,7 +58,9 @@ let LIGHT_BUTTON_TINT    = UIColor(red: 0.84, green: 0.84, blue: 0.84, alpha: 1.
     //MARK: Properties
     var counter = 0
     
-   
+    // Toggle to enable/disable music controls (for games, etc)
+    var replaceMusicControls: Bool = false
+    
     
     func setupClickWheel() {
         
@@ -119,8 +121,14 @@ let LIGHT_BUTTON_TINT    = UIColor(red: 0.84, green: 0.84, blue: 0.84, alpha: 1.
         //Settings Listener 
         NotificationCenter.default.addObserver(self, selector: #selector(self.settingsUpdated(notification:)), name: Notification.Name("settingsUpdated"), object: nil)
         
-//
+        NotificationCenter.default.addObserver(self, selector: #selector(handleDisableEnableMusicControlsToggle(_:)), name: Notification.Name("replaceMusicControls"), object: nil)
         
+    }
+    
+    @objc private func handleDisableEnableMusicControlsToggle(_ note: Notification) {
+        if let enabled = note.userInfo?["enabled"] as? Bool {
+            replaceMusicControls = enabled
+        }
     }
 
     func settingsUpdated(notification: Notification) {
@@ -235,8 +243,6 @@ let LIGHT_BUTTON_TINT    = UIColor(red: 0.84, green: 0.84, blue: 0.84, alpha: 1.
     // do NOT change this method name unless you also change it in
     // C2AClickWheek.layoutSubviews()!!
     @IBAction func centerClicked(_ sender: C2AClickWheel) {
-        
-        
         postClickWheelClickedNotification()
     }
     
@@ -250,7 +256,11 @@ let LIGHT_BUTTON_TINT    = UIColor(red: 0.84, green: 0.84, blue: 0.84, alpha: 1.
     @IBAction func forwardPressed(_ sender: Any) {
         //generator.impactOccurred()
         self.vibrate()
-        player.skipToNextItem()
+        if replaceMusicControls {
+            postForwardPressedNotification()
+        } else {
+            player.skipToNextItem()
+        }
         postSongChangedNotification()
 
     }
@@ -259,7 +269,13 @@ let LIGHT_BUTTON_TINT    = UIColor(red: 0.84, green: 0.84, blue: 0.84, alpha: 1.
         
         //generator.impactOccurred()
         self.vibrate()
-        player.skipToPreviousItem()
+        if replaceMusicControls {
+            postRewindPressedNotification()
+        }
+        else {
+            player.skipToPreviousItem()
+        }
+        
         postSongChangedNotification()
     }
  
@@ -267,13 +283,17 @@ let LIGHT_BUTTON_TINT    = UIColor(red: 0.84, green: 0.84, blue: 0.84, alpha: 1.
         
         //generator.impactOccurred()
         self.vibrate()
-        if (player.playbackState == .playing) {
-            player.pause()
+        if (replaceMusicControls) {
+            postPlayPausePressedNotification()
         }
         else {
-            player.play()
+            if (player.playbackState == .playing) {
+                player.pause()
+            }
+            else {
+                player.play()
+            }
         }
-        
     }
     
     func postClickWheelDidMoveUpNotification() {
@@ -308,6 +328,24 @@ let LIGHT_BUTTON_TINT    = UIColor(red: 0.84, green: 0.84, blue: 0.84, alpha: 1.
         //generator.impactOccurred()
         self.vibrate()
         NotificationCenter.default.post(name: Notification.Name("songChanged"), object: nil)
+    }
+    
+    func postRewindPressedNotification() {
+        //generator.impactOccurred()
+        self.vibrate()
+        NotificationCenter.default.post(name: Notification.Name("rewindClicked"), object: nil)
+    }
+    
+    func postForwardPressedNotification() {
+        //generator.impactOccurred()
+        self.vibrate()
+        NotificationCenter.default.post(name: Notification.Name("forwardClicked"), object: nil)
+    }
+    
+    func postPlayPausePressedNotification() {
+        //generator.impactOccurred()
+        self.vibrate()
+        NotificationCenter.default.post(name: Notification.Name("playPauseClicked"), object: nil)
     }
     
     //taptic

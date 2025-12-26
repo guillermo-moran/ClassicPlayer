@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Brick Breaker</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .game-wrapper {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: #000;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      color: #fff;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 16px;
+      box-sizing: border-box;
+    }
+
+    .overlay h1 {
+      font-size: 32px;
+      margin: 0 0 10px;
+    }
+
+    .overlay p {
+      font-size: 16px;
+      margin: 4px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-wrapper">
+    <canvas id="game"></canvas>
+
+    <div id="overlay" class="overlay">
+      <div>
+        <h1 id="overlayTitle">BRICK BREAKER</h1>
+        <p>Score: <span id="finalScore">0</span></p>
+        <p>Press Center Button to Start</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('game');
+    const ctx = canvas.getContext('2d');
+
+    const overlay = document.getElementById('overlay');
+    const overlayTitle = document.getElementById('overlayTitle');
+    const finalScoreEl = document.getElementById('finalScore');
+
+    // Canvas dimensions (full screen)
+    let W, H;
+
+    // Paddle
+    let paddleWidth, paddleHeight, paddleX, paddleY;
+
+    // Ball
+    let ballX, ballY, ballRadius, ballSpeed, ballDX, ballDY;
+
+    // Bricks (small, but number adapts to screen)
+    const BASE_BRICK_WIDTH = 40;
+    const BASE_BRICK_HEIGHT = 16;
+    let brickRows, brickCols;
+    let brickWidth = BASE_BRICK_WIDTH;
+    let brickHeight = BASE_BRICK_HEIGHT;
+    let brickPadding, brickOffsetTop, brickOffsetLeft;
+    let bricks = [];
+
+    let score = 0;
+    let totalBricks = 0;
+
+    let leftPressed = false;
+    let rightPressed = false;
+
+    let isRunning = false;
+    let isGameOver = false;
+
+    function setupGameGeometry() {
+      // Full-screen canvas
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+
+      // Paddle sizing
+      paddleWidth = Math.max(60, W * 0.18);
+      paddleHeight = 14;
+      paddleY = H - 40;
+
+      // Ball sizing
+      ballRadius = Math.max(5, Math.min(W, H) * 0.012);
+      ballSpeed = Math.max(3, Math.min(W, H) * 0.008);
+
+      // Brick layout: small bricks, adapt count to screen
+      brickPadding = 6;
+      brickOffsetTop = 60;
+      brickOffsetLeft = 12;
+
+      brickWidth = BASE_BRICK_WIDTH;
+      brickHeight = BASE_BRICK_HEIGHT;
+
+      // How many bricks can we fit horizontally?
+      brickCols = Math.max(
+        4,
+        Math.floor(
+          (W - brickOffsetLeft * 2 + brickPadding) /
+          (brickWidth + brickPadding)
+        )
+      );
+
+      // Limit brick area to about top 40–50% of screen
+      const maxBrickAreaHeight = H * 0.45;
+      const possibleRows = Math.floor(
+        (maxBrickAreaHeight - brickOffsetTop) /
+        (brickHeight + brickPadding)
+      );
+      brickRows = Math.max(3, Math.min(6, possibleRows)); // 3–6 rows
+
+      resetPaddleAndBall();
+      initBricks();
+      score = 0;
+      totalBricks = brickRows * brickCols;
+    }
+
+    function resetPaddleAndBall() {
+      paddleX = (W - paddleWidth) / 2;
+      ballX = W / 2;
+      ballY = paddleY - ballRadius - 2;
+      ballDX = ballSpeed * (Math.random() < 0.5 ? -1 : 1);
+      ballDY = -ballSpeed;
+    }
+
+    function initBricks() {
+      bricks = [];
+      for (let r = 0; r < brickRows; r++) {
+        bricks[r] = [];
+        for (let c = 0; c < brickCols; c++) {
+          const x = brickOffsetLeft + c * (brickWidth + brickPadding);
+          const y = brickOffsetTop + r * (brickHeight + brickPadding);
+          bricks[r][c] = { x, y, alive: true };
+        }
+      }
+    }
+
+    function startGame() {
+      if (isRunning) return;
+      isRunning = true;
+      isGameOver = false;
+      overlay.style.display = 'none';
+      requestAnimationFrame(gameLoop);
+    }
+
+    function gameLoop() {
+      if (!isRunning) return;
+      update();
+      draw();
+      if (!isGameOver) {
+        requestAnimationFrame(gameLoop);
+      }
+    }
+
+    function update() {
+      // Move paddle
+      const paddleSpeed = Math.max(6, W * 0.012);
+      if (leftPressed) {
+        paddleX -= paddleSpeed;
+      } else if (rightPressed) {
+        paddleX += paddleSpeed;
+      }
+      if (paddleX < 0) paddleX = 0;
+      if (paddleX + paddleWidth > W) paddleX = W - paddleWidth;
+
+      // Move ball
+      ballX += ballDX;
+      ballY += ballDY;
+
+      // Wall collisions
+      if (ballX + ballRadius > W) {
+        ballX = W - ballRadius;
+        ballDX = -ballDX;
+      } else if (ballX - ballRadius < 0) {
+        ballX = ballRadius;
+        ballDX = -ballDX;
+      }
+
+      if (ballY - ballRadius < 0) {
+        ballY = ballRadius;
+        ballDY = -ballDY;
+      }
+
+      // Paddle collision
+      if (
+        ballY + ballRadius >= paddleY &&
+        ballY + ballRadius <= paddleY + paddleHeight &&
+        ballX >= paddleX &&
+        ballX <= paddleX + paddleWidth &&
+        ballDY > 0
+      ) {
+        ballY = paddleY - ballRadius;
+        const hitPos =
+          (ballX - (paddleX + paddleWidth / 2)) /
+          (paddleWidth / 2); // -1 to 1
+        ballDX = ballSpeed * hitPos;
+        ballDY = -Math.abs(ballSpeed * (1.2 - Math.abs(hitPos) * 0.4));
+      }
+
+      // Brick collisions
+      for (let r = 0; r < brickRows; r++) {
+        for (let c = 0; c < brickCols; c++) {
+          const brick = bricks[r][c];
+          if (!brick.alive) continue;
+
+          if (
+            ballX > brick.x &&
+            ballX < brick.x + brickWidth &&
+            ballY - ballRadius < brick.y + brickHeight &&
+            ballY + ballRadius > brick.y
+          ) {
+            brick.alive = false;
+            score++;
+            totalBricks--;
+            ballDY = -ballDY;
+
+            if (totalBricks === 0) {
+              endGame(true);
+              return;
+            }
+          }
+        }
+      }
+
+      // Bottom = lose
+      if (ballY - ballRadius > H) {
+        endGame(false);
+      }
+    }
+
+    function draw() {
+      // Background
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, W, H);
+
+      // Bricks
+      for (let r = 0; r < brickRows; r++) {
+        for (let c = 0; c < brickCols; c++) {
+          const brick = bricks[r][c];
+          if (!brick.alive) continue;
+          ctx.fillStyle = `hsl(${(r * 40 + c * 12) % 360}, 70%, 50%)`;
+          ctx.fillRect(brick.x, brick.y, brickWidth, brickHeight);
+        }
+      }
+
+      // Paddle
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(paddleX, paddleY, paddleWidth, paddleHeight);
+
+      // Ball
+      ctx.beginPath();
+      ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffeb3b';
+      ctx.fill();
+      ctx.closePath();
+
+      // Score
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '16px system-ui';
+      ctx.textAlign = 'left';
+      ctx.fillText('Score: ' + score, 12, 24);
+    }
+
+    function endGame(won) {
+      isRunning = false;
+      isGameOver = true;
+      overlayTitle.textContent = won ? 'YOU WIN!' : 'YOU LOST!';
+      finalScoreEl.textContent = score.toString();
+      overlay.style.display = 'flex';
+    }
+
+    // Ensure the document can receive focus for key events
+    document.body.setAttribute('tabindex', '-1');
+    try { document.body.focus(); } catch (e) {}
+
+    // Normalize keys across properties and legacy codes
+    function normalizeKey(e) {
+      if (e.key && e.key !== 'Unidentified') return e.key;
+      if (e.code) return e.code;
+      const code = e.keyCode || e.which;
+      switch (code) {
+        case 37: return 'ArrowLeft';
+        case 39: return 'ArrowRight';
+        case 65: return 'a';        // A
+        case 68: return 'd';        // D
+        case 32: return ' ';        // Space
+        default: return '';
+      }
+    }
+
+    // Mirror document events to window to catch synthetic dispatch targets
+    document.addEventListener('keydown', (ev) => { try { window.dispatchEvent(ev); } catch (_) {} });
+    document.addEventListener('keyup', (ev) => { try { window.dispatchEvent(ev); } catch (_) {} });
+
+    // Keyboard controls
+    window.addEventListener('keydown', (e) => {
+      const k = normalizeKey(e);
+      switch (k) {
+        case 'ArrowLeft':
+        case 'a':
+        case 'A':
+        case 'KeyA':
+          leftPressed = true;
+          break;
+        case 'ArrowRight':
+        case 'd':
+        case 'D':
+        case 'KeyD':
+          rightPressed = true;
+          break;
+        case ' ':
+          if (!isRunning) {
+            if (isGameOver) {
+              setupGameGeometry();
+            }
+            startGame();
+          }
+          break;
+      }
+    });
+
+    window.addEventListener('keyup', (e) => {
+      const k = normalizeKey(e);
+      switch (k) {
+        case 'ArrowLeft':
+        case 'a':
+        case 'A':
+        case 'KeyA':
+          leftPressed = false;
+          break;
+        case 'ArrowRight':
+        case 'd':
+        case 'D':
+        case 'KeyD':
+          rightPressed = false;
+          break;
+      }
+    });
+
+    // Touch controls (for tiny screens / WKWebView)
+    canvas.addEventListener('touchstart', handleTouch, { passive: false });
+    canvas.addEventListener('touchmove', handleTouch, { passive: false });
+
+    function handleTouch(e) {
+      e.preventDefault();
+      const touch = e.touches[0];
+      const rect = canvas.getBoundingClientRect();
+      const x = touch.clientX - rect.left;
+      paddleX = x - paddleWidth / 2;
+      if (paddleX < 0) paddleX = 0;
+      if (paddleX + paddleWidth > W) paddleX = W - paddleWidth;
+    }
+
+    // Initial setup
+    setupGameGeometry();
+    overlayTitle.textContent = 'BRICK BREAKER';
+    finalScoreEl.textContent = '0';
+    overlay.style.display = 'flex';
+
+    // Optional: if you *do* want it to adapt on orientation change, uncomment:
+    // window.addEventListener('resize', () => {
+    //   setupGameGeometry();
+    //   overlayTitle.textContent = 'BRICK BREAKER';
+    //   finalScoreEl.textContent = score.toString();
+    //   overlay.style.display = 'flex';
+    //   isRunning = false;
+    //   isGameOver = false;
+    // });
+  </script>
+</body>
+</html>

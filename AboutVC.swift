@@ -10,6 +10,8 @@ import UIKit
 
 @objcMembers class AboutVC: UIViewController {
     
+    @IBOutlet weak private var textView: UITextView!
+    
     override func viewWillAppear(_ animated: Bool) {
         startListeningForClickwheelChanges()
     }
@@ -53,11 +55,33 @@ import UIKit
         NotificationCenter.default.addObserver(self, selector: #selector(self.menuClicked(notification:)), name: Notification.Name("menuClicked"), object: nil)
     }
     func clickWheelDidMoveUp(notification: Notification) {
-       
+        guard let textView = textView else { return }
+        let delta: CGFloat = 150
+        let topInset: CGFloat
+        if #available(iOS 11.0, *) {
+            topInset = textView.adjustedContentInset.top
+        } else {
+            topInset = textView.contentInset.top
+        }
+        let newY = max(textView.contentOffset.y - delta, -topInset)
+        textView.setContentOffset(CGPoint(x: textView.contentOffset.x, y: newY), animated: true)
     }
     
     func clickWheelDidMoveDown(notification: Notification){
-        
+        guard let textView = textView else { return }
+        let delta: CGFloat = 150
+        let topInset: CGFloat
+        let bottomInset: CGFloat
+        if #available(iOS 11.0, *) {
+            topInset = textView.adjustedContentInset.top
+            bottomInset = textView.adjustedContentInset.bottom
+        } else {
+            topInset = textView.contentInset.top
+            bottomInset = textView.contentInset.bottom
+        }
+        let maxOffsetY = textView.contentSize.height - textView.bounds.height + bottomInset
+        let newY = min(textView.contentOffset.y + delta, max(maxOffsetY, -topInset))
+        textView.setContentOffset(CGPoint(x: textView.contentOffset.x, y: newY), animated: true)
     }
     
     func clickWheelClicked(notification: Notification){
@@ -82,3 +106,4 @@ import UIKit
     */
 
 }
+

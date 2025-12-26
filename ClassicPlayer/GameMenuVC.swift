@@ -1,53 +1,56 @@
 //
-//  SettingsVC.swift
+//  ArtistsMenuVC.swift
 //  ClassicPlayer
 //
-//  Created by Guillermo Moran on 4/12/17.
+//  Created by Guillermo Moran on 4/11/17.
 //  Copyright © 2017 Guillermo Moran. All rights reserved.
 //
 
 import UIKit
+import MediaPlayer
 
-@objcMembers class SettingsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
+@objcMembers class GameMenuVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    @IBOutlet weak var menuTable : UITableView!
-
-    let menuItems = ["Dark Mode", "Sound Effects", "About"]
+    @IBOutlet weak private var menuTable: UITableView!
+    
+    var menuItems : [String] = []
     
     var currentIndexPath = IndexPath(row: 0, section: 0)
     
+    private let NO_ARTISTS = "No Games"
+    
     override func viewWillAppear(_ animated: Bool) {
         startListeningForClickwheelChanges()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         stopListeningForClickwheelChanges()
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadGamesList()
         menuTable.delegate   = self
         menuTable.dataSource = self
         menuTable.separatorColor = .clear
         
-        menuTable.layer.shadowColor = UIColor.black.cgColor
-        menuTable.layer.shadowOffset = CGSize(width: 0, height: 0)
-        menuTable.layer.shadowRadius = 5
-        menuTable.layer.shadowOpacity = 1.0
-        
-        menuTable.clipsToBounds = false
-        menuTable.layer.masksToBounds = false
-        
-        
-        currentIndexPath = IndexPath(row: currentIndexPath.row, section: 0)
-        
-        self.menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: UITableViewScrollPosition.none)
+        menuTable.reloadData()
+        if !menuItems.isEmpty {
+            currentIndexPath = IndexPath(row: min(currentIndexPath.row, menuItems.count - 1), section: 0)
+            self.menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: .none)
+        }
         
         //self.menuTable(self.tableView, didSelectRowAt: indexPath)
         
         // Do any additional setup after loading the view.
     }
     
+    func loadGamesList() {
+        menuItems = ["Bricks", "Stacker", "Bouncy Ball"]
+        
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -57,7 +60,7 @@ import UIKit
     //Clickwheel Api
     
     func stopListeningForClickwheelChanges() {
-        
+
         
         NotificationCenter.default.removeObserver(self, name: Notification.Name("clickWheelDidMoveDown"), object: nil)
         
@@ -77,33 +80,40 @@ import UIKit
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.menuClicked(notification:)), name: Notification.Name("menuClicked"), object: nil)
     }
-    
     func clickWheelDidMoveUp(notification: Notification) {
+        guard !menuItems.isEmpty else { return }
         var nextIndex = currentIndexPath.row - 1
         
-        if (nextIndex < 0) {
+        if nextIndex < 0 {
             nextIndex = 0
         }
         
         currentIndexPath = IndexPath(row: nextIndex, section: 0)
         
         self.menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: UITableViewScrollPosition.none)
+        
+        menuTable.scrollToRow(at: currentIndexPath, at: .middle, animated: true)
     }
     
     func clickWheelDidMoveDown(notification: Notification){
+        guard !menuItems.isEmpty else { return }
         var nextIndex = currentIndexPath.row + 1
         
-        if (nextIndex > menuItems.count - 1) {
-            nextIndex = menuItems.count - 1
+        let maxIndex = max(menuItems.count - 1, 0)
+        if nextIndex > maxIndex {
+            nextIndex = maxIndex
         }
         
         currentIndexPath = IndexPath(row: nextIndex, section: 0)
         
         self.menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: UITableViewScrollPosition.none)
         
+        menuTable.scrollToRow(at: currentIndexPath, at: .middle, animated: true)
     }
     
     func clickWheelClicked(notification: Notification){
+        guard !menuItems.isEmpty else { return }
+        if menuItems.count == 1 && menuItems.first == NO_ARTISTS { return }
         tableView(menuTable, didSelectRowAt: currentIndexPath)
     }
     
@@ -113,83 +123,60 @@ import UIKit
     
     //end clickwheel api
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //tableView.deselectRow(at: indexPath, animated: true)
-        let index = indexPath.row
-        let defaults = UserDefaults.standard
-        
-        if (index == 0) {
-            let newBool = !defaults.bool(forKey: "darkMode")
-            defaults.set(newBool, forKey: "darkMode")
-        }
-        
-        if (index == 1) {
-            let newBool = !defaults.bool(forKey: "soundEffects")
-            defaults.set(newBool, forKey: "soundEffects")
-        }
-        
-        if (index == 2) {
-            
-            let aboutVC = self.storyboard?.instantiateViewController(withIdentifier: "aboutVC")
-                as! AboutVC
-    
-            self.navigationController?.pushViewController(aboutVC, animated: true)
-            
-            
-//            let aboutScreenVC = self.storyboard?.instantiateViewController(withIdentifier: "aboutScreenVC")
-//                as! AboutScreenVC
-//            
-//            aboutScreenVC.modalTransitionStyle = .coverVertical
-//            
-//            self.present(aboutScreenVC, animated: true, completion: nil)
-
-        }
-        
-        // Reload only the affected row to update the toggle state
-        tableView.reloadRows(at: [indexPath], with: .none)
-
-        // Preserve selection highlight without scrolling
-        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
-        
-        NotificationCenter.default.post(name: Notification.Name("settingsUpdated"), object: nil)
-        
+    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        menuTable.cellForRow(at: indexPath)?.accessoryType = .disclosureIndicator
     }
-    /*
-     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-     return 20
-     }
-     */
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if menuItems.count == 1 && menuItems.first == NO_ARTISTS { return }
+        //tableView.deselectRow(at: indexPath, animated: true)
+        
+        let index = indexPath.row
+        
+        let gameVC = self.storyboard?.instantiateViewController(withIdentifier: "gameVC")
+            as! GameVC
+        
+        gameVC.gameName = menuItems[index].lowercased().replacingOccurrences(of: " ", with: "_")
+        
+        // Adjust hold duration per game
+        let selected = gameVC.gameName ?? ""
+        switch selected {
+        case "brick", "bricks":
+            gameVC.HOLD_DURATION = 0.08
+        case "stacker", "bouncy_ball":
+            gameVC.HOLD_DURATION = 0.005
+        default:
+            break
+        }
+        
+        self.show(gameVC, sender: nil)
+        
+        return;
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //let cell  = UITableViewCell(style: .default, reuseIdentifier: "menuCell")
-        let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath) as! SettingsTableCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "menuCell", for: indexPath) as! MenuTableCell
         
         let index = indexPath.row
-        let defaults = UserDefaults.standard
-
-        // Default visibility for reusable cells
-        cell.toggle?.isHidden = false
-
-        var togglePosition = false
-        if (index == 0) {
-            togglePosition = defaults.bool(forKey: "darkMode")
+        
+        cell.cellLabel.text = menuItems[index]
+        cell.cellLabel.highlightedTextColor = UIColor.white
+        
+        if menuItems.count == 1 && menuItems.first == NO_ARTISTS {
+            cell.selectionStyle = .none
+            cell.isUserInteractionEnabled = false
+            cell.cellLabel.textColor = UIColor.gray
+        } else {
+            cell.selectionStyle = .default
+            cell.isUserInteractionEnabled = true
+            cell.cellLabel.textColor = UIColor.black
         }
-        if (index == 1) {
-            togglePosition = defaults.bool(forKey: "soundEffects")
-        }
-        if (index == 2) {
-            cell.toggle?.isHidden = true
-        }
-
-        cell.label?.text = menuItems[index]
-        cell.toggle?.isOn = togglePosition
-
-        cell.label?.highlightedTextColor = UIColor.white
-
+        
         let bgColorView = UIView()
         bgColorView.backgroundColor = UIColor(red: 0.13, green: 0.13, blue: 0.13, alpha: 1.00)
         cell.selectedBackgroundView = bgColorView
-
+        
         return cell
     }
     
@@ -197,7 +184,15 @@ import UIKit
         return menuItems.count
     }
     
-        
-        //menuItems = MPMediaQuery.songs().items!
+    /*
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
 

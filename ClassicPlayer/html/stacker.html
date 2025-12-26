@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Stacker</title>
+
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .game-wrapper {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: #000;
+  }
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    display: none;
+    background: rgba(0,0,0,.85);
+    color: #fff;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: system-ui,-apple-system,sans-serif;
+  }
+
+  .overlay h1 {
+    font-size: 34px;
+    margin-bottom: 6px;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="game-wrapper">
+  <canvas id="game"></canvas>
+
+  <div id="overlay" class="overlay">
+    <div>
+      <h1 id="overlayTitle">Block Stacker</h1>
+      <p>Score: <span id="finalScore">0</span></p>
+      <p>Press Center Button to Start</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+const overlay = document.getElementById("overlay");
+const overlayTitle = document.getElementById("overlayTitle");
+const finalScoreEl = document.getElementById("finalScore");
+
+// Fixed logical board size
+const COLS = 15;
+const ROWS = 13;
+
+let board = [];
+let currentPiece = null;
+
+let score = 0;
+let isRunning = false;
+let isGameOver = false;
+
+const NORMAL_DROP = 500;
+const FAST_DROP = 80;
+let dropInterval = NORMAL_DROP;
+let nextDrop = 0;
+
+let blockSize = 0;
+let offsetX = 0;
+let offsetY = 0;
+
+// Resize: make board as big as possible, but NEVER cut off
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  // blocks are square; board must fit in both width and height
+  blockSize = Math.floor(
+    Math.min(canvas.width / COLS, canvas.height / ROWS)
+  );
+
+  const boardWidth = blockSize * COLS;
+  const boardHeight = blockSize * ROWS;
+
+  // center board
+  offsetX = Math.floor((canvas.width - boardWidth) / 2) - 5;
+  offsetY = Math.floor((canvas.height - boardHeight) / 2) - 5;
+}
+
+function createEmptyBoard() {
+  board = Array.from({ length: ROWS }, () => Array(COLS).fill(null));
+}
+
+const COLORS = {
+  I:"#00bcd4",
+  J:"#3f51b5",
+  L:"#ff9800",
+  O:"#ffeb3b",
+  S:"#4caf50",
+  T:"#9c27b0",
+  Z:"#f44336"
+};
+
+const SHAPES = {
+  I:[[[0,1],[1,1],[2,1],[3,1]],
+     [[2,0],[2,1],[2,2],[2,3]],
+     [[0,2],[1,2],[2,2],[3,2]],
+     [[1,0],[1,1],[1,2],[1,3]]],
+
+  J:[[[0,0],[0,1],[1,1],[2,1]],
+     [[1,0],[2,0],[1,1],[1,2]],
+     [[0,1],[1,1],[2,1],[2,2]],
+     [[1,0],[1,1],[0,2],[1,2]]],
+
+  L:[[[2,0],[0,1],[1,1],[2,1]],
+     [[1,0],[1,1],[1,2],[2,2]],
+     [[0,1],[1,1],[2,1],[0,2]],
+     [[0,0],[1,0],[1,1],[1,2]]],
+
+  O:[[[1,0],[2,0],[1,1],[2,1]]],
+
+  S:[[[1,0],[2,0],[0,1],[1,1]],
+     [[1,0],[1,1],[2,1],[2,2]],
+     [[1,1],[2,1],[0,2],[1,2]],
+     [[0,0],[0,1],[1,1],[1,2]]],
+
+  T:[[[1,0],[0,1],[1,1],[2,1]],
+     [[1,0],[1,1],[2,1],[1,2]],
+     [[0,1],[1,1],[2,1],[1,2]],
+     [[1,0],[0,1],[1,1],[1,2]]],
+
+  Z:[[[0,0],[1,0],[1,1],[2,1]],
+     [[2,0],[1,1],[2,1],[1,2]],
+     [[0,1],[1,1],[1,2],[2,2]],
+     [[1,0],[0,1],[1,1],[0,2]]],
+};
+
+function spawn() {
+  const keys = Object.keys(SHAPES);
+  const type = keys[(Math.random() * keys.length) | 0];
+
+  currentPiece = {
+    type,
+    rotation: 0,
+    x: 3,
+    y: 0
+  };
+
+  if (collides(0, 0, currentPiece.rotation)) {
+    endGame();
+  }
+}
+
+function collides(dx, dy, rot) {
+  for (const [x, y] of SHAPES[currentPiece.type][rot]) {
+    const nx = currentPiece.x + x + dx;
+    const ny = currentPiece.y + y + dy;
+    if (nx < 0 || nx >= COLS || ny >= ROWS) return true;
+    if (ny >= 0 && board[ny][nx]) return true;
+  }
+  return false;
+}
+
+function merge() {
+  for (const [x, y] of SHAPES[currentPiece.type][currentPiece.rotation]) {
+    const nx = currentPiece.x + x;
+    const ny = currentPiece.y + y;
+    if (ny >= 0 && ny < ROWS && nx >= 0 && nx < COLS) {
+      board[ny][nx] = currentPiece.type;
+    }
+  }
+}
+
+function clearLines() {
+  let cleared = 0;
+  for (let r = ROWS - 1; r >= 0; r--) {
+    if (board[r].every(v => v)) {
+      board.splice(r, 1);
+      board.unshift(Array(COLS).fill(null));
+      cleared++;
+      r++;
+    }
+  }
+  if (cleared) {
+    score += [0, 40, 100, 300, 1200][cleared];
+  }
+}
+
+function move(dx, dy) {
+  if (!collides(dx, dy, currentPiece.rotation)) {
+    currentPiece.x += dx;
+    currentPiece.y += dy;
+  } else if (dy === 1) {
+    // hit something while falling down: lock piece
+    merge();
+    clearLines();
+    spawn();
+  }
+}
+
+function rotatePiece() {
+  const next = (currentPiece.rotation + 1) % SHAPES[currentPiece.type].length;
+  if (!collides(0, 0, next)) {
+    currentPiece.rotation = next;
+  }
+}
+
+function drawBlock(x, y, color) {
+  const px = offsetX + x * blockSize;
+  const py = offsetY + y * blockSize;
+  ctx.fillStyle = color;
+  ctx.fillRect(px, py, blockSize, blockSize);
+  ctx.strokeStyle = "#111";
+  ctx.strokeRect(px + 0.5, py + 0.5, blockSize - 1, blockSize - 1);
+}
+
+function draw() {
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // board background
+  ctx.fillStyle = "#111";
+  ctx.fillRect(
+    offsetX,
+    offsetY,
+    COLS * blockSize,
+    ROWS * blockSize
+  );
+
+  // locked blocks
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      if (board[r][c]) {
+        drawBlock(c, r, COLORS[board[r][c]]);
+      } else {
+        // faint grid (optional)
+        ctx.strokeStyle = "#222";
+        ctx.lineWidth = 0.5;
+        const gx = offsetX + c * blockSize;
+        const gy = offsetY + r * blockSize;
+        ctx.strokeRect(gx, gy, blockSize, blockSize);
+      }
+    }
+  }
+
+  // current piece
+  if (currentPiece) {
+    for (const [x, y] of SHAPES[currentPiece.type][currentPiece.rotation]) {
+      const nx = currentPiece.x + x;
+      const ny = currentPiece.y + y;
+      if (ny >= 0) drawBlock(nx, ny, COLORS[currentPiece.type]);
+    }
+  }
+
+  // score
+  ctx.fillStyle = "#fff";
+  ctx.font = "16px system-ui";
+  ctx.textAlign = "left";
+  ctx.fillText("Score: " + score, 12, 24);
+}
+
+function gameLoop(timestamp) {
+  if (!isRunning) return;
+
+  if (!nextDrop) {
+    nextDrop = timestamp + dropInterval;
+  }
+
+  if (timestamp >= nextDrop) {
+    move(0, 1);
+    nextDrop = timestamp + dropInterval;
+  }
+
+  draw();
+  requestAnimationFrame(gameLoop);
+}
+
+function startGame() {
+  overlay.style.display = "none";
+  isRunning = true;
+  isGameOver = false;
+  nextDrop = 0;
+  requestAnimationFrame(gameLoop);
+}
+
+function resetGame() {
+  score = 0;
+  createEmptyBoard();
+  spawn();
+}
+
+function endGame() {
+  isRunning = false;
+  isGameOver = true;
+  overlayTitle.textContent = "YOU LOST!";
+  finalScoreEl.textContent = score.toString();
+  overlay.style.display = "flex";
+}
+
+// Keyboard controls
+window.addEventListener("keydown", (e) => {
+  if (!isRunning) {
+    if (e.key === " ") {
+      if (isGameOver) resetGame();
+      startGame();
+    }
+    return;
+  }
+
+  switch (e.key) {
+    case "ArrowLeft":
+      move(-1, 0);
+      break;
+    case "ArrowRight":
+      move(1, 0);
+      break;
+    case "ArrowUp":
+    case "ArrowDown":
+      rotatePiece();
+      break;
+    case " ":
+      // faster drop while held
+      dropInterval = FAST_DROP;
+      break;
+  }
+});
+
+window.addEventListener("keyup", (e) => {
+  if (e.key === " ") {
+    dropInterval = NORMAL_DROP;
+  }
+});
+
+// Init
+resize();
+createEmptyBoard();
+spawn();
+draw();
+
+overlay.style.display = "flex";
+window.addEventListener("resize", () => {
+  resize();
+  draw();
+});
+</script>
+
+</body>
+</html>

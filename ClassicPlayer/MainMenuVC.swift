@@ -23,7 +23,7 @@ let mainMenuVC : MainMenuVC = MainMenuVC()
     
     
     var menuItems: [String] {
-        var items = ["Music", "Settings", "Shuffle Songs"]
+        var items = ["Music", "Games", "Settings", "Shuffle Songs"]
         let player = MPMusicPlayerController.systemMusicPlayer
         if player.nowPlayingItem != nil {
             items.append("Now Playing")
@@ -187,8 +187,10 @@ let mainMenuVC : MainMenuVC = MainMenuVC()
             performSegue(withIdentifier: "showMusicMenu", sender: nil)
         case "Settings":
             performSegue(withIdentifier: "showSettingsMenu", sender: nil)
+        case "Games":
+            performSegue(withIdentifier: "showGamesMenu", sender: nil)
         case "Shuffle Songs":
-            var songQueue: [MPMediaItem] = mediaItems.shuffled()
+            let songQueue: [MPMediaItem] = mediaItems.shuffled()
             let mediaCollection = MPMediaItemCollection(items: songQueue)
             let player = MPMusicPlayerController.systemMusicPlayer
             player.setQueue(with: mediaCollection)
