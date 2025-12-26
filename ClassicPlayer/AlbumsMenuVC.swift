@@ -17,6 +17,8 @@ import MediaPlayer
     var artistsArray : [String] = []
     var artworkArray : [UIImage] = []
     
+    private let NO_ALBUMS = "No Albums"
+    
     var currentIndexPath = IndexPath(row: 0, section: 0)
     
     override func viewWillAppear(_ animated: Bool) {
@@ -36,9 +38,11 @@ import MediaPlayer
         menuTable.dataSource = self
         menuTable.separatorColor = .clear
         
-        currentIndexPath = IndexPath(row: currentIndexPath.row, section: 0)
-        
-        self.menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: UITableViewScrollPosition.none)
+        menuTable.reloadData()
+        if !albumsArray.isEmpty {
+            currentIndexPath = IndexPath(row: min(currentIndexPath.row, albumsArray.count - 1), section: 0)
+            self.menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: .none)
+        }
         
         //self.menuTable(self.tableView, didSelectRowAt: indexPath)
         
@@ -46,67 +50,24 @@ import MediaPlayer
     }
     
     func loadAlbums() {
-        
-        //MPMediaLibrary.requestAuthorization { (status) in
-        //if status == .authorized {
-        //self.runMediaLibraryQuery()
-        
-        
         let query = MPMediaQuery.albums()
-        let albums = query.collections
-        
-        for (_, item) in albums!.enumerated() {
-            let album = item.representativeItem
-            let albumName = album?.albumTitle
-            let artistName = album?.albumArtist
-            
-            let artwork = album?.artwork?.image(at: CGSize(width: 70, height: 70))
-            self.albumsArray.append(albumName!)
-            
-            if (artistName == nil || artistName == "") {
-                self.artistsArray.append("Unknown Artist")
+        if let albums = query.collections, albums.isEmpty == false {
+            for item in albums {
+                let album = item.representativeItem
+                let albumName = album?.albumTitle ?? NO_ALBUMS
+                let artistName = (album?.albumArtist?.isEmpty == false) ? album!.albumArtist! : "Unknown Artist"
+                let artwork = album?.artwork?.image(at: CGSize(width: 70, height: 70)) ?? #imageLiteral(resourceName: "no_art")
+
+                albumsArray.append(albumName)
+                artistsArray.append(artistName)
+                artworkArray.append(artwork)
             }
-            else {
-                self.artistsArray.append(artistName!)
-            }
-            
-            if (artwork != nil) {
-                self.artworkArray.append(artwork!)
-            }
-            else {
-                self.artworkArray.append(#imageLiteral(resourceName: "no_art"))
-            }
+        } else {
+            // No albums available
+            albumsArray = [NO_ALBUMS]
+            artistsArray = [""]
+            artworkArray = [#imageLiteral(resourceName: "no_art")]
         }
-        
-        
-        /*
-         MPMediaQuery *query=[MPMediaQuery artistsQuery];
-         NSArray *artists=[query collections];
-         artistNames=[[NSMutableArray alloc]init];
-         for(MPMediaItemCollection *collection in artists)
-         {
-         MPMediaItem *item=[collection representativeItem];
-         [artistNames addObject:[item valueForProperty:MPMediaItemPropertyArtist]];
-         }
-         uniqueNames=[[NSMutableArray alloc]init];
-         for(id object in artistNames)
-         {
-         if(![uniqueNames containsObject:object])
-         {
-         [uniqueNames addObject:object];
-         }
-         }
-         */
-        
-        // }
-        //else {
-        
-        //}
-        
-        
-        
-        
-        //menuItems = MPMediaQuery.songs().items!
     }
     
     override func didReceiveMemoryWarning() {
@@ -138,34 +99,27 @@ import MediaPlayer
         NotificationCenter.default.addObserver(self, selector: #selector(self.menuClicked(notification:)), name: Notification.Name("menuClicked"), object: nil)
     }
     func clickWheelDidMoveUp(notification: Notification) {
+        guard !albumsArray.isEmpty else { return }
         var nextIndex = currentIndexPath.row - 1
-        
-        if (nextIndex < 0) {
-            nextIndex = 0
-        }
-        
+        if nextIndex < 0 { nextIndex = 0 }
         currentIndexPath = IndexPath(row: nextIndex, section: 0)
-        
-        self.menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: UITableViewScrollPosition.none)
-        
+        self.menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: .none)
         menuTable.scrollToRow(at: currentIndexPath, at: .middle, animated: true)
     }
     
     func clickWheelDidMoveDown(notification: Notification){
+        guard !albumsArray.isEmpty else { return }
         var nextIndex = currentIndexPath.row + 1
-        
-        if (nextIndex > albumsArray.count - 1) {
-            nextIndex = albumsArray.count - 1
-        }
-        
+        let maxIndex = max(albumsArray.count - 1, 0)
+        if nextIndex > maxIndex { nextIndex = maxIndex }
         currentIndexPath = IndexPath(row: nextIndex, section: 0)
-        
-        self.menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: UITableViewScrollPosition.none)
-        
+        self.menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: .none)
         menuTable.scrollToRow(at: currentIndexPath, at: .middle, animated: true)
     }
     
     func clickWheelClicked(notification: Notification){
+        guard !albumsArray.isEmpty else { return }
+        if albumsArray.count == 1 && albumsArray.first == NO_ALBUMS { return }
         tableView(menuTable, didSelectRowAt: currentIndexPath)
     }
     
@@ -181,6 +135,7 @@ import MediaPlayer
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if albumsArray.count == 1 && albumsArray.first == NO_ALBUMS { return }
         //tableView.deselectRow(at: indexPath, animated: true)
         
         let index = indexPath.row
@@ -202,6 +157,18 @@ import MediaPlayer
         let index = indexPath.row
         
         cell.cellTitleLabel.text = albumsArray[index]
+        
+        if albumsArray.count == 1 && albumsArray.first == NO_ALBUMS {
+            cell.selectionStyle = .none
+            cell.isUserInteractionEnabled = false
+            cell.cellTitleLabel.textColor = UIColor.gray
+            cell.cellSubtitleLabel.text = ""
+        } else {
+            cell.selectionStyle = .default
+            cell.isUserInteractionEnabled = true
+            cell.cellTitleLabel.textColor = UIColor.black
+        }
+        
         cell.cellSubtitleLabel.text = artistsArray[index]
         cell.cellImageView.image = artworkArray[index]
         

@@ -22,12 +22,26 @@ let mainMenuVC : MainMenuVC = MainMenuVC()
     @IBOutlet weak private var artworkPreview: UIImageView!
     
     
-    let menuItems = ["Music", "Settings", "Shuffle Songs", "Now Playing"]
+    var menuItems: [String] {
+        var items = ["Music", "Settings", "Shuffle Songs"]
+        let player = MPMusicPlayerController.systemMusicPlayer
+        if player.nowPlayingItem != nil {
+            items.append("Now Playing")
+        }
+        return items
+    }
 
     var currentIndexPath = IndexPath(row: 0, section: 0)
     
     override func viewWillAppear(_ animated: Bool) {
         startListeningForClickwheelChanges()
+        menuTable.reloadData()
+        if currentIndexPath.row >= menuItems.count {
+            currentIndexPath = IndexPath(row: max(menuItems.count - 1, 0), section: 0)
+        }
+        if menuItems.isEmpty == false {
+            menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: .none)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -143,27 +157,17 @@ let mainMenuVC : MainMenuVC = MainMenuVC()
     
     func clickWheelDidMoveUp(notification: Notification) {
         var nextIndex = currentIndexPath.row - 1
-        
-        if (nextIndex < 0) {
-            nextIndex = 0
-        }
-        
+        if nextIndex < 0 { nextIndex = 0 }
         currentIndexPath = IndexPath(row: nextIndex, section: 0)
-        
-        self.menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: UITableViewScrollPosition.none)
+        menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: .none)
     }
     
     func clickWheelDidMoveDown(notification: Notification){
         var nextIndex = currentIndexPath.row + 1
-        
-        if (nextIndex > menuItems.count - 1) {
-            nextIndex = menuItems.count - 1
-        }
-        
+        let maxIndex = max(menuItems.count - 1, 0)
+        if nextIndex > maxIndex { nextIndex = maxIndex }
         currentIndexPath = IndexPath(row: nextIndex, section: 0)
-        
-        self.menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: UITableViewScrollPosition.none)
-        
+        menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: .none)
     }
     
     func clickWheelClicked(notification: Notification){
@@ -177,64 +181,30 @@ let mainMenuVC : MainMenuVC = MainMenuVC()
     //end clickwheel api
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //tableView.deselectRow(at: indexPath, animated: true)
-        let index = indexPath.row
-        
-        if (index == 0) { //Music Menu
+        let title = menuItems[indexPath.row]
+        switch title {
+        case "Music":
             performSegue(withIdentifier: "showMusicMenu", sender: nil)
-        }
-        
-        if (index == 1) { //Settings Menu
-            
+        case "Settings":
             performSegue(withIdentifier: "showSettingsMenu", sender: nil)
- 
-            
-            /*
-            let settingsViewController = self.storyboard?.instantiateViewController(withIdentifier: "settingsScreenVC")
-                as! SettingsScreenViewController
-            
-            settingsViewController.modalTransitionStyle = .flipHorizontal
-            
-            self.present(settingsViewController, animated: true, completion: nil)
-            */
-        }
-        
-        if (index == 2) { //Shuffle
-         
-            var songQueue : [MPMediaItem] = []
-            
-            songQueue = mediaItems.shuffled() 
-            
+        case "Shuffle Songs":
+            var songQueue: [MPMediaItem] = mediaItems.shuffled()
             let mediaCollection = MPMediaItemCollection(items: songQueue)
-            
             let player = MPMusicPlayerController.systemMusicPlayer
             player.setQueue(with: mediaCollection)
-            
             player.play()
-            
-            let nowPlayingVC = self.storyboard?.instantiateViewController(withIdentifier: "nowPlayingVC")
-                as! NowPlayingVC
-            
-            
-            self.navigationController?.pushViewController(nowPlayingVC, animated: true)
-            
-        }
-        
-        if (index == 3) { //Now Playing
-            let nowPlayingVC = self.storyboard?.instantiateViewController(withIdentifier: "nowPlayingVC")
-                as! NowPlayingVC
-            
-            let player = MPMusicPlayerController.systemMusicPlayer
-            
-            if (player.nowPlayingItem != nil) {
-                self.navigationController?.pushViewController(nowPlayingVC, animated: true)
-
+            if let nowPlayingVC = storyboard?.instantiateViewController(withIdentifier: "nowPlayingVC") as? NowPlayingVC {
+                navigationController?.pushViewController(nowPlayingVC, animated: true)
             }
-            
-            
+        case "Now Playing":
+            let player = MPMusicPlayerController.systemMusicPlayer
+            if player.nowPlayingItem != nil,
+               let nowPlayingVC = storyboard?.instantiateViewController(withIdentifier: "nowPlayingVC") as? NowPlayingVC {
+                navigationController?.pushViewController(nowPlayingVC, animated: true)
+            }
+        default:
+            break
         }
-        
-        return;
     }
     /*
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
