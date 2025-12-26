@@ -172,6 +172,7 @@ import MediaPlayer
         
         // Keep the progress bar transform
         songProgressBar.transform = songProgressBar.transform.scaledBy(x: 1, y: 4)
+        songProgressBar.progressTintColor = .black;
         
         // Do any additional setup after loading the view.
     }

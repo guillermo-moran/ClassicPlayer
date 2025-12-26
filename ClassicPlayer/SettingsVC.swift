@@ -28,7 +28,7 @@ import UIKit
         super.viewDidLoad()
         menuTable.delegate   = self
         menuTable.dataSource = self
-        menuTable.separatorColor = UIColor.white
+        menuTable.separatorColor = .clear
         
         menuTable.layer.shadowColor = UIColor.black.cgColor
         menuTable.layer.shadowOffset = CGSize(width: 0, height: 0)
@@ -187,7 +187,7 @@ import UIKit
         cell.label?.highlightedTextColor = UIColor.white
 
         let bgColorView = UIView()
-        bgColorView.backgroundColor = UIColor(red:0.29, green:0.51, blue:0.86, alpha:1.0)
+        bgColorView.backgroundColor = UIColor(red: 0.13, green: 0.13, blue: 0.13, alpha: 1.00)
         cell.selectedBackgroundView = bgColorView
 
         return cell

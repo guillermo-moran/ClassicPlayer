@@ -21,6 +21,10 @@ import AudioToolbox
     @IBInspectable var wheelColor: UIColor = UIColor.lightGray
     @IBInspectable var buttonColor: UIColor = UIColor.darkGray
 
+    // Optional border colors (default to none/transparent)
+    @IBInspectable var wheelBorderColor: UIColor = UIColor.clear
+    @IBInspectable var buttonBorderColor: UIColor = UIColor.clear
+
     // Switch feedback sound on/off. False is the default for debugging only
     @IBInspectable var feedbackSound: Bool = false
 
@@ -145,6 +149,27 @@ import AudioToolbox
         wheelColor.setStroke()
         path.stroke()
 
+        // Optional border for outer wheel
+        if wheelBorderColor != UIColor.clear {
+            let borderPath = UIBezierPath(arcCenter: center,
+                                          radius: (radius) - 2, // stroke along the outside edge
+                                          startAngle: startAngle,
+                                          endAngle: endAngle,
+                                          clockwise: true)
+            borderPath.lineWidth = 4.0
+            wheelBorderColor.setStroke()
+            borderPath.stroke()
+
+//            let innerBorderPath = UIBezierPath(arcCenter: center,
+//                                               radius: (radius - arcWidth/2), // stroke along the inside edge
+//                                               startAngle: startAngle,
+//                                               endAngle: endAngle,
+//                                               clockwise: true)
+//            innerBorderPath.lineWidth = 1.0
+//            wheelBorderColor.setStroke()
+//            innerBorderPath.stroke()
+        }
+
         // draw innner circle
 
         // calculate radius for inner circle
@@ -164,6 +189,18 @@ import AudioToolbox
         // set color for inner circle and fill path
         buttonColor.setFill()
         path.fill()
+
+        // Optional border for center button
+        if buttonBorderColor != UIColor.clear {
+            let innerCircleBorder = UIBezierPath(arcCenter: center,
+                                                 radius: radius,
+                                                 startAngle: startAngle,
+                                                 endAngle: endAngle,
+                                                 clockwise: true)
+            innerCircleBorder.lineWidth = 3.0
+            buttonBorderColor.setStroke()
+            innerCircleBorder.stroke()
+        }
     }
 
     override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {

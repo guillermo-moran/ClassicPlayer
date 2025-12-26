@@ -48,6 +48,39 @@ let mainMenuVC : MainMenuVC = MainMenuVC()
         menuTable.clipsToBounds = false
         menuTable.layer.masksToBounds = false
         
+        // Apply Liquid Glass effect to the menuTable only
+        // Create a glass background behind the table
+//        if #available(iOS 26.0, *) {
+//            let glassEffect = UIGlassEffect(style: .clear)
+//            glassEffect.tintColor = UIColor(red: 0.96, green: 0.96, blue: 0.96, alpha: 0.25)
+//            let glassView = UIVisualEffectView(effect: glassEffect)
+//            glassView.frame = menuTable.bounds
+//            glassView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//            menuTable.backgroundView = glassView
+//        } else {
+//            // Fallback for earlier iOS versions
+//            let blurEffect: UIBlurEffect
+//            if #available(iOS 13.0, *) {
+//                blurEffect = UIBlurEffect(style: .systemThinMaterial)
+//            } else {
+//                // Use a broadly supported blur style on iOS 10-12
+//                blurEffect = UIBlurEffect(style: .light)
+//            }
+//            let blurView = UIVisualEffectView(effect: blurEffect)
+//            blurView.frame = menuTable.bounds
+//            blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//            menuTable.backgroundView = blurView
+//        }
+        
+        menuTable.backgroundColor = .white // change to clear if using blur views
+        menuTable.separatorColor = .clear
+        menuTable.separatorEffect = nil
+        
+        // Ensure any headers/footers or default backgrounds are transparent
+        menuTable.backgroundColor = .white // change to clear if using blur views
+        menuTable.tableHeaderView?.backgroundColor = .clear
+        menuTable.tableFooterView = UIView(frame: .zero)
+        menuTable.tableFooterView?.backgroundColor = .clear
         
         currentIndexPath = IndexPath(row: currentIndexPath.row, section: 0)
         
@@ -89,8 +122,6 @@ let mainMenuVC : MainMenuVC = MainMenuVC()
     //Clickwheel Api
     
     func stopListeningForClickwheelChanges() {
-        
-        
         NotificationCenter.default.removeObserver(self, name: Notification.Name("clickWheelDidMoveDown"), object: nil)
         
         NotificationCenter.default.removeObserver(self, name: Notification.Name("clickWheelDidMoveUp"), object: nil)
@@ -220,8 +251,13 @@ let mainMenuVC : MainMenuVC = MainMenuVC()
         cell.cellLabel.text = menuItems[index]
         cell.cellLabel.highlightedTextColor = UIColor.white
         
+        // Make the cell background transparent so the blur/glass shows through
+        cell.backgroundColor = .clear
+        cell.contentView.backgroundColor = .clear
+        cell.isOpaque = false
+        
         let bgColorView = UIView()
-        bgColorView.backgroundColor = UIColor(red:0.29, green:0.51, blue:0.86, alpha:1.0)
+        bgColorView.backgroundColor = UIColor(red: 0.13, green: 0.13, blue: 0.13, alpha: 1.00)
         cell.selectedBackgroundView = bgColorView
         
         return cell
@@ -287,3 +323,4 @@ let mainMenuVC : MainMenuVC = MainMenuVC()
     */
 
 }
+

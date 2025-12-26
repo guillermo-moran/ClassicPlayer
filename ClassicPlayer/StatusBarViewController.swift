@@ -18,6 +18,15 @@ import UIKit
     override func viewDidLoad() {
         super.viewDidLoad()
         UIDevice.current.isBatteryMonitoringEnabled = true
+        self.view.backgroundColor = .black;
+        timeLabel.textColor = .white;
+        
+//        if let image = batteryImage.image(for: .normal) {
+//            batteryImage.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
+//        }
+        batteryImage.tintColor = .white
+        
+        
         updateTime()
         print("Current Battery Level: \(batteryLevel())")
         //print(batteryState())
@@ -81,27 +90,31 @@ import UIKit
         let batteryState = self.batteryState()
         
         if (batteryState == .charging) {
-            self.batteryImage.image = #imageLiteral(resourceName: "battery_charging")
+            let img = #imageLiteral(resourceName: "battery_charging").withRenderingMode(.alwaysTemplate)
+            self.batteryImage.image = img
             return
-            
         }
         
         if (batteryLevel >= 70.0) {
-            self.batteryImage.image = #imageLiteral(resourceName: "battery_3")
+            let img = #imageLiteral(resourceName: "battery_3").withRenderingMode(.alwaysTemplate)
+            self.batteryImage.image = img
             
         }
         
         else if (batteryLevel >= 40.0 && batteryLevel < 70.0) {
-            self.batteryImage.image = #imageLiteral(resourceName: "battery_2")
+            let img = #imageLiteral(resourceName: "battery_2").withRenderingMode(.alwaysTemplate)
+            self.batteryImage.image = img
             
         }
         
         else if (batteryLevel >= 20 && batteryLevel < 40) {
-            self.batteryImage.image = #imageLiteral(resourceName: "battery_1")
+            let img = #imageLiteral(resourceName: "battery_1").withRenderingMode(.alwaysTemplate)
+            self.batteryImage.image = img
             
         }
         else {
-            self.batteryImage.image = #imageLiteral(resourceName: "battery_0")
+            let img = #imageLiteral(resourceName: "battery_0").withRenderingMode(.alwaysTemplate)
+            self.batteryImage.image = img
             
         }
         
@@ -118,3 +131,4 @@ import UIKit
     */
 
 }
+
