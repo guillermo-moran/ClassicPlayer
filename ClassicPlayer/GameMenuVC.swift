@@ -48,7 +48,7 @@ import MediaPlayer
     }
     
     func loadGamesList() {
-        menuItems = ["Bricks", "Stacker", "Bouncy Ball"]
+        menuItems = ["Bricks", "Stacker", "Bouncy Ball", "Four in a Row"]
         
     }
     
