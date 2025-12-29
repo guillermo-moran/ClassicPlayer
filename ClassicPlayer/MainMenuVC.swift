@@ -23,7 +23,7 @@ let mainMenuVC : MainMenuVC = MainMenuVC()
     
     
     var menuItems: [String] {
-        var items = ["Music", "Games", "Settings", "Shuffle Songs"]
+        var items = ["Music", "Games", "Stopwatch", "Settings", "Shuffle Songs"]
         let player = MPMusicPlayerController.systemMusicPlayer
         if player.nowPlayingItem != nil {
             items.append("Now Playing")
@@ -160,6 +160,7 @@ let mainMenuVC : MainMenuVC = MainMenuVC()
         if nextIndex < 0 { nextIndex = 0 }
         currentIndexPath = IndexPath(row: nextIndex, section: 0)
         menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: .none)
+        menuTable.scrollToRow(at: currentIndexPath, at: .middle, animated: true)
     }
     
     func clickWheelDidMoveDown(notification: Notification){
@@ -168,6 +169,7 @@ let mainMenuVC : MainMenuVC = MainMenuVC()
         if nextIndex > maxIndex { nextIndex = maxIndex }
         currentIndexPath = IndexPath(row: nextIndex, section: 0)
         menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: .none)
+        menuTable.scrollToRow(at: currentIndexPath, at: .middle, animated: true)
     }
     
     func clickWheelClicked(notification: Notification){
@@ -189,6 +191,14 @@ let mainMenuVC : MainMenuVC = MainMenuVC()
             performSegue(withIdentifier: "showSettingsMenu", sender: nil)
         case "Games":
             performSegue(withIdentifier: "showGamesMenu", sender: nil)
+        case "Stopwatch":
+            let gameVC = self.storyboard?.instantiateViewController(withIdentifier: "gameVC")
+                as! GameVC
+            
+            gameVC.gameName = "stop_watch"
+            gameVC.HOLD_DURATION = 0.01
+            self.show(gameVC, sender: nil)
+            
         case "Shuffle Songs":
             let songQueue: [MPMediaItem] = mediaItems.shuffled()
             let mediaCollection = MPMediaItemCollection(items: songQueue)

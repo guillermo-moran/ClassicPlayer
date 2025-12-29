@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Mini Golf</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #004b23;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #fff;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .hud {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 20px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.3);
+      font-size: 12px;
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="game"></canvas>
+  <div class="hud" id="hud"></div>
+
+  <script>
+    const canvas = document.getElementById('game');
+    const ctx = canvas.getContext('2d');
+    const hud = document.getElementById('hud');
+
+    // Game state
+    let ball;
+    let hole;
+    let aiming = true;
+    let angle = 0;        // radians
+    let power = 8;
+    const maxPower = 20;
+    const minPower = 1;
+    let strokes = 0;
+    let inHole = false;
+
+    // Course walls & obstacles
+    let courseBounds = null; // { left, right, top, bottom }
+    // obstacles: { x, y, w, h, type: 'wall' | 'bunker' }
+    let obstacles = [];
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      resetHole(false); // regenerate layout but keep score
+    }
+
+    function randomBetween(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function resetHole(resetScore = true) {
+      const w = canvas.width;
+      const h = canvas.height;
+      if (!w || !h) return;
+
+      // --- Course walls (inner rectangle) ---
+      const minSide = Math.min(w, h);
+      // Base margin scales with size, but stays reasonable for tiny viewports
+      const baseMargin = Math.max(20, Math.min(minSide * 0.08, 60));
+      const jitter = Math.max(5, Math.min(minSide * 0.04, 30));
+
+      let left = baseMargin + randomBetween(0, jitter);
+      let right = w - (baseMargin + randomBetween(0, jitter));
+      let top = baseMargin + randomBetween(0, jitter);
+      let bottom = h - (baseMargin + randomBetween(0, jitter));
+
+      const minCourseWidth = 200;
+      const minCourseHeight = 140;
+      if (right - left < minCourseWidth || bottom - top < minCourseHeight) {
+        // Fallback for very small screens
+        left = 20;
+        right = w - 20;
+        top = 20;
+        bottom = h - 20;
+      }
+
+      courseBounds = { left, right, top, bottom };
+      const bounds = courseBounds;
+
+      // --- Ball & hole placement ---
+      const ballRadius = Math.max(5, Math.min(w, h) * 0.015);
+
+      // Ball near left side of course
+      ball = {
+        x: bounds.left + (bounds.right - bounds.left) * 0.15,
+        y: randomBetween(bounds.top + 40, bounds.bottom - 40),
+        vx: 0,
+        vy: 0,
+        r: ballRadius
+      };
+
+      // Hole somewhere inside the course, far enough from ball
+      let holeX, holeY;
+      const minDistanceFromBall = Math.min(bounds.right - bounds.left, bounds.bottom - bounds.top) * 0.4;
+
+      for (let i = 0; i < 50; i++) {
+        holeX = randomBetween(bounds.left + 40, bounds.right - 40);
+        holeY = randomBetween(bounds.top + 40, bounds.bottom - 40);
+
+        const dx = holeX - ball.x;
+        const dy = holeY - ball.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist > minDistanceFromBall) break;
+      }
+
+      hole = {
+        x: holeX,
+        y: holeY,
+        r: ballRadius * 1.8
+      };
+
+      // --- Obstacles: walls + bunkers ---
+      obstacles = [];
+      const courseWidth = bounds.right - bounds.left;
+      const courseHeight = bounds.bottom - bounds.top;
+
+      // Smaller obstacles on tiny screens
+      const sizeScale = Math.max(0.5, Math.min(courseWidth / 600, 1.0));
+
+      const targetWalls = 2;
+      const targetBunkers = 2;
+      const targetTotal = targetWalls + targetBunkers;
+      let placedWalls = 0;
+      let placedBunkers = 0;
+
+      let attempts = 0;
+      while (obstacles.length < targetTotal && attempts < 200) {
+        attempts++;
+
+        const isBunker =
+          placedBunkers < targetBunkers &&
+          (placedWalls >= targetWalls || Math.random() < 0.5);
+
+        const maxWidth = courseWidth * 0.3 * sizeScale;
+        const maxHeight = courseHeight * 0.3 * sizeScale;
+        const minWidth = 40 * sizeScale;
+        const minHeight = 30 * sizeScale;
+
+        const ow = randomBetween(minWidth, maxWidth);
+        const oh = randomBetween(minHeight, maxHeight);
+
+        const ox = randomBetween(bounds.left + 30, bounds.right - 30 - ow);
+        const oy = randomBetween(bounds.top + 30, bounds.bottom - 30 - oh);
+
+        const centerX = ox + ow / 2;
+        const centerY = oy + oh / 2;
+
+        const distToBall = Math.hypot(centerX - ball.x, centerY - ball.y);
+        const distToHole = Math.hypot(centerX - hole.x, centerY - hole.y);
+
+        const minDist = Math.min(courseWidth, courseHeight) * 0.25;
+
+        // Don't overlap ball/hole too much or block spawn/hole completely
+        if (distToBall < minDist || distToHole < minDist) continue;
+
+        // Don't overlap the hole circle
+        const overlapsHole =
+          hole.x + hole.r > ox &&
+          hole.x - hole.r < ox + ow &&
+          hole.y + hole.r > oy &&
+          hole.y - hole.r < oy + oh;
+        if (overlapsHole) continue;
+
+        obstacles.push({
+          x: ox,
+          y: oy,
+          w: ow,
+          h: oh,
+          type: isBunker ? 'bunker' : 'wall'
+        });
+
+        if (isBunker) placedBunkers++;
+        else placedWalls++;
+      }
+
+      // If somehow none placed, put one small bunker in the middle for visibility
+      if (obstacles.length === 0) {
+        const bw = courseWidth * 0.25 * sizeScale;
+        const bh = courseHeight * 0.15 * sizeScale;
+        obstacles.push({
+          x: bounds.left + (courseWidth - bw) / 2,
+          y: bounds.top + (courseHeight - bh) / 2,
+          w: bw,
+          h: bh,
+          type: 'bunker'
+        });
+      }
+
+      aiming = true;
+      angle = 0;
+      power = 8;
+      inHole = false;
+      if (resetScore) strokes = 0;
+    }
+
+    function updateHud() {
+      if (inHole) {
+        hud.textContent = `Strokes: ${strokes} — Press Center button for a new hole`;
+      } else {
+        hud.textContent = `Strokes: ${strokes} | Angle: ${(angle * 180 / Math.PI).toFixed(0)}° | Power: ${power}`;
+      }
+    }
+
+    function handleKeyDown(e) {
+      if (e.repeat) return;
+
+      if (e.code === 'Space') {
+        e.preventDefault();
+      }
+
+      if (inHole) {
+        if (e.code === 'Space') {
+          resetHole(true);
+        }
+        return;
+      }
+
+      if (aiming) {
+        switch (e.code) {
+          case 'ArrowLeft':
+            angle -= 0.1;
+            break;
+          case 'ArrowRight':
+            angle += 0.1;
+            break;
+          // ⬆ decrease power; when at min, wrap back to max
+          case 'ArrowUp':
+            if (power <= minPower) {
+              power = maxPower;
+            } else {
+              power = power - 1;
+            }
+            break;
+
+          // ⬇ increase power; when at max, wrap back to min
+          case 'ArrowDown':
+            if (power >= maxPower) {
+              power = minPower;
+            } else {
+              power = power + 1;
+            }
+            break;
+          case 'Space': {
+            // Strike!
+            const speed = power;
+            ball.vx = Math.cos(angle) * speed;
+            ball.vy = Math.sin(angle) * speed;
+            strokes += 1;
+            aiming = false;
+            break;
+          }
+        }
+      } else {
+        // While ball is moving, allow quick cancel/reset shot with 'R'
+        if (e.code === 'KeyR') {
+          ball.vx = 0;
+          ball.vy = 0;
+          aiming = true;
+        }
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function handleWallCollisions() {
+      for (const ob of obstacles) {
+        if (ob.type !== 'wall') continue;
+
+        // Circle vs AABB
+        const nearestX = clamp(ball.x, ob.x, ob.x + ob.w);
+        const nearestY = clamp(ball.y, ob.y, ob.y + ob.h);
+
+        const dx = ball.x - nearestX;
+        const dy = ball.y - nearestY;
+        const dist = Math.hypot(dx, dy);
+
+        if (dist < ball.r) {
+          // Penetration depth
+          const overlap = ball.r - dist || ball.r;
+
+          const absDx = Math.abs(dx);
+          const absDy = Math.abs(dy);
+
+          if (absDx > absDy) {
+            // Horizontal collision: flip vx
+            const sign = dx === 0 ? 1 : Math.sign(dx);
+            ball.x += sign * overlap;
+            ball.vx *= -0.7;
+          } else {
+            // Vertical collision: flip vy
+            const sign = dy === 0 ? 1 : Math.sign(dy);
+            ball.y += sign * overlap;
+            ball.vy *= -0.7;
+          }
+        }
+      }
+    }
+
+    function applyBunkerFriction() {
+      for (const ob of obstacles) {
+        if (ob.type !== 'bunker') continue;
+
+        // Check if ball center is inside bunker (slightly inflated area)
+        const margin = ball.r * 0.5;
+        if (
+          ball.x > ob.x - margin &&
+          ball.x < ob.x + ob.w + margin &&
+          ball.y > ob.y - margin &&
+          ball.y < ob.y + ob.h + margin
+        ) {
+          // Heavy extra friction in bunkers
+          ball.vx *= 0.82;
+          ball.vy *= 0.82;
+        }
+      }
+    }
+
+    function physicsStep() {
+      if (!aiming && !inHole) {
+        ball.x += ball.vx;
+        ball.y += ball.vy;
+
+        // Global friction (grass)
+        ball.vx *= 0.98;
+        ball.vy *= 0.98;
+
+        const bounds = courseBounds;
+
+        if (bounds) {
+          // Collisions with inner course walls
+          if (ball.x - ball.r < bounds.left) {
+            ball.x = bounds.left + ball.r;
+            ball.vx *= -0.6;
+          } else if (ball.x + ball.r > bounds.right) {
+            ball.x = bounds.right - ball.r;
+            ball.vx *= -0.6;
+          }
+
+          if (ball.y - ball.r < bounds.top) {
+            ball.y = bounds.top + ball.r;
+            ball.vy *= -0.6;
+          } else if (ball.y + ball.r > bounds.bottom) {
+            ball.y = bounds.bottom - ball.r;
+            ball.vy *= -0.6;
+          }
+        }
+
+        // Wall collisions (inner obstacles)
+        handleWallCollisions();
+
+        // Bunker friction (slows ball when inside bunkers)
+        applyBunkerFriction();
+
+        const speed = Math.hypot(ball.vx, ball.vy);
+        if (speed < 0.1) {
+          ball.vx = 0;
+          ball.vy = 0;
+          aiming = true;
+        }
+
+        // Check hole collision
+        const dx = ball.x - hole.x;
+        const dy = ball.y - hole.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist < hole.r * 0.6) {
+          inHole = true;
+          ball.vx = 0;
+          ball.vy = 0;
+          ball.x = hole.x;
+          ball.y = hole.y;
+        }
+      }
+    }
+
+    function drawCourse() {
+      const w = canvas.width;
+      const h = canvas.height;
+
+      // Background fairway
+      const gradient = ctx.createLinearGradient(0, 0, 0, h);
+      gradient.addColorStop(0, '#006400');
+      gradient.addColorStop(1, '#228b22');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, w, h);
+
+      // Outer border
+      ctx.strokeStyle = 'rgba(0,0,0,0.6)';
+      ctx.lineWidth = 10;
+      ctx.strokeRect(5, 5, w - 10, h - 10);
+
+      // Inner course area
+      if (courseBounds) {
+        const b = courseBounds;
+        ctx.fillStyle = 'rgba(0, 100, 0, 0.25)';
+        ctx.fillRect(b.left, b.top, b.right - b.left, b.bottom - b.top);
+
+        ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+        ctx.lineWidth = 6;
+        ctx.strokeRect(b.left, b.top, b.right - b.left, b.bottom - b.top);
+      }
+
+      // Obstacles
+      for (const ob of obstacles) {
+        if (ob.type === 'wall') {
+          // Darker green / board
+          ctx.fillStyle = '#154c2f';
+        } else {
+          // Bunker: sand color, very visible
+          ctx.fillStyle = '#d2b48c';
+        }
+        ctx.fillRect(ob.x, ob.y, ob.w, ob.h);
+      }
+
+      // Hole
+      ctx.beginPath();
+      ctx.arc(hole.x, hole.y, hole.r, 0, Math.PI * 2);
+      ctx.fillStyle = '#111';
+      ctx.fill();
+
+      // Flag
+      ctx.beginPath();
+      ctx.moveTo(hole.x, hole.y - hole.r);
+      ctx.lineTo(hole.x, hole.y - hole.r - 40);
+      ctx.strokeStyle = '#ddd';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(hole.x, hole.y - hole.r - 40);
+      ctx.lineTo(hole.x + 22, hole.y - hole.r - 32);
+      ctx.lineTo(hole.x, hole.y - hole.r - 24);
+      ctx.closePath();
+      ctx.fillStyle = '#ff4444';
+      ctx.fill();
+    }
+
+    function drawBall() {
+      // Ball shadow
+      ctx.beginPath();
+      ctx.ellipse(ball.x + 2, ball.y + ball.r * 0.6, ball.r, ball.r * 0.4, 0, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0,0,0,0.35)';
+      ctx.fill();
+
+      // Ball
+      ctx.beginPath();
+      ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
+      const ballGradient = ctx.createRadialGradient(
+        ball.x - ball.r * 0.5,
+        ball.y - ball.r * 0.5,
+        ball.r * 0.1,
+        ball.x,
+        ball.y,
+        ball.r
+      );
+      ballGradient.addColorStop(0, '#ffffff');
+      ballGradient.addColorStop(1, '#c0c0c0');
+      ctx.fillStyle = ballGradient;
+      ctx.fill();
+
+      // Tiny dimples suggestion
+      ctx.beginPath();
+      ctx.arc(ball.x - ball.r * 0.3, ball.y - ball.r * 0.3, ball.r * 0.2, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(200,200,200,0.8)';
+      ctx.fill();
+    }
+
+    function drawAimLine() {
+      if (!aiming || inHole) return;
+
+      const len = power * 10;
+      const x2 = ball.x + Math.cos(angle) * len;
+      const y2 = ball.y + Math.sin(angle) * len;
+
+      ctx.save();
+      ctx.setLineDash([8, 6]);
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+      ctx.beginPath();
+      ctx.moveTo(ball.x, ball.y);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawText() {
+      ctx.font = '10px system-ui, -apple-system, BlinkMacSystemFont, sans-serif';
+      ctx.fillStyle = 'rgba(255,255,255,0.9)';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+
+      const y = 32; // 👈 move text down by ~12px (adjust to taste)
+
+      if (inHole) {
+        ctx.font = '10px system-ui, -apple-system, BlinkMacSystemFont, sans-serif';
+        ctx.fillText('Nice shot!', canvas.width / 2, y);
+      } else if (aiming) {
+        ctx.fillText('← → aim • ↓ Adjust power • Center button to swing', canvas.width / 2, y);
+      } else {
+        ctx.fillText('Ball in motion...', canvas.width / 2, y);
+      }
+    }
+
+    function loop() {
+      physicsStep();
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawCourse();
+      drawAimLine();
+      drawBall();
+      drawText();
+      updateHud();
+      requestAnimationFrame(loop);
+    }
+
+    // Init
+    resize();
+    resetHole(true);
+    loop();
+  </script>
+</body>
+
+</html>

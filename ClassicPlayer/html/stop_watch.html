@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Stopwatch</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      background: #000;
+      color: #fff;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow: hidden;
+    }
+
+    .wrapper {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+    }
+
+    .time {
+      font-size: clamp(3rem, 16vw, 8rem);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+      font-family: "SF Mono", ui-monospace, Menlo, Consolas, "Roboto Mono", monospace;
+      display: inline-block;
+      min-width: 10ch;
+    }
+
+    .sub {
+      margin-top: 16px;
+      font-size: 0.9rem;
+      opacity: 0.35;
+      text-align: center;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div id="time" class="time">00:00.00</div>
+    <div class="sub">
+      ⬇︎ Down = Pause / Resume <br> Space = Pause → Reset → Start
+    </div>
+  </div>
+
+  <script>
+    const timeEl = document.getElementById('time');
+
+    let running = false;
+    let startTime = 0;
+    let elapsed = 0;
+    let rafId = null;
+
+    function formatTime(ms) {
+      const totalSeconds = Math.floor(ms / 1000);
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      const centiseconds = Math.floor((ms % 1000) / 10);
+
+      const m = String(minutes).padStart(2, '0');
+      const s = String(seconds).padStart(2, '0');
+      const cs = String(centiseconds).padStart(2, '0');
+      return `${m}:${s}.${cs}`;
+    }
+
+    function render() {
+      const now = performance.now();
+      const currentElapsed = running ? elapsed + (now - startTime) : elapsed;
+      timeEl.textContent = formatTime(currentElapsed);
+
+      if (running) rafId = requestAnimationFrame(render);
+    }
+
+    function start() {
+      if (running) return;
+      running = true;
+      startTime = performance.now();
+      rafId = requestAnimationFrame(render);
+    }
+
+    function pause() {
+      if (!running) return;
+      const now = performance.now();
+      elapsed += now - startTime;
+      running = false;
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = null;
+      timeEl.textContent = formatTime(elapsed);
+    }
+
+    function reset() {
+      running = false;
+      elapsed = 0;
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = null;
+      timeEl.textContent = '00:00.00';
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.repeat) return;
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        running ? pause() : start();
+      }
+
+      if (e.key === ' ') {
+        e.preventDefault();
+
+        if (running) {
+          pause();
+        } else {
+          if (elapsed === 0) {
+            start();        // paused + at 0 → start
+          } else {
+            reset();        // paused + >0 → reset
+          }
+        }
+      }
+    });
+
+    // Start immediately
+    // start();
+  </script>
+</body>
+</html>

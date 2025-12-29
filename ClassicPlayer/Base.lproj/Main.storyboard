@@ -251,7 +251,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BwN-is-URo">
-                                                    <rect key="frame" x="16" y="5" width="179" height="34"/>
+                                                    <rect key="frame" x="16" y="12" width="179" height="21"/>
                                                     <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <fontDescription key="fontDescription" name="AppleSDGothicNeo-Bold" family="Apple SD Gothic Neo" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -261,8 +261,8 @@
                                             <constraints>
                                                 <constraint firstAttribute="trailingMargin" secondItem="BwN-is-URo" secondAttribute="trailing" id="4zu-tN-2o1"/>
                                                 <constraint firstItem="BwN-is-URo" firstAttribute="leading" secondItem="IOQ-eK-7fK" secondAttribute="leadingMargin" id="Aun-BF-ira"/>
-                                                <constraint firstItem="BwN-is-URo" firstAttribute="centerY" secondItem="IOQ-eK-7fK" secondAttribute="centerY" constant="-0.5" id="BrY-c9-omy"/>
-                                                <constraint firstItem="BwN-is-URo" firstAttribute="top" secondItem="IOQ-eK-7fK" secondAttribute="topMargin" constant="-10" id="zdC-jl-34S"/>
+                                                <constraint firstItem="BwN-is-URo" firstAttribute="centerY" secondItem="IOQ-eK-7fK" secondAttribute="centerY" id="BrY-c9-omy"/>
+                                                <constraint firstItem="BwN-is-URo" firstAttribute="top" secondItem="IOQ-eK-7fK" secondAttribute="topMargin" constant="-3" id="zdC-jl-34S"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -301,11 +301,12 @@
                         <segue destination="Jui-tp-rw4" kind="show" identifier="showMusicMenu" id="sRF-Vo-tsP"/>
                         <segue destination="aIj-qU-rCM" kind="show" identifier="showSettingsMenu" id="zgu-O5-DlR"/>
                         <segue destination="8cx-9q-5Az" kind="show" identifier="showGamesMenu" id="yTe-7G-mXK"/>
+                        <segue destination="HZB-sO-4Lp" kind="show" identifier="showGameVCFromMenu" id="C6a-fB-lIN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MA1-w3-HGM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1566.6666666666667" y="-11.820652173913045"/>
+            <point key="canvasLocation" x="1561" y="-11"/>
         </scene>
         <!--Song List MenuVC-->
         <scene sceneID="4tQ-tx-Oyi">
@@ -1106,7 +1107,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="wQt-dv-J9p">
                                 <rect key="frame" x="0.0" y="53" width="374" height="234"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <mutableString key="text">ClassicPlayer 2.0 
+                                <string key="text">ClassicPlayer 2.0 
 By Guillermo Moran 
 https://gmoran.me
 
@@ -1172,7 +1173,7 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-</mutableString>
+</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="6"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
@@ -1362,7 +1363,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="VXx-5g-9QN"/>
+        <segue reference="C6a-fB-lIN"/>
+        <segue reference="ljS-2e-tkw"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="battery_2" width="40" height="40"/>
