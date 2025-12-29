@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Four in a Row</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  canvas {
+    width: 100vw;
+    height: 100vh;
+    display: block;
+  }
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    background: rgba(0,0,0,.85);
+    color: #fff;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  .overlay h1 {
+    margin-bottom: 6px;
+    font-size: 28px;
+  }
+
+  .overlay p {
+    margin: 4px 0;
+    font-size: 16px;
+  }
+</style>
+</head>
+
+<body>
+
+<canvas id="game"></canvas>
+<div id="overlay" class="overlay">
+  <div>
+    <h1 id="title">Four in a Row</h1>
+    <p id="statusText">Use ← → to select a column, <br> Center Button to drop.</p>
+    <p>Press Center Button to Start</p>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+const overlay = document.getElementById("overlay");
+const title = document.getElementById("title");
+const statusText = document.getElementById("statusText");
+
+const COLS = 7;
+const ROWS = 6;
+
+// Layout
+let w, h;
+let cellSize;
+let offsetX;
+let offsetY;
+let dropSpeed;
+
+// Board state
+let board;
+let selectedCol = Math.floor(COLS / 2);
+
+// Game state machine: "start" | "idle" | "userAnimating" | "aiThinking" | "aiAnimating" | "gameOver"
+let gameState = "start";
+
+// Falling piece animation
+let fallingPiece = null; // { player, col, row, y }
+
+// AI thinking delay (in frames)
+let aiThinkFrames = 0;
+
+function recomputeLayout() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  w = canvas.width;
+  h = canvas.height;
+
+  const size = Math.min(w * 0.9, h * 0.9);
+  cellSize = size / COLS;
+
+  offsetX = (w - cellSize * COLS) / 2;
+  offsetY = (h - cellSize * ROWS) / 2;
+
+  dropSpeed = cellSize * 0.4; // how fast pieces fall per frame
+}
+
+function resetBoard() {
+  board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
+}
+
+function resetGame() {
+  resetBoard();
+  selectedCol = Math.floor(COLS / 2);
+  gameState = "idle";
+  fallingPiece = null;
+  aiThinkFrames = 0;
+  overlay.style.display = "none";
+}
+
+function draw() {
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0, 0, w, h);
+
+  // Blue board background
+  ctx.fillStyle = "#1E3A8A";
+  ctx.fillRect(offsetX, offsetY, COLS * cellSize, ROWS * cellSize);
+
+  // Column selector indicator above board (for player)
+  if (gameState !== "start") {
+    const selX = offsetX + selectedCol * cellSize + cellSize / 2;
+    const selY = offsetY - cellSize * 0.35;
+    ctx.beginPath();
+    ctx.arc(selX, selY, cellSize * 0.3, 0, Math.PI * 2);
+    ctx.fillStyle = "#222";
+    ctx.fill();
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = "#FFD700";
+    ctx.stroke();
+  }
+
+  // Draw board discs
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      const x = offsetX + c * cellSize + cellSize / 2;
+      const y = offsetY + r * cellSize + cellSize / 2;
+
+      ctx.beginPath();
+      ctx.arc(x, y, cellSize * 0.38, 0, Math.PI * 2);
+
+      const val = board[r][c];
+      if (val === 1) ctx.fillStyle = "#FFD700";       // Player
+      else if (val === 2) ctx.fillStyle = "#FF3333";  // AI
+      else ctx.fillStyle = "#000";
+
+      ctx.fill();
+    }
+  }
+
+  // Draw falling piece (if any)
+  if (fallingPiece) {
+    const { player, col, y } = fallingPiece;
+    const x = offsetX + col * cellSize + cellSize / 2;
+    ctx.beginPath();
+    ctx.arc(x, y, cellSize * 0.38, 0, Math.PI * 2);
+    ctx.fillStyle = player === 1 ? "#FFD700" : "#FF3333";
+    ctx.fill();
+  }
+}
+
+function getAvailableRow(col) {
+  for (let r = ROWS - 1; r >= 0; r--) {
+    if (board[r][col] === 0) return r;
+  }
+  return null;
+}
+
+function isBoardFull() {
+  return board[0].every(v => v !== 0);
+}
+
+function checkWinner(player) {
+  // Horizontal
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS - 3; c++) {
+      if (
+        board[r][c] === player &&
+        board[r][c + 1] === player &&
+        board[r][c + 2] === player &&
+        board[r][c + 3] === player
+      ) return true;
+    }
+  }
+  // Vertical
+  for (let c = 0; c < COLS; c++) {
+    for (let r = 0; r < ROWS - 3; r++) {
+      if (
+        board[r][c] === player &&
+        board[r + 1][c] === player &&
+        board[r + 2][c] === player &&
+        board[r + 3][c] === player
+      ) return true;
+    }
+  }
+  // Diagonal down-right
+  for (let r = 0; r < ROWS - 3; r++) {
+    for (let c = 0; c < COLS - 3; c++) {
+      if (
+        board[r][c] === player &&
+        board[r + 1][c + 1] === player &&
+        board[r + 2][c + 2] === player &&
+        board[r + 3][c + 3] === player
+      ) return true;
+    }
+  }
+  // Diagonal up-right
+  for (let r = 3; r < ROWS; r++) {
+    for (let c = 0; c < COLS - 3; c++) {
+      if (
+        board[r][c] === player &&
+        board[r - 1][c + 1] === player &&
+        board[r - 2][c + 2] === player &&
+        board[r - 3][c + 3] === player
+      ) return true;
+    }
+  }
+  return false;
+}
+
+function endGame(msg) {
+  gameState = "gameOver";
+  title.textContent = "GAME OVER";
+  statusText.textContent = msg + " Play Again?";
+  overlay.style.display = "flex";
+}
+
+// ------- AI logic (choose column but don't play yet) -------
+function chooseAiColumn() {
+  // 1. Try to win
+  for (let c = 0; c < COLS; c++) {
+    const r = getAvailableRow(c);
+    if (r !== null) {
+      board[r][c] = 2;
+      const win = checkWinner(2);
+      board[r][c] = 0;
+      if (win) return c;
+    }
+  }
+
+  // 2. Block player win
+  for (let c = 0; c < COLS; c++) {
+    const r = getAvailableRow(c);
+    if (r !== null) {
+      board[r][c] = 1;
+      const wouldWin = checkWinner(1);
+      board[r][c] = 0;
+      if (wouldWin) return c;
+    }
+  }
+
+  // 3. Prefer center columns
+  const order = [3, 2, 4, 1, 5, 0, 6];
+  for (const c of order) {
+    if (getAvailableRow(c) !== null) return c;
+  }
+
+  // 4. Fallback: first available
+  for (let c = 0; c < COLS; c++) {
+    if (getAvailableRow(c) !== null) return c;
+  }
+
+  return null;
+}
+
+// ------- Animations / Game flow -------
+
+function startUserDrop(col) {
+  const row = getAvailableRow(col);
+  if (row === null) return;
+
+  fallingPiece = {
+    player: 1,
+    col,
+    row,
+    y: offsetY - cellSize // start above the board
+  };
+  gameState = "userAnimating";
+}
+
+function startAiDrop(col) {
+  const row = getAvailableRow(col);
+  if (row === null) {
+    // no move possible → draw
+    endGame("Draw!");
+    return;
+  }
+  fallingPiece = {
+    player: 2,
+    col,
+    row,
+    y: offsetY - cellSize
+  };
+  gameState = "aiAnimating";
+}
+
+function finalizeMove(player, col, row) {
+  board[row][col] = player;
+
+  if (checkWinner(player)) {
+    endGame(player === 1 ? "You Win!" : "AI Wins!");
+    return;
+  }
+
+  if (isBoardFull()) {
+    endGame("Draw!");
+    return;
+  }
+
+  if (player === 1) {
+    // User just moved → AI thinking time
+    gameState = "aiThinking";
+    aiThinkFrames = 30; // ~0.5s at 60fps
+  } else {
+    // AI finished
+    gameState = "idle";
+  }
+}
+
+function update() {
+  if (gameState === "userAnimating" || gameState === "aiAnimating") {
+    if (!fallingPiece) return;
+
+    const targetY =
+      offsetY + fallingPiece.row * cellSize + cellSize / 2;
+
+    if (fallingPiece.y < targetY) {
+      fallingPiece.y += dropSpeed;
+      if (fallingPiece.y >= targetY) {
+        fallingPiece.y = targetY;
+        const { player, col, row } = fallingPiece;
+        fallingPiece = null;
+        finalizeMove(player, col, row);
+      }
+    }
+  } else if (gameState === "aiThinking") {
+    aiThinkFrames--;
+    if (aiThinkFrames <= 0) {
+      const col = chooseAiColumn();
+      if (col === null) {
+        endGame("Draw!");
+      } else {
+        startAiDrop(col);
+      }
+    }
+  }
+}
+
+// ------- Input -------
+
+// Mouse: click to drop (uses same animation)
+canvas.addEventListener("click", (e) => {
+  if (gameState !== "idle") return;
+
+  const x = e.clientX;
+  const col = Math.floor((x - offsetX) / cellSize);
+  if (col < 0 || col >= COLS) return;
+
+  selectedCol = col;
+  startUserDrop(col);
+});
+
+// Keyboard: space / arrows
+window.addEventListener("keydown", (e) => {
+  if (e.key === " ") {
+    e.preventDefault();
+
+    if (gameState === "start" || gameState === "gameOver") {
+      resetGame();
+      return;
+    }
+
+    if (gameState !== "idle") return;
+
+    // Drop in selected column
+    startUserDrop(selectedCol);
+    return;
+  }
+
+  if (gameState !== "idle") return;
+
+  switch (e.key) {
+    case "ArrowLeft":
+      selectedCol = (selectedCol - 1 + COLS) % COLS;
+      break;
+    case "ArrowRight":
+      selectedCol = (selectedCol + 1) % COLS;
+      break;
+  }
+});
+
+// ------- Main loop -------
+function loop() {
+  update();
+  draw();
+  requestAnimationFrame(loop);
+}
+
+// Init
+recomputeLayout();
+resetBoard();
+draw();
+loop(); // start animation loop (even in start state)
+window.addEventListener("resize", () => {
+  recomputeLayout();
+  draw();
+});
+</script>
+
+</body>
+</html>

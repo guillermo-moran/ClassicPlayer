@@ -22,12 +22,26 @@ let mainMenuVC : MainMenuVC = MainMenuVC()
     @IBOutlet weak private var artworkPreview: UIImageView!
     
     
-    let menuItems = ["Music", "Settings", "Shuffle Songs", "Now Playing"]
+    var menuItems: [String] {
+        var items = ["Music", "Games", "Stopwatch", "Settings", "Shuffle Songs"]
+        let player = MPMusicPlayerController.systemMusicPlayer
+        if player.nowPlayingItem != nil {
+            items.append("Now Playing")
+        }
+        return items
+    }
 
     var currentIndexPath = IndexPath(row: 0, section: 0)
     
     override func viewWillAppear(_ animated: Bool) {
         startListeningForClickwheelChanges()
+        menuTable.reloadData()
+        if currentIndexPath.row >= menuItems.count {
+            currentIndexPath = IndexPath(row: max(menuItems.count - 1, 0), section: 0)
+        }
+        if menuItems.isEmpty == false {
+            menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: .none)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -48,6 +62,39 @@ let mainMenuVC : MainMenuVC = MainMenuVC()
         menuTable.clipsToBounds = false
         menuTable.layer.masksToBounds = false
         
+        // Apply Liquid Glass effect to the menuTable only
+        // Create a glass background behind the table
+//        if #available(iOS 26.0, *) {
+//            let glassEffect = UIGlassEffect(style: .clear)
+//            glassEffect.tintColor = UIColor(red: 0.96, green: 0.96, blue: 0.96, alpha: 0.25)
+//            let glassView = UIVisualEffectView(effect: glassEffect)
+//            glassView.frame = menuTable.bounds
+//            glassView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//            menuTable.backgroundView = glassView
+//        } else {
+//            // Fallback for earlier iOS versions
+//            let blurEffect: UIBlurEffect
+//            if #available(iOS 13.0, *) {
+//                blurEffect = UIBlurEffect(style: .systemThinMaterial)
+//            } else {
+//                // Use a broadly supported blur style on iOS 10-12
+//                blurEffect = UIBlurEffect(style: .light)
+//            }
+//            let blurView = UIVisualEffectView(effect: blurEffect)
+//            blurView.frame = menuTable.bounds
+//            blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//            menuTable.backgroundView = blurView
+//        }
+        
+        menuTable.backgroundColor = .white // change to clear if using blur views
+        menuTable.separatorColor = .clear
+        menuTable.separatorEffect = nil
+        
+        // Ensure any headers/footers or default backgrounds are transparent
+        menuTable.backgroundColor = .white // change to clear if using blur views
+        menuTable.tableHeaderView?.backgroundColor = .clear
+        menuTable.tableFooterView = UIView(frame: .zero)
+        menuTable.tableFooterView?.backgroundColor = .clear
         
         currentIndexPath = IndexPath(row: currentIndexPath.row, section: 0)
         
@@ -89,8 +136,6 @@ let mainMenuVC : MainMenuVC = MainMenuVC()
     //Clickwheel Api
     
     func stopListeningForClickwheelChanges() {
-        
-        
         NotificationCenter.default.removeObserver(self, name: Notification.Name("clickWheelDidMoveDown"), object: nil)
         
         NotificationCenter.default.removeObserver(self, name: Notification.Name("clickWheelDidMoveUp"), object: nil)
@@ -112,27 +157,19 @@ let mainMenuVC : MainMenuVC = MainMenuVC()
     
     func clickWheelDidMoveUp(notification: Notification) {
         var nextIndex = currentIndexPath.row - 1
-        
-        if (nextIndex < 0) {
-            nextIndex = 0
-        }
-        
+        if nextIndex < 0 { nextIndex = 0 }
         currentIndexPath = IndexPath(row: nextIndex, section: 0)
-        
-        self.menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: UITableViewScrollPosition.none)
+        menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: .none)
+        menuTable.scrollToRow(at: currentIndexPath, at: .middle, animated: true)
     }
     
     func clickWheelDidMoveDown(notification: Notification){
         var nextIndex = currentIndexPath.row + 1
-        
-        if (nextIndex > menuItems.count - 1) {
-            nextIndex = menuItems.count - 1
-        }
-        
+        let maxIndex = max(menuItems.count - 1, 0)
+        if nextIndex > maxIndex { nextIndex = maxIndex }
         currentIndexPath = IndexPath(row: nextIndex, section: 0)
-        
-        self.menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: UITableViewScrollPosition.none)
-        
+        menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: .none)
+        menuTable.scrollToRow(at: currentIndexPath, at: .middle, animated: true)
     }
     
     func clickWheelClicked(notification: Notification){
@@ -146,64 +183,40 @@ let mainMenuVC : MainMenuVC = MainMenuVC()
     //end clickwheel api
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //tableView.deselectRow(at: indexPath, animated: true)
-        let index = indexPath.row
-        
-        if (index == 0) { //Music Menu
+        let title = menuItems[indexPath.row]
+        switch title {
+        case "Music":
             performSegue(withIdentifier: "showMusicMenu", sender: nil)
-        }
-        
-        if (index == 1) { //Settings Menu
-            
+        case "Settings":
             performSegue(withIdentifier: "showSettingsMenu", sender: nil)
- 
+        case "Games":
+            performSegue(withIdentifier: "showGamesMenu", sender: nil)
+        case "Stopwatch":
+            let gameVC = self.storyboard?.instantiateViewController(withIdentifier: "gameVC")
+                as! GameVC
             
-            /*
-            let settingsViewController = self.storyboard?.instantiateViewController(withIdentifier: "settingsScreenVC")
-                as! SettingsScreenViewController
+            gameVC.gameName = "stop_watch"
+            gameVC.HOLD_DURATION = 0.01
+            self.show(gameVC, sender: nil)
             
-            settingsViewController.modalTransitionStyle = .flipHorizontal
-            
-            self.present(settingsViewController, animated: true, completion: nil)
-            */
-        }
-        
-        if (index == 2) { //Shuffle
-         
-            var songQueue : [MPMediaItem] = []
-            
-            songQueue = mediaItems.shuffled() 
-            
+        case "Shuffle Songs":
+            let songQueue: [MPMediaItem] = mediaItems.shuffled()
             let mediaCollection = MPMediaItemCollection(items: songQueue)
-            
             let player = MPMusicPlayerController.systemMusicPlayer
             player.setQueue(with: mediaCollection)
-            
             player.play()
-            
-            let nowPlayingVC = self.storyboard?.instantiateViewController(withIdentifier: "nowPlayingVC")
-                as! NowPlayingVC
-            
-            
-            self.navigationController?.pushViewController(nowPlayingVC, animated: true)
-            
-        }
-        
-        if (index == 3) { //Now Playing
-            let nowPlayingVC = self.storyboard?.instantiateViewController(withIdentifier: "nowPlayingVC")
-                as! NowPlayingVC
-            
-            let player = MPMusicPlayerController.systemMusicPlayer
-            
-            if (player.nowPlayingItem != nil) {
-                self.navigationController?.pushViewController(nowPlayingVC, animated: true)
-
+            if let nowPlayingVC = storyboard?.instantiateViewController(withIdentifier: "nowPlayingVC") as? NowPlayingVC {
+                navigationController?.pushViewController(nowPlayingVC, animated: true)
             }
-            
-            
+        case "Now Playing":
+            let player = MPMusicPlayerController.systemMusicPlayer
+            if player.nowPlayingItem != nil,
+               let nowPlayingVC = storyboard?.instantiateViewController(withIdentifier: "nowPlayingVC") as? NowPlayingVC {
+                navigationController?.pushViewController(nowPlayingVC, animated: true)
+            }
+        default:
+            break
         }
-        
-        return;
     }
     /*
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -220,8 +233,13 @@ let mainMenuVC : MainMenuVC = MainMenuVC()
         cell.cellLabel.text = menuItems[index]
         cell.cellLabel.highlightedTextColor = UIColor.white
         
+        // Make the cell background transparent so the blur/glass shows through
+        cell.backgroundColor = .clear
+        cell.contentView.backgroundColor = .clear
+        cell.isOpaque = false
+        
         let bgColorView = UIView()
-        bgColorView.backgroundColor = UIColor(red:0.29, green:0.51, blue:0.86, alpha:1.0)
+        bgColorView.backgroundColor = UIColor(red: 0.13, green: 0.13, blue: 0.13, alpha: 1.00)
         cell.selectedBackgroundView = bgColorView
         
         return cell
@@ -287,3 +305,4 @@ let mainMenuVC : MainMenuVC = MainMenuVC()
     */
 
 }
+

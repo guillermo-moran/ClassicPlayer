@@ -26,14 +26,18 @@ let IS_PRESENTATION_MODE = true
 //let WHEEL_COLOR = UIColor(red:0.24, green:0.26, blue:0.27, alpha:1.0)
 //let TEXT_COLOR  = UIColor(red:0.22, green:0.24, blue:0.25, alpha:1.0)
 
-let DARK_BG           = UIColor(red:0.13, green:0.13, blue:0.13, alpha:1.0)
-let DARK_WHEEL_COLOR  = UIColor(red:0.19, green:0.19, blue:0.19, alpha:1.0)
+let DARK_BG              = UIColor(red: 0.09, green: 0.09, blue: 0.09, alpha: 1.00)
+let DARK_BG_WHEEL_COLOR  = UIColor(red: 0.84, green: 0.84, blue: 0.84, alpha: 1.00)
 
 //let LIGHT_BG          = UIColor(red:0.95, green:0.95, blue:0.95, alpha:1.0)
 //let LIGHT_WHEEL_COLOR = UIColor(red:0.78, green:0.78, blue:0.78, alpha:1.0)
 
-let LIGHT_BG = UIColor(red:0.95, green:0.96, blue:0.97, alpha:1.0)
-let LIGHT_WHEEL_COLOR = UIColor(red:0.80, green:0.82, blue:0.85, alpha:1.0)
+let LIGHT_BG             = UIColor(red: 0.98, green: 0.98, blue: 0.98, alpha: 1.00)
+let LIGHT_BG_WHEEL_COLOR = UIColor(red: 0.30, green: 0.30, blue: 0.30, alpha: 1.00)
+
+let DARK_BUTTON_TINT     = UIColor(red: 0.13, green: 0.13, blue: 0.13, alpha: 1.00)
+let LIGHT_BUTTON_TINT    = UIColor(red: 0.84, green: 0.84, blue: 0.84, alpha: 1.00)
+
 
 @objcMembers class ViewController : UIViewController {
     
@@ -54,10 +58,11 @@ let LIGHT_WHEEL_COLOR = UIColor(red:0.80, green:0.82, blue:0.85, alpha:1.0)
     //MARK: Properties
     var counter = 0
     
-   
+    // Toggle to enable/disable music controls (for games, etc)
+    var replaceMusicControls: Bool = false
+    
     
     func setupClickWheel() {
-        
         
         clickWheel.buttonColor = UIColor.clear
         //clickWheel.wheelColor = WHEEL_COLOR
@@ -116,6 +121,14 @@ let LIGHT_WHEEL_COLOR = UIColor(red:0.80, green:0.82, blue:0.85, alpha:1.0)
         //Settings Listener 
         NotificationCenter.default.addObserver(self, selector: #selector(self.settingsUpdated(notification:)), name: Notification.Name("settingsUpdated"), object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(handleDisableEnableMusicControlsToggle(_:)), name: Notification.Name("replaceMusicControls"), object: nil)
+        
+    }
+    
+    @objc private func handleDisableEnableMusicControlsToggle(_ note: Notification) {
+        if let enabled = note.userInfo?["enabled"] as? Bool {
+            replaceMusicControls = enabled
+        }
     }
 
     func settingsUpdated(notification: Notification) {
@@ -134,14 +147,64 @@ let LIGHT_WHEEL_COLOR = UIColor(red:0.80, green:0.82, blue:0.85, alpha:1.0)
         
         if (darkModeEnabled) {
             
-            self.clickWheel.wheelColor = DARK_WHEEL_COLOR
+            // set button tint colors
+            if let image = menuButton.image(for: .normal) {
+                menuButton.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
+            }
+            menuButton.tintColor = LIGHT_BUTTON_TINT
+            
+            if let image = rewindButton.image(for: .normal) {
+                rewindButton.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
+            }
+            rewindButton.tintColor = LIGHT_BUTTON_TINT
+            
+            if let image = forwardButton.image(for: .normal) {
+                forwardButton.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
+            }
+            forwardButton.tintColor = LIGHT_BUTTON_TINT
+            
+            if let image = playButton.image(for: .normal) {
+                playButton.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
+            }
+            playButton.tintColor = LIGHT_BUTTON_TINT
+            
+            // set clickwheel color
+            self.clickWheel.wheelBorderColor = DARK_BG_WHEEL_COLOR
+            clickWheel.buttonBorderColor = DARK_BG_WHEEL_COLOR
+
+            self.clickWheel.wheelColor = .clear
             self.view.backgroundColor = DARK_BG
             
         }
             
         else {
             
-            self.clickWheel.wheelColor = LIGHT_WHEEL_COLOR
+            // set button tint colors
+            if let image = menuButton.image(for: .normal) {
+                menuButton.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
+            }
+            menuButton.tintColor = DARK_BUTTON_TINT
+            
+            if let image = rewindButton.image(for: .normal) {
+                rewindButton.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
+            }
+            rewindButton.tintColor = DARK_BUTTON_TINT
+            
+            if let image = forwardButton.image(for: .normal) {
+                forwardButton.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
+            }
+            forwardButton.tintColor = DARK_BUTTON_TINT
+            
+            if let image = playButton.image(for: .normal) {
+                playButton.setImage(image.withRenderingMode(.alwaysTemplate), for: .normal)
+            }
+            playButton.tintColor = DARK_BUTTON_TINT
+            
+            // set clickwheel color
+            self.clickWheel.wheelBorderColor = LIGHT_BG_WHEEL_COLOR
+            clickWheel.buttonBorderColor = LIGHT_BG_WHEEL_COLOR
+
+            self.clickWheel.wheelColor = .clear
             self.view.backgroundColor = LIGHT_BG
             
         }
@@ -180,8 +243,6 @@ let LIGHT_WHEEL_COLOR = UIColor(red:0.80, green:0.82, blue:0.85, alpha:1.0)
     // do NOT change this method name unless you also change it in
     // C2AClickWheek.layoutSubviews()!!
     @IBAction func centerClicked(_ sender: C2AClickWheel) {
-        
-        
         postClickWheelClickedNotification()
     }
     
@@ -195,7 +256,11 @@ let LIGHT_WHEEL_COLOR = UIColor(red:0.80, green:0.82, blue:0.85, alpha:1.0)
     @IBAction func forwardPressed(_ sender: Any) {
         //generator.impactOccurred()
         self.vibrate()
-        player.skipToNextItem()
+        if replaceMusicControls {
+            postForwardPressedNotification()
+        } else {
+            player.skipToNextItem()
+        }
         postSongChangedNotification()
 
     }
@@ -204,7 +269,13 @@ let LIGHT_WHEEL_COLOR = UIColor(red:0.80, green:0.82, blue:0.85, alpha:1.0)
         
         //generator.impactOccurred()
         self.vibrate()
-        player.skipToPreviousItem()
+        if replaceMusicControls {
+            postRewindPressedNotification()
+        }
+        else {
+            player.skipToPreviousItem()
+        }
+        
         postSongChangedNotification()
     }
  
@@ -212,13 +283,17 @@ let LIGHT_WHEEL_COLOR = UIColor(red:0.80, green:0.82, blue:0.85, alpha:1.0)
         
         //generator.impactOccurred()
         self.vibrate()
-        if (player.playbackState == .playing) {
-            player.pause()
+        if (replaceMusicControls) {
+            postPlayPausePressedNotification()
         }
         else {
-            player.play()
+            if (player.playbackState == .playing) {
+                player.pause()
+            }
+            else {
+                player.play()
+            }
         }
-        
     }
     
     func postClickWheelDidMoveUpNotification() {
@@ -253,6 +328,24 @@ let LIGHT_WHEEL_COLOR = UIColor(red:0.80, green:0.82, blue:0.85, alpha:1.0)
         //generator.impactOccurred()
         self.vibrate()
         NotificationCenter.default.post(name: Notification.Name("songChanged"), object: nil)
+    }
+    
+    func postRewindPressedNotification() {
+        //generator.impactOccurred()
+        self.vibrate()
+        NotificationCenter.default.post(name: Notification.Name("rewindClicked"), object: nil)
+    }
+    
+    func postForwardPressedNotification() {
+        //generator.impactOccurred()
+        self.vibrate()
+        NotificationCenter.default.post(name: Notification.Name("forwardClicked"), object: nil)
+    }
+    
+    func postPlayPausePressedNotification() {
+        //generator.impactOccurred()
+        self.vibrate()
+        NotificationCenter.default.post(name: Notification.Name("playPauseClicked"), object: nil)
     }
     
     //taptic

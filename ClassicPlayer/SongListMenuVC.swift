@@ -42,7 +42,7 @@ import MediaPlayer
         
         menuTable.delegate   = self
         menuTable.dataSource = self
-        menuTable.separatorColor = UIColor.white
+        menuTable.separatorColor = .clear
         
         loadSongs(filter: filter!)
         
@@ -67,8 +67,6 @@ import MediaPlayer
     // letter must be in alphabetArray
     func searchSongs(letter : String) {
         
-        
-        
         if (!alphabetArray.contains(letter)) {
             return
         }
@@ -77,13 +75,10 @@ import MediaPlayer
         
         if (letter == alphabetArray[0]) { //First element of alphabet array is "All"
             menuItems = allSongsAvailable
-            
         }
-        
         else {
             
             for song in allSongsAvailable {
-                
                 
                 var songName = song.title!.uppercased()
                 
@@ -91,8 +86,6 @@ import MediaPlayer
                     songName = songName.replacingOccurrences(of: "The", with: "")
                     songName = songName.replacingOccurrences(of: "\"", with: "")
                 }
-                
-                
                 
                 if (songName.hasPrefix(letter)) {
                     self.menuItems.append(song)
@@ -411,7 +404,7 @@ import MediaPlayer
             //cell.detailTextLabel?.highlightedTextColor = UIColor.white
             
             let bgColorView = UIView()
-            bgColorView.backgroundColor = UIColor(red:0.29, green:0.51, blue:0.86, alpha:1.0)
+            bgColorView.backgroundColor = UIColor(red: 0.13, green: 0.13, blue: 0.13, alpha: 1.00)
             cell.selectedBackgroundView = bgColorView
             
             return cell
@@ -436,7 +429,7 @@ import MediaPlayer
         //cell.detailTextLabel?.highlightedTextColor = UIColor.white
         
         let bgColorView = UIView()
-        bgColorView.backgroundColor = UIColor(red:0.29, green:0.51, blue:0.86, alpha:1.0)
+        bgColorView.backgroundColor = UIColor(red: 0.13, green: 0.13, blue: 0.13, alpha: 1.00)
         cell.selectedBackgroundView = bgColorView
         
         return cell

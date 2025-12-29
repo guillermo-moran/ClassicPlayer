@@ -17,6 +17,8 @@ import MediaPlayer
     
     var currentIndexPath = IndexPath(row: 0, section: 0)
     
+    private let NO_ARTISTS = "No Artists"
+    
     override func viewWillAppear(_ animated: Bool) {
         startListeningForClickwheelChanges()
         
@@ -32,11 +34,13 @@ import MediaPlayer
         loadArtists()
         menuTable.delegate   = self
         menuTable.dataSource = self
-        menuTable.separatorColor = UIColor.white
+        menuTable.separatorColor = .clear
         
-        currentIndexPath = IndexPath(row: currentIndexPath.row, section: 0)
-        
-        self.menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: UITableViewScrollPosition.none)
+        menuTable.reloadData()
+        if !menuItems.isEmpty {
+            currentIndexPath = IndexPath(row: min(currentIndexPath.row, menuItems.count - 1), section: 0)
+            self.menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: .none)
+        }
         
         //self.menuTable(self.tableView, didSelectRowAt: indexPath)
         
@@ -44,50 +48,15 @@ import MediaPlayer
     }
     
     func loadArtists() {
-        
-        //MPMediaLibrary.requestAuthorization { (status) in
-            //if status == .authorized {
-                //self.runMediaLibraryQuery()
-                
-                
-                let query = MPMediaQuery.artists()
-                let artists = query.collections
-                
-                for (_, item) in artists!.enumerated() {
-                    let artist = item.representativeItem
-                    let artistName = artist?.artist
-                    self.menuItems.append(artistName!)
-                }
-                
-                
-                /*
-                MPMediaQuery *query=[MPMediaQuery artistsQuery];
-                NSArray *artists=[query collections];
-                artistNames=[[NSMutableArray alloc]init];
-                for(MPMediaItemCollection *collection in artists)
-                {
-                    MPMediaItem *item=[collection representativeItem];
-                    [artistNames addObject:[item valueForProperty:MPMediaItemPropertyArtist]];
-                }
-                uniqueNames=[[NSMutableArray alloc]init];
-                for(id object in artistNames)
-                {
-                    if(![uniqueNames containsObject:object])
-                    {
-                        [uniqueNames addObject:object];
-                    }
-                }
-                */
-                
-           // }
-            //else {
-                
-            //}
-    
-    
-        
-        
-        //menuItems = MPMediaQuery.songs().items!
+        let query = MPMediaQuery.artists()
+        if let artists = query.collections, artists.isEmpty == false {
+            for item in artists {
+                let artistName = item.representativeItem?.artist ?? NO_ARTISTS
+                menuItems.append(artistName)
+            }
+        } else {
+            menuItems = [NO_ARTISTS]
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -119,9 +88,10 @@ import MediaPlayer
         NotificationCenter.default.addObserver(self, selector: #selector(self.menuClicked(notification:)), name: Notification.Name("menuClicked"), object: nil)
     }
     func clickWheelDidMoveUp(notification: Notification) {
+        guard !menuItems.isEmpty else { return }
         var nextIndex = currentIndexPath.row - 1
         
-        if (nextIndex < 0) {
+        if nextIndex < 0 {
             nextIndex = 0
         }
         
@@ -133,10 +103,12 @@ import MediaPlayer
     }
     
     func clickWheelDidMoveDown(notification: Notification){
+        guard !menuItems.isEmpty else { return }
         var nextIndex = currentIndexPath.row + 1
         
-        if (nextIndex > menuItems.count - 1) {
-            nextIndex = menuItems.count - 1
+        let maxIndex = max(menuItems.count - 1, 0)
+        if nextIndex > maxIndex {
+            nextIndex = maxIndex
         }
         
         currentIndexPath = IndexPath(row: nextIndex, section: 0)
@@ -147,6 +119,8 @@ import MediaPlayer
     }
     
     func clickWheelClicked(notification: Notification){
+        guard !menuItems.isEmpty else { return }
+        if menuItems.count == 1 && menuItems.first == NO_ARTISTS { return }
         tableView(menuTable, didSelectRowAt: currentIndexPath)
     }
     
@@ -162,6 +136,7 @@ import MediaPlayer
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if menuItems.count == 1 && menuItems.first == NO_ARTISTS { return }
         //tableView.deselectRow(at: indexPath, animated: true)
         
         let index = indexPath.row
@@ -185,8 +160,18 @@ import MediaPlayer
         cell.cellLabel.text = menuItems[index]
         cell.cellLabel.highlightedTextColor = UIColor.white
         
+        if menuItems.count == 1 && menuItems.first == NO_ARTISTS {
+            cell.selectionStyle = .none
+            cell.isUserInteractionEnabled = false
+            cell.cellLabel.textColor = UIColor.gray
+        } else {
+            cell.selectionStyle = .default
+            cell.isUserInteractionEnabled = true
+            cell.cellLabel.textColor = UIColor.black
+        }
+        
         let bgColorView = UIView()
-        bgColorView.backgroundColor = UIColor(red:0.29, green:0.51, blue:0.86, alpha:1.0)
+        bgColorView.backgroundColor = UIColor(red: 0.13, green: 0.13, blue: 0.13, alpha: 1.00)
         cell.selectedBackgroundView = bgColorView
         
         return cell
@@ -207,3 +192,4 @@ import MediaPlayer
      */
     
 }
+

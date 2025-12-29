@@ -34,11 +34,13 @@ import MediaPlayer
         loadPlaylists()
         menuTable.delegate   = self
         menuTable.dataSource = self
-        menuTable.separatorColor = UIColor.white
+        menuTable.separatorColor = .clear
         
-        currentIndexPath = IndexPath(row: currentIndexPath.row, section: 0)
-        
-        self.menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: UITableViewScrollPosition.none)
+        menuTable.reloadData()
+        if !menuItems.isEmpty {
+            currentIndexPath = IndexPath(row: min(currentIndexPath.row, menuItems.count - 1), section: 0)
+            self.menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: .none)
+        }
         
         //self.menuTable(self.tableView, didSelectRowAt: indexPath)
         
@@ -47,66 +49,16 @@ import MediaPlayer
     
     func loadPlaylists() {
         
-        //MPMediaLibrary.requestAuthorization { (status) in
-        //if status == .authorized {
-        //self.runMediaLibraryQuery()
-        
-        /*
-        let query = MPMediaQuery.playlists()
-        let playlists = query.collections
-        
-        for (_, item) in playlists!.enumerated() {
-            let playlist = item.representativeItem
-            let playlistName = playlist?.albumTitle
-            
-            if (playlistName != nil) {
-                self.menuItems.append(playlistName!)
-            }
-            else {
-                self.menuItems.append(NO_PLAYLISTS)
-                return
-            }
-        }
-        */
-        
         let myPlaylistsQuery = MPMediaQuery.playlists()
-        let playlists = myPlaylistsQuery.collections
-        
-        for playlist in playlists! {
-            let name = (playlist.value(forProperty: MPMediaPlaylistPropertyName) ?? "No name")
-            self.menuItems.append(name as! String)
-            
+        if let playlists = myPlaylistsQuery.collections, playlists.isEmpty == false {
+            for playlist in playlists {
+                let name = (playlist.value(forProperty: MPMediaPlaylistPropertyName) as? String) ?? NO_PLAYLISTS
+                self.menuItems.append(name)
+            }
+        } else {
+            // No playlists available
+            self.menuItems = [NO_PLAYLISTS]
         }
-        
-        
-        /*
-         MPMediaQuery *query=[MPMediaQuery artistsQuery];
-         NSArray *artists=[query collections];
-         artistNames=[[NSMutableArray alloc]init];
-         for(MPMediaItemCollection *collection in artists)
-         {
-         MPMediaItem *item=[collection representativeItem];
-         [artistNames addObject:[item valueForProperty:MPMediaItemPropertyArtist]];
-         }
-         uniqueNames=[[NSMutableArray alloc]init];
-         for(id object in artistNames)
-         {
-         if(![uniqueNames containsObject:object])
-         {
-         [uniqueNames addObject:object];
-         }
-         }
-         */
-        
-        // }
-        //else {
-        
-        //}
-        
-        
-        
-        
-        //menuItems = MPMediaQuery.songs().items!
     }
     
     override func didReceiveMemoryWarning() {
@@ -138,34 +90,39 @@ import MediaPlayer
         NotificationCenter.default.addObserver(self, selector: #selector(self.menuClicked(notification:)), name: Notification.Name("menuClicked"), object: nil)
     }
     func clickWheelDidMoveUp(notification: Notification) {
+        guard !menuItems.isEmpty else { return }
         var nextIndex = currentIndexPath.row - 1
         
-        if (nextIndex < 0) {
+        if nextIndex < 0 {
             nextIndex = 0
         }
         
         currentIndexPath = IndexPath(row: nextIndex, section: 0)
         
-        self.menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: UITableViewScrollPosition.none)
+        menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: UITableViewScrollPosition.none)
         
         menuTable.scrollToRow(at: currentIndexPath, at: .middle, animated: true)
     }
     
     func clickWheelDidMoveDown(notification: Notification){
+        guard !menuItems.isEmpty else { return }
         var nextIndex = currentIndexPath.row + 1
         
-        if (nextIndex > menuItems.count - 1) {
-            nextIndex = menuItems.count - 1
+        let maxIndex = max(menuItems.count - 1, 0)
+        if nextIndex > maxIndex {
+            nextIndex = maxIndex
         }
         
         currentIndexPath = IndexPath(row: nextIndex, section: 0)
         
-        self.menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: UITableViewScrollPosition.none)
+        menuTable.selectRow(at: currentIndexPath, animated: false, scrollPosition: UITableViewScrollPosition.none)
         
         menuTable.scrollToRow(at: currentIndexPath, at: .middle, animated: true)
     }
     
     func clickWheelClicked(notification: Notification){
+        guard !menuItems.isEmpty else { return }
+        if menuItems.count == 1 && menuItems.first == NO_PLAYLISTS { return }
         tableView(menuTable, didSelectRowAt: currentIndexPath)
     }
     
@@ -181,6 +138,7 @@ import MediaPlayer
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if menuItems.count == 1 && menuItems.first == NO_PLAYLISTS { return }
         //tableView.deselectRow(at: indexPath, animated: true)
         let index = indexPath.row
         
@@ -204,8 +162,18 @@ import MediaPlayer
         cell.cellLabel.text = menuItems[index]
         cell.cellLabel.highlightedTextColor = UIColor.white
         
+        if menuItems.count == 1 && menuItems.first == NO_PLAYLISTS {
+            cell.selectionStyle = .none
+            cell.isUserInteractionEnabled = false
+            cell.cellLabel.textColor = UIColor.gray
+        } else {
+            cell.selectionStyle = .default
+            cell.isUserInteractionEnabled = true
+            cell.cellLabel.textColor = UIColor.black
+        }
+        
         let bgColorView = UIView()
-        bgColorView.backgroundColor = UIColor(red:0.29, green:0.51, blue:0.86, alpha:1.0)
+        bgColorView.backgroundColor = UIColor(red: 0.13, green: 0.13, blue: 0.13, alpha: 1.00)
         cell.selectedBackgroundView = bgColorView
         
         return cell
@@ -226,3 +194,4 @@ import MediaPlayer
      */
     
 }
+

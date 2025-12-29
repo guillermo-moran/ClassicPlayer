@@ -3,10 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2DC1B36F2EFE745300B87FDC /* GameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC1B36E2EFE745300B87FDC /* GameVC.swift */; };
+		2DC1B3742EFE790200B87FDC /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DC1B3732EFE790200B87FDC /* WebKit.framework */; };
+		2DC1B37C2EFF21A900B87FDC /* LargerHitAreaButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC1B37B2EFF21A900B87FDC /* LargerHitAreaButton.swift */; };
+		2DC1B37E2EFF23FC00B87FDC /* GameMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC1B37D2EFF23FC00B87FDC /* GameMenuVC.swift */; };
 		2DDC33591EE9EA54000D4663 /* SettingsScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DDC33581EE9EA54000D4663 /* SettingsScreenViewController.swift */; };
 		2DDC33611EEA813D000D4663 /* Click4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2DDC33601EEA813D000D4663 /* Click4.mp3 */; };
 		2DDC33631EEA8F1B000D4663 /* AboutScreenVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DDC33621EEA8F1B000D4663 /* AboutScreenVC.swift */; };
@@ -35,6 +39,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2DC1B36E2EFE745300B87FDC /* GameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameVC.swift; sourceTree = "<group>"; };
+		2DC1B3732EFE790200B87FDC /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		2DC1B37B2EFF21A900B87FDC /* LargerHitAreaButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargerHitAreaButton.swift; sourceTree = "<group>"; };
+		2DC1B37D2EFF23FC00B87FDC /* GameMenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameMenuVC.swift; sourceTree = "<group>"; };
 		2DDC33581EE9EA54000D4663 /* SettingsScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsScreenViewController.swift; sourceTree = "<group>"; };
 		2DDC33601EEA813D000D4663 /* Click4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Click4.mp3; sourceTree = "<group>"; };
 		2DDC33621EEA8F1B000D4663 /* AboutScreenVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutScreenVC.swift; sourceTree = "<group>"; };
@@ -64,11 +72,16 @@
 		B3BEFBE61E97457D0064BE5F /* SongListMenuVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SongListMenuVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		2DC1B3702EFE770D00B87FDC /* html */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = html; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		B3BEFBBC1E95E94E0064BE5F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2DC1B3742EFE790200B87FDC /* WebKit.framework in Frameworks */,
 				B3BEFBDD1E95EEAA0064BE5F /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -96,6 +109,8 @@
 		B3BEFBC11E95E94F0064BE5F /* ClassicPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				2DC1B37B2EFF21A900B87FDC /* LargerHitAreaButton.swift */,
+				2DC1B3702EFE770D00B87FDC /* html */,
 				B35CDA611E9E9344003CD187 /* Array+Shuffle.swift */,
 				B3BEFBC21E95E94F0064BE5F /* AppDelegate.swift */,
 				B3BEFBD71E95EC1A0064BE5F /* C2AClickWheel.swift */,
@@ -108,11 +123,13 @@
 				B3996E311E9B5E4900D8C700 /* MusicMenuVC.swift */,
 				B3BEFBE61E97457D0064BE5F /* SongListMenuVC.swift */,
 				B35CDA571E9DA65B003CD187 /* ArtistsMenuVC.swift */,
+				2DC1B37D2EFF23FC00B87FDC /* GameMenuVC.swift */,
 				B35CDA591E9DB3ED003CD187 /* AlbumsMenuVC.swift */,
 				B35CDA5B1E9DB56A003CD187 /* PlaylistsMenuVC.swift */,
 				B347249C1E9BE5D200EE55DE /* NowPlayingVC.swift */,
 				B35CDA811E9EFE92003CD187 /* SettingsVC.swift */,
 				B36C828D1EBD2397009B205C /* AboutVC.swift */,
+				2DC1B36E2EFE745300B87FDC /* GameVC.swift */,
 				2DDC33581EE9EA54000D4663 /* SettingsScreenViewController.swift */,
 				2DDC33621EEA8F1B000D4663 /* AboutScreenVC.swift */,
 				B3BEFBCC1E95E94F0064BE5F /* Assets.xcassets */,
@@ -128,6 +145,7 @@
 		B3BEFBDB1E95EEAA0064BE5F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2DC1B3732EFE790200B87FDC /* WebKit.framework */,
 				B3BEFBDC1E95EEAA0064BE5F /* AudioToolbox.framework */,
 			);
 			name = Frameworks;
@@ -147,6 +165,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				2DC1B3702EFE770D00B87FDC /* html */,
 			);
 			name = ClassicPlayer;
 			productName = ClassicPlayer;
@@ -217,6 +238,7 @@
 				2DDC33591EE9EA54000D4663 /* SettingsScreenViewController.swift in Sources */,
 				B35CDA821E9EFE92003CD187 /* SettingsVC.swift in Sources */,
 				B3BEFBE11E9709CF0064BE5F /* StatusBarViewController.swift in Sources */,
+				2DC1B37E2EFF23FC00B87FDC /* GameMenuVC.swift in Sources */,
 				B3996E321E9B5E4900D8C700 /* MusicMenuVC.swift in Sources */,
 				2DDC33631EEA8F1B000D4663 /* AboutScreenVC.swift in Sources */,
 				B35CDA581E9DA65B003CD187 /* ArtistsMenuVC.swift in Sources */,
@@ -225,8 +247,10 @@
 				B35CDA861E9F0216003CD187 /* SettingsTableCell.swift in Sources */,
 				B3BEFBD81E95EC1A0064BE5F /* C2AClickWheel.swift in Sources */,
 				B36C828E1EBD2397009B205C /* AboutVC.swift in Sources */,
+				2DC1B36F2EFE745300B87FDC /* GameVC.swift in Sources */,
 				B35CDA5E1E9E7B6E003CD187 /* ImageTableCell.swift in Sources */,
 				B35CDA621E9E9344003CD187 /* Array+Shuffle.swift in Sources */,
+				2DC1B37C2EFF21A900B87FDC /* LargerHitAreaButton.swift in Sources */,
 				B35CDA5A1E9DB3ED003CD187 /* AlbumsMenuVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -362,7 +386,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -374,8 +399,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 25M9266LN7;
 				INFOPLIST_FILE = ClassicPlayer/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.gmoran.ClassicPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -389,8 +417,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 25M9266LN7;
 				INFOPLIST_FILE = ClassicPlayer/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.gmoran.ClassicPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

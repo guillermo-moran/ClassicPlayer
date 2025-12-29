@@ -171,9 +171,27 @@ import MediaPlayer
         super.viewDidLoad()
         
         // Keep the progress bar transform
-        songProgressBar.transform = songProgressBar.transform.scaledBy(x: 1, y: 4)
+        songProgressBar.transform = songProgressBar.transform.scaledBy(x: 1, y: 5)
+        songProgressBar.progressTintColor = .black;
+        
+        // Album art drop shadow
+        albumArt.layer.masksToBounds = false
+        albumArt.layer.shadowColor = UIColor.black.cgColor
+        albumArt.layer.shadowOpacity = 0.25
+        albumArt.layer.shadowOffset = CGSize(width: 0, height: 4)
+        albumArt.layer.shadowRadius = 8
+        albumArt.layer.shouldRasterize = true
+        albumArt.layer.rasterizationScale = UIScreen.main.scale
         
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        // Keep the shadow path in sync with the current bounds
+        let path = UIBezierPath(rect: albumArt.bounds)
+        albumArt.layer.shadowPath = path.cgPath
     }
 
     override func didReceiveMemoryWarning() {

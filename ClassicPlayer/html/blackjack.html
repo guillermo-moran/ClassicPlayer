@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Blackjack</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      background: #013220;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #fff;
+      overflow: hidden;
+    }
+      
+    #dealerTotal,
+    #playerTotal {
+        margin-right: 20px;
+    }
+
+    .root {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 0.5rem;
+      gap: 0.5rem;
+      box-sizing: border-box;
+    }
+
+    .row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .row-header {
+      font-size: clamp(0.7rem, 2.5vw, 1rem);
+      font-weight: 500;
+      display: flex;
+      justify-content: space-between;
+      opacity: .9;
+    }
+
+    .cards {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      min-height: min(28vh, 5rem);
+    }
+
+    .card {
+      width: min(12vw, 3rem);
+      height: calc(min(12vw, 3rem) * 1.4);
+      background: #f9f9f9;
+      border-radius: .3rem;
+      border: 1px solid rgba(0,0,0,.3);
+      box-shadow: 0 1px 3px rgba(0,0,0,.6);
+      padding: .15rem;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: black;
+      flex-shrink: 0;
+      transition: transform .22s ease-out, opacity .22s ease-out;
+    }
+
+    .card.red { color: #c0392b; }
+    .card-rank { font-size: clamp(.55rem, 2.4vw, .9rem); font-weight: 600; }
+    .card-suit { text-align: center; font-size: clamp(.7rem, 3vw, 1.1rem); }
+    .card-corner-bottom { text-align: right; font-size: clamp(.5rem, 2vw, .8rem); opacity:.8; }
+
+    .card.back {
+      background: #154360;
+      border-color:#2980b9;
+      color:#ecf0f1;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .card-enter-top { transform: translateY(-50%) scale(.95); opacity:0; }
+    .card-enter-top.card-enter-active { transform:translateY(0); opacity:1; }
+
+    .card-enter-bottom { transform: translateY(50%) scale(.95); opacity:0; }
+    .card-enter-bottom.card-enter-active { transform:translateY(0); opacity:1; }
+
+    .status {
+      text-align:center;
+      min-height:1.2em;
+      font-size:clamp(.8rem, 3vw, 1.1rem);
+      font-weight:500;
+      white-space: pre-line;
+    }
+
+    .status.win { color:#2ecc71; }
+    .status.lose { color:#e74c3c; }
+    .status.push { color:#f1c40f; }
+  </style>
+</head>
+<body>
+  <div class="root">
+    <div class="row">
+      <div class="row-header">
+        <span>Dealer</span>
+        <span id="dealerTotal"></span>
+      </div>
+      <div class="cards" id="dealerCards"></div>
+    </div>
+
+    <div id="statusText" class="status"></div>
+
+    <div class="row">
+      <div class="row-header">
+        <span>You</span>
+        <span id="playerTotal"></span>
+      </div>
+      <div class="cards" id="playerCards"></div>
+    </div>
+  </div>
+
+  <script>
+    const dealerCardsEl = document.getElementById('dealerCards');
+    const playerCardsEl = document.getElementById('playerCards');
+    const dealerTotalEl = document.getElementById('dealerTotal');
+    const playerTotalEl = document.getElementById('playerTotal');
+    const statusText = document.getElementById('statusText');
+
+    const SUITS = ['♠','♥','♦','♣'];
+    const RANKS = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+
+    let deck=[], dealer=[], player=[];
+    let dealerHidden = true;
+    let roundOver = false;
+
+    function createDeck(){
+      const d=[];
+      for(const s of SUITS) for(const r of RANKS) d.push({suit:s,rank:r});
+      return d;
+    }
+
+    function shuffle(a){
+      for(let i=a.length-1;i>0;i--){
+        const j=(Math.random()*(i+1))|0;
+        [a[i],a[j]]=[a[j],a[i]];
+      }
+    }
+
+    function deal(to){
+      if(!deck.length){ deck=createDeck(); shuffle(deck); }
+      to.push(deck.pop());
+    }
+
+    function value(r){
+      if(r==='A')return 11;
+      if(['K','Q','J'].includes(r))return 10;
+      return +r;
+    }
+
+    function handValue(h){
+      let t=0,a=0;
+      for(const c of h){ t+=value(c.rank); if(c.rank==='A')a++; }
+      while(t>21 && a>0){ t-=10;a--; }
+      return t;
+    }
+
+    function cardEl(c,hidden=false){
+      const d=document.createElement('div');
+      d.className='card';
+      if(hidden){ d.classList.add('back'); d.textContent='🂠'; return d; }
+
+      if(c.suit==='♥'||c.suit==='♦')d.classList.add('red');
+      d.innerHTML=
+        `<div class="card-rank">${c.rank}</div>
+         <div class="card-suit">${c.suit}</div>
+         <div class="card-corner-bottom">${c.rank}</div>`;
+      return d;
+    }
+
+    function animate(container,dir){
+      const last=container.lastElementChild; if(!last)return;
+      const cls=dir==='top'?'card-enter-top':'card-enter-bottom';
+      last.classList.add(cls);
+      requestAnimationFrame(()=>last.classList.add('card-enter-active'));
+    }
+
+    function render(){
+      dealerCardsEl.innerHTML='';
+      playerCardsEl.innerHTML='';
+      dealer.forEach((c,i)=>dealerCardsEl.appendChild(cardEl(c,i===0&&dealerHidden)));
+      player.forEach(c=>playerCardsEl.appendChild(cardEl(c,false)));
+      dealerTotalEl.textContent = dealerHidden?'':handValue(dealer);
+      playerTotalEl.textContent = handValue(player);
+    }
+
+    function setStatus(msg,type=''){
+      statusText.className='status';
+      if(type)statusText.classList.add(type);
+      statusText.textContent=msg;
+    }
+
+    function startHand(){
+      deck=createDeck(); shuffle(deck);
+      dealer=[]; player=[]; dealerHidden=true; roundOver=false;
+      setStatus('Center Button = Hit • ⏯ = Stand');
+
+      deal(player); deal(dealer);
+      deal(player); deal(dealer);
+
+      render();
+      animate(playerCardsEl,'bottom');
+      animate(dealerCardsEl,'top');
+
+      if(handValue(player)===21 || handValue(dealer)===21){
+        dealerHidden=false;
+        finishRound();
+      }
+
+      render();
+    }
+
+    async function finishRound(){
+      dealerHidden=false;
+      let pv=handValue(player);
+      let dv=handValue(dealer);
+
+      if(pv>21){
+        setStatus(`You bust. Dealer wins.\nPress Center Button to play again!`,'lose');
+        roundOver=true; render(); return;
+      }
+
+      while(dv<17){
+        deal(dealer); render();
+        animate(dealerCardsEl,'top');
+        dv=handValue(dealer);
+        await new Promise(r=>setTimeout(r,250));
+      }
+
+      pv=handValue(player);
+      dv=handValue(dealer);
+
+      if(dv>21) setStatus('Dealer busts. You win!\nPress Center Button to play again!','win');
+      else if(pv>dv) setStatus('You win!\nPress Center Button to play again!','win');
+      else if(pv<dv) setStatus('Dealer wins.\nPress Center Button to play again!','lose');
+      else setStatus("Push. It's a tie.\nPress Center Button to play again!",'push');
+
+      roundOver=true;
+    }
+
+    function hit(){
+      if(roundOver)return;
+      deal(player); render();
+      animate(playerCardsEl,'bottom');
+      if(handValue(player)>21){ dealerHidden=false; render(); finishRound(); }
+    }
+
+    function stand(){
+      if(!roundOver) finishRound();
+    }
+
+    window.addEventListener('keydown',e=>{
+      if(e.repeat)return;
+
+      if(e.key===' '){
+        e.preventDefault();
+        if(roundOver) startHand();
+        else hit();
+      }
+
+      if(e.key==='ArrowDown'){
+        e.preventDefault();
+        stand();
+      }
+    });
+
+    startHand();
+  </script>
+</body>
+</html>

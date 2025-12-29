@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bouncy Ball</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .game-wrapper {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: #000;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 16px;
+      box-sizing: border-box;
+    }
+
+    .overlay h1 {
+      font-size: 32px;
+      margin: 0 0 10px;
+    }
+
+    .overlay p {
+      margin: 4px 0;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-wrapper">
+    <canvas id="game"></canvas>
+
+    <div id="overlay" class="overlay">
+      <div>
+        <h1 id="overlayTitle">BOUNCY BALL</h1>
+        <p>Score: <span id="finalScore">0</span></p>
+        <p>Press Center Button to Start</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('game');
+    const ctx = canvas.getContext('2d');
+
+    const overlay = document.getElementById('overlay');
+    const overlayTitle = document.getElementById('overlayTitle');
+    const finalScoreEl = document.getElementById('finalScore');
+
+    let width = 0;
+    let height = 0;
+
+    // Ball (player)
+    let ballX, ballY, ballRadius;
+    let velocityY;
+    let gravity;
+    let flapStrength;
+
+    // Pipes
+    let pipes = [];
+    let pipeSpeed;
+    let pipeGap;
+    let pipeWidth;
+    const PIPE_SPAWN_FRAMES = 90; // ~1.5s at 60fps
+    let framesSincePipe = 0;
+
+    let score = 0;
+    let isRunning = false;
+    let isGameOver = false;
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      width = canvas.width;
+      height = canvas.height;
+
+      const minDim = Math.min(width, height);
+
+      // Ball size
+      ballRadius = Math.max(6, minDim * 0.03); // ~3% of smaller side
+
+      // FASTER fall & rise
+      gravity = Math.max(0.4, height * 0.0018);      // stronger gravity
+      flapStrength = Math.max(6, height * 0.02);     // stronger flap
+
+      // Pipes: thinner & slightly quicker
+      pipeSpeed = Math.max(2.5, width * 0.007);      // horizontal speed
+      pipeWidth = Math.max(20, width * 0.09);        // THINNER pipes
+      pipeGap = Math.max(110, height * 0.3);         // gap size
+    }
+
+    function resetGame() {
+      resize();
+      ballX = width * 0.3;
+      ballY = height / 2;
+      velocityY = 0;
+
+      pipes = [];
+      framesSincePipe = 0;
+      score = 0;
+      isGameOver = false;
+    }
+
+    function spawnPipe() {
+      const margin = height * 0.15;
+      const maxTop = height - margin - pipeGap;
+      const gapTop = margin + Math.random() * Math.max(0, maxTop - margin);
+
+      pipes.push({
+        x: width,
+        gapTop,
+        scored: false,
+      });
+    }
+
+    function update() {
+      // Ball physics (fixed timestep style)
+      velocityY += gravity;
+      ballY += velocityY;
+
+      // Top/bottom collision
+      if (ballY - ballRadius < 0 || ballY + ballRadius > height) {
+        triggerGameOver();
+      }
+
+      // Pipes spawn timer
+      framesSincePipe++;
+      if (framesSincePipe >= PIPE_SPAWN_FRAMES) {
+        spawnPipe();
+        framesSincePipe = 0;
+      }
+
+      // Move pipes
+      for (let i = pipes.length - 1; i >= 0; i--) {
+        const pipe = pipes[i];
+        pipe.x -= pipeSpeed;
+
+        // Score when passing pipe
+        if (!pipe.scored && pipe.x + pipeWidth < ballX) {
+          pipe.scored = true;
+          score++;
+        }
+
+        // Remove off-screen pipes
+        if (pipe.x + pipeWidth < 0) {
+          pipes.splice(i, 1);
+        }
+      }
+
+      // Collision with pipes
+      for (const pipe of pipes) {
+        if (
+          ballX + ballRadius > pipe.x &&
+          ballX - ballRadius < pipe.x + pipeWidth
+        ) {
+          // Inside pipe X range → check Y inside gap
+          if (
+            ballY - ballRadius < pipe.gapTop ||
+            ballY + ballRadius > pipe.gapTop + pipeGap
+          ) {
+            triggerGameOver();
+          }
+        }
+      }
+    }
+
+    function draw() {
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, width, height);
+
+      // Pipes
+      ctx.fillStyle = '#2ecc71';
+      for (const pipe of pipes) {
+        // top pipe
+        ctx.fillRect(pipe.x, 0, pipeWidth, pipe.gapTop);
+        // bottom pipe
+        ctx.fillRect(
+          pipe.x,
+          pipe.gapTop + pipeGap,
+          pipeWidth,
+          height - (pipe.gapTop + pipeGap)
+        );
+      }
+
+      // Ball
+      ctx.beginPath();
+      ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2);
+      ctx.fillStyle = '#f1c40f';
+      ctx.fill();
+      ctx.closePath();
+
+      // Score
+      ctx.fillStyle = '#fff';
+      ctx.font = Math.max(18, height * 0.08) + 'px system-ui';
+      ctx.textAlign = 'center';
+      ctx.fillText(score.toString(), width / 2, height * 0.18);
+    }
+
+    function gameLoop() {
+      if (!isRunning) return;
+      update();
+      draw();
+      if (!isGameOver) {
+        requestAnimationFrame(gameLoop);
+      }
+    }
+
+    function triggerGameOver() {
+      if (isGameOver) return;
+      isGameOver = true;
+      isRunning = false;
+      overlayTitle.textContent = 'YOU LOST!';
+      finalScoreEl.textContent = score.toString();
+      overlay.style.display = 'flex';
+    }
+
+    function startGame() {
+      overlay.style.display = 'none';
+      isRunning = true;
+      isGameOver = false;
+      velocityY = 0;
+      pipes = [];
+      framesSincePipe = 0;
+      score = 0;
+      requestAnimationFrame(gameLoop);
+    }
+
+    function flap() {
+      if (!isRunning) {
+        if (isGameOver) {
+          resetGame();
+        }
+        startGame();
+      } else {
+        velocityY = -flapStrength;
+      }
+    }
+
+    // Spacebar
+    window.addEventListener('keydown', (e) => {
+      if (e.key === ' ') {
+        e.preventDefault();
+        flap();
+      }
+    });
+
+    // Touch / click
+    canvas.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      flap();
+    }, { passive: false });
+
+    canvas.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      flap();
+    });
+
+    // Init
+    resetGame();
+    draw();
+    overlay.style.display = 'flex';
+
+    window.addEventListener('resize', () => {
+      const wasRunning = isRunning;
+      resetGame();
+      draw();
+      if (!wasRunning) {
+        overlay.style.display = 'flex';
+      }
+    });
+  </script>
+</body>
+</html>
